@@ -1,16 +1,26 @@
 {
-  "name": "ai",
-  "packageManager": "pnpm@10.7.1",
+  "name": "@yunyoujun/ai",
+  "type": "module",
   "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.29.1",
   "description": "",
+  "author": "YunYouJun",
+  "license": "MIT",
+  "keywords": ["ai"],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "pnpm --filter @yyj/docs run docs:dev",
+    "docs:build": "pnpm --filter @yyj/docs run docs:build",
+    "docs:preview": "pnpm --filter @yyj/docs run docs:preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@antfu/eslint-config": "^4.11.0"
+    "@antfu/eslint-config": "catalog:",
+    "@unocss/eslint-plugin": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-format": "catalog:"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@yyj/docs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "mermaid": "catalog:",
+    "sass": "catalog:",
+    "unocss": "catalog:",
+    "unplugin-vue-components": "catalog:",
+    "vitepress": "catalog:",
+    "vitepress-plugin-mermaid": "catalog:",
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,9 @@
+---
+description: 使用 TypeScript 编写脚本
+alwaysApply: false
+enabled: true
+updatedAt: 2025-12-04T08:59:40.335Z
+provider:
+---
+
+使用 TypeScript 编写脚本，可使用 tsx 直接执行。
