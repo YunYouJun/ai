@@ -93,8 +93,8 @@ Prefer the following base `tsconfig.json`:
 
 ## References
 
-| Topic | Skill | Plugin Command |
-|-------|-------|----------------|
-| PR automation | `/pr-cycle` | `/yyj-ai:pr-cycle` |
-| Fix issues | `/fix-issue` | `/yyj-ai:fix-issue` |
+| Topic           | Skill              | Plugin Command            |
+| --------------- | ------------------ | ------------------------- |
+| PR automation   | `/pr-cycle`        | `/yyj-ai:pr-cycle`        |
+| Fix issues      | `/fix-issue`       | `/yyj-ai:fix-issue`       |
 | Review feedback | `/review-feedback` | `/yyj-ai:review-feedback` |

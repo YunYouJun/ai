@@ -83,15 +83,16 @@ claude --plugin-dir /path/to/yyj/ai
 ```
 
 ::: tip 小技巧
+
 - 使用 `/pr-cycle` 可以一步到位完成整个流程
 - 可以在 GitHub 仓库设置中开启 Copilot 自动 review（Settings → Code review → Copilot），省去手动请求的步骤
 - 每次 `/review-feedback` 后 Claude 会汇报哪些改了、哪些跳过了，你可以决定是否需要再跑一次
 - 所有 skills 都设置了 `disable-model-invocation: true`，防止 Claude 自动触发，仅限手动调用
-:::
+  :::
 
 ## 进阶：多 Agent 协作
 
-可以结合 [多 Claude 工作流](/guide/claude-code/claude-code-best-practices#_6-多-claude-工作流升级) 进一步提升效率：
+可以结合 [多 Claude 工作流](/guide/claude-code/best-practices#_6-多-claude-工作流升级) 进一步提升效率：
 
 - **Claude A**（本地）：修复 Issue 并创建 PR
 - **Copilot**（GitHub）：自动 Review
