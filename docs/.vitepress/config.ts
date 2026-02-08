@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'AI 开发实践',
-  description: 'AI 开发实践、工具与资源',
+  title: '小云的 AI 开发实践',
+  description: '小云的 AI 开发实践、工具与资源',
   lang: 'zh-CN',
   base: '/',
 
@@ -12,52 +12,44 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/' },
       { text: '工具', link: '/tools/' },
-      { text: '案例', link: '/examples/' },
       { text: 'API', link: '/api/' },
     ],
 
-    sidebar: {
-      '/guide/': [
-        {
-          text: 'AI 开发实践指南',
-          items: [
-            { text: '简介', link: '/guide/' },
-            { text: '快速开始', link: '/guide/getting-started' },
-            { text: '最佳实践', link: '/guide/best-practices' },
-            { text: 'Claude Code 最佳实践', link: '/guide/claude-code-best-practices' },
-          ],
-        },
-      ],
-      '/tools/': [
-        {
-          text: '工具与资源',
-          items: [
-            { text: '概览', link: '/tools/' },
-            { text: 'AI 框架', link: '/tools/frameworks' },
-            { text: '开发工具', link: '/tools/dev-tools' },
-            { text: '学习资源', link: '/tools/resources' },
-          ],
-        },
-      ],
-      '/examples/': [
-        {
-          text: '项目案例',
-          items: [
-            { text: '概览', link: '/examples/' },
-            { text: 'Agent Browser', link: '/examples/agent-browser' },
-            { text: 'Browser Use', link: '/examples/browser-use' },
-          ],
-        },
-      ],
-      '/api/': [
-        {
-          text: 'API 文档',
-          items: [
-            { text: '概览', link: '/api/' },
-          ],
-        },
-      ],
-    },
+    sidebar: [
+      {
+        text: '指南',
+        items: [
+          { text: '简介', link: '/guide/' },
+          { text: '快速开始', link: '/guide/getting-started' },
+          { text: '最佳实践', link: '/guide/best-practices' },
+          { text: 'Claude Code 最佳实践', link: '/guide/claude-code-best-practices' },
+          { text: 'PR 自动化实践', link: '/guide/claude-code-pr-automation' },
+        ],
+      },
+      {
+        text: '工具与资源',
+        items: [
+          { text: '概览', link: '/tools/' },
+          { text: 'AI 框架', link: '/tools/frameworks' },
+          { text: '开发工具', link: '/tools/dev-tools' },
+          {
+            text: '浏览器自动化',
+            collapsed: false,
+            items: [
+              { text: 'Agent Browser', link: '/tools/agent-browser' },
+              { text: 'Browser Use', link: '/tools/browser-use' },
+            ],
+          },
+          { text: '学习资源', link: '/tools/resources' },
+        ],
+      },
+      {
+        text: 'API 文档',
+        items: [
+          { text: '概览', link: '/api/' },
+        ],
+      },
+    ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/YunYouJun' },

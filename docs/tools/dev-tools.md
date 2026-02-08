@@ -183,4 +183,3 @@ LangSmith + Qdrant + Helicone
 
 - [AI 框架](./frameworks.md)
 - [学习资源](./resources.md)
-- [项目案例](/examples/)

@@ -281,6 +281,6 @@ const agent = createAgent({
 
 ## 相关资源
 
-- [Browser Use 案例](./browser-use.md)
-- [工具资源](/tools/)
+- [Browser Use](./browser-use.md)
+- [开发工具](./dev-tools.md)
 - [开发指南](/guide/)

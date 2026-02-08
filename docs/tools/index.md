@@ -19,6 +19,8 @@
 | [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | 自主 AI Agent           | Python      |
 | [Browser Use](https://github.com/browser-use/browser-use)  | 浏览器自动化 AI Agent   | Python      |
 
+详见：[Agent Browser](./agent-browser.md) | [Browser Use](./browser-use.md)
+
 ### 🛠️ 开发工具
 
 | 工具                                                  | 描述            | 用途     |

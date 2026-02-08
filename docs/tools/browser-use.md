@@ -346,6 +346,6 @@ config = BrowserConfig(
 
 ## 相关资源
 
-- [Agent Browser 案例](./agent-browser.md)
-- [工具资源](/tools/)
-- [Python 最佳实践](/guide/best-practices.md)
+- [Agent Browser](./agent-browser.md)
+- [开发工具](./dev-tools.md)
+- [开发指南](/guide/)
