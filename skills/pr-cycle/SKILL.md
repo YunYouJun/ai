@@ -1,3 +1,9 @@
+---
+name: pr-cycle
+description: "Full PR lifecycle automation: fix issue → create PR → wait for review → address feedback. All in one command."
+disable-model-invocation: true
+---
+
 Full PR lifecycle: fix issue → create PR → wait for review → address feedback.
 
 ## Instructions

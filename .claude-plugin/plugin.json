@@ -1,0 +1,11 @@
+{
+  "name": "yyj",
+  "description": "YunYouJun's AI coding skills - PR automation, issue fixing, review feedback, and personal coding conventions.",
+  "version": "0.1.0",
+  "author": {
+    "name": "YunYouJun"
+  },
+  "homepage": "https://github.com/YunYouJun/ai",
+  "repository": "https://github.com/YunYouJun/ai",
+  "license": "MIT"
+}

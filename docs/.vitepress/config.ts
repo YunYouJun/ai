@@ -22,8 +22,14 @@ export default defineConfig({
           { text: '简介', link: '/guide/' },
           { text: '快速开始', link: '/guide/getting-started' },
           { text: '最佳实践', link: '/guide/best-practices' },
-          { text: 'Claude Code 最佳实践', link: '/guide/claude-code-best-practices' },
-          { text: 'PR 自动化实践', link: '/guide/claude-code-pr-automation' },
+          {
+            text: 'Claude Code',
+            collapsed: false,
+            items: [
+              { text: '最佳实践', link: '/guide/claude-code/claude-code-best-practices' },
+              { text: 'PR 自动化实践', link: '/guide/claude-code/claude-code-pr-automation' },
+            ],
+          },
         ],
       },
       {

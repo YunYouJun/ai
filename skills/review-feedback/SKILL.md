@@ -1,3 +1,9 @@
+---
+name: review-feedback
+description: Fetch and address PR review feedback from Copilot or human reviewers - analyze, fix, push, and report.
+disable-model-invocation: true
+---
+
 Fetch and address PR review feedback (from Copilot or human reviewers).
 
 ## Instructions

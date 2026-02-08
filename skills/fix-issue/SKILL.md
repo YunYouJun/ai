@@ -1,3 +1,9 @@
+---
+name: fix-issue
+description: Fix a GitHub issue end-to-end - create branch, implement fix, run checks, and create PR.
+disable-model-invocation: true
+---
+
 Fix a GitHub issue end-to-end.
 
 ## Instructions
