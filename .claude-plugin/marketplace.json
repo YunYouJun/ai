@@ -1,0 +1,92 @@
+{
+  "name": "yunyoujun",
+  "owner": {
+    "name": "YunYouJun",
+    "email": "me@yunyoujun.cn"
+  },
+  "metadata": {
+    "description": "YunYouJun's AI coding skills - PR automation, issue fixing, review feedback, and personal coding conventions.",
+    "version": "0.1.0",
+    "homepage": "https://github.com/YunYouJun/ai",
+    "repository": "https://github.com/YunYouJun/ai",
+    "keywords": [
+      "pr-automation",
+      "issue-fix",
+      "code-review",
+      "conventions",
+      "typescript",
+      "vue"
+    ]
+  },
+  "plugins": [
+    {
+      "name": "fix-issue",
+      "description": "Fix a GitHub issue end-to-end - create branch, implement fix, run checks, and create PR.",
+      "source": "./skills/fix-issue",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "github",
+        "issue",
+        "fix",
+        "pr",
+        "automation"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "pr-cycle",
+      "description": "Full PR lifecycle automation: fix issue → create PR → wait for review → address feedback. All in one command.",
+      "source": "./skills/pr-cycle",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "github",
+        "pr",
+        "review",
+        "lifecycle",
+        "automation"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "review-feedback",
+      "description": "Fetch and address PR review feedback from Copilot or human reviewers - analyze, fix, push, and report.",
+      "source": "./skills/review-feedback",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "github",
+        "pr",
+        "review",
+        "feedback",
+        "code-review"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "yunyoujun",
+      "description": "YunYouJun's opinionated coding preferences and tooling conventions for JavaScript/TypeScript projects.",
+      "source": "./skills/yunyoujun",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "conventions",
+        "typescript",
+        "vue",
+        "eslint",
+        "pnpm",
+        "coding-style"
+      ],
+      "category": "development"
+    }
+  ]
+}
