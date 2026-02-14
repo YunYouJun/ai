@@ -7,5 +7,6 @@
   },
   "homepage": "https://github.com/YunYouJun/ai",
   "repository": "https://github.com/YunYouJun/ai",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["pr-automation", "issue-fix", "code-review", "conventions"]
 }

@@ -3,11 +3,13 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@10.29.1",
+  "packageManager": "pnpm@10.29.3",
   "description": "",
   "author": "YunYouJun",
   "license": "MIT",
-  "keywords": ["ai"],
+  "keywords": [
+    "ai"
+  ],
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",

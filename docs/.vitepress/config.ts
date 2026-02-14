@@ -23,6 +23,20 @@ export default defineConfig({
           { text: '快速开始', link: '/guide/getting-started' },
           { text: '最佳实践', link: '/guide/best-practices' },
           {
+            text: 'MCP',
+            collapsed: false,
+            items: [
+              { text: '介绍', link: '/guide/mcp/' },
+            ],
+          },
+          {
+            text: 'Skills',
+            collapsed: false,
+            items: [
+              { text: '介绍', link: '/guide/skills/' },
+            ],
+          },
+          {
             text: 'Claude Code',
             collapsed: false,
             items: [

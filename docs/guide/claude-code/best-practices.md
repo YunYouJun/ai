@@ -1,6 +1,9 @@
 # Claude Code 最佳实践
 
-> 参考文章：[Claude Code Best Practices - Anthropic Engineering](https://www.anthropic.com/engineering/claude-code-best-practices)
+> 参考文章：
+>
+> - [Claude Code Best Practices - Anthropic Engineering](https://www.anthropic.com/engineering/claude-code-best-practices)
+> - [交互模式](https://code.claude.com/docs/zh-CN/interactive-mode)
 
 Claude Code 是一个底层且不带偏见的工具，提供接近原始模型访问的能力，具有高度的灵活性、可定制性和可脚本化特性。本文总结了 Anthropic 工程团队验证的实践模式。
 

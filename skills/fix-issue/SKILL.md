@@ -1,10 +1,12 @@
 ---
 name: fix-issue
 description: Fix a GitHub issue end-to-end - create branch, implement fix, run checks, and create PR.
+argument-hint: "[issue-number-or-url]"
 disable-model-invocation: true
+allowed-tools: Bash(gh *), Bash(git *), Bash(pnpm *), Read, Grep, Glob, Edit, Write
 ---
 
-Fix a GitHub issue end-to-end.
+Fix GitHub issue $ARGUMENTS end-to-end.
 
 ## Instructions
 
@@ -12,10 +14,9 @@ Fix a GitHub issue end-to-end.
 2. Analyze the issue and understand what needs to be fixed
 3. Create a new branch: `git checkout -b fix/issue-<number>` (extract number from $ARGUMENTS)
 4. Implement the fix with proper code changes
-5. Run lint/typecheck if available (`pnpm lint`, `pnpm typecheck`)
-6. Commit with a conventional commit message referencing the issue: `fix: <description> (closes #<number>)`
-7. Push the branch: `git push -u origin HEAD`
-8. Create a PR: `gh pr create --title "fix: <description>" --body "Closes #<number>" --fill`
-9. Report the PR URL and summary of changes
-
-$ARGUMENTS should be the issue number or URL, e.g. `42` or `https://github.com/owner/repo/issues/42`
+5. Write or update tests to cover the fix
+6. Run lint/typecheck if available (`pnpm lint`, `pnpm typecheck`)
+7. Commit with a conventional commit message referencing the issue: `fix: <description> (closes #<number>)`
+8. Push the branch: `git push -u origin HEAD`
+9. Create a PR: `gh pr create --title "fix: <description>" --body "Closes #<number>" --fill`
+10. Report the PR URL and summary of changes
