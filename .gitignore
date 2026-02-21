@@ -8,7 +8,7 @@ dist
 # python
 venv
 
-.vitepress/cache
+docs/.vitepress/cache
 
 # claude
 .claude/settings.local.json

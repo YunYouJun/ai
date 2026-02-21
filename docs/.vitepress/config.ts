@@ -42,6 +42,7 @@ export default defineConfig({
             items: [
               { text: '最佳实践', link: '/guide/claude-code/best-practices' },
               { text: 'PR 自动化实践', link: '/guide/claude-code/pr-automation' },
+              { text: 'Git Worktree 并行处理', link: '/guide/claude-code/git-worktree' },
             ],
           },
         ],

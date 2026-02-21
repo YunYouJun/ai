@@ -213,9 +213,9 @@ Claude 可以解释输出（包括图片）。建议在 VS Code 中并排打开 
 
 创建 3-4 个 git checkouts，在不同终端标签页中分别运行 Claude 处理不同任务，循环检查进度。
 
-### 使用 Git Worktrees
+### 使用 Git Worktrees 实现并行处理
 
-允许在同一仓库的不同目录中检出多个分支，隔离工作目录但共享历史。适合多个独立的并行任务。
+Git Worktree 允许在同一仓库的不同目录中检出多个分支，共享 `.git` 对象数据库，是多 Claude 并行开发的最佳搭档。详见 [Git Worktree 并行处理](/guide/claude-code/git-worktree)。
 
 ### 结合无头模式与自定义工具
 
