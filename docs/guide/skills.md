@@ -124,27 +124,43 @@ $ARGUMENTS should be <describe expected input>.
 
 ## 本仓库 Skills 一览
 
-### `/fix-issue` — 一键修复 Issue 并创建 PR
+### 独立 Skills
 
-<<< @/../skills/fix-issue/SKILL.md
-
----
-
-### `/review-feedback` — 拉取 Review 意见并自动修改
-
-<<< @/../skills/review-feedback/SKILL.md
-
----
-
-### `/pr-cycle` — 完整 PR 生命周期
-
-<<< @/../skills/pr-cycle/SKILL.md
-
----
-
-### `/yunyoujun` — 编码偏好与工具约定
+#### `/yunyoujun` — 编码偏好与工具约定
 
 <<< @/../skills/yunyoujun/SKILL.md
+
+### ai-coding 插件 Skills
+
+以下 Skills 打包在 [`ai-coding`](./plugins#本仓库插件-ai-coding) 插件中，通过插件加载后命令带 `ai-coding:` 前缀。
+
+#### `/ai-coding:fix-issue` — 一键修复 Issue 并创建 PR
+
+<<< @/../plugins/ai-coding/skills/fix-issue/SKILL.md
+
+---
+
+#### `/ai-coding:review-feedback` — 拉取 Review 意见并自动修改
+
+<<< @/../plugins/ai-coding/skills/review-feedback/SKILL.md
+
+---
+
+#### `/ai-coding:pr-cycle` — 完整 PR 生命周期
+
+<<< @/../plugins/ai-coding/skills/pr-cycle/SKILL.md
+
+---
+
+#### `/ai-coding:address-copilot-review` — 处理 Copilot Review 意见
+
+<<< @/../plugins/ai-coding/skills/address-copilot-review/SKILL.md
+
+---
+
+#### `/ai-coding:copilot-review-loop` — Copilot Review 迭代循环
+
+<<< @/../plugins/ai-coding/skills/copilot-review-loop/SKILL.md
 
 ## 安装与使用
 
@@ -174,17 +190,21 @@ pnpx skills add yunyoujun/ai --skill=fix-issue
 
 ### 方式二：Plugin 加载
 
-本仓库已打包为 Claude Code Plugin，整体加载后命令带 `yyj-ai:` 命名空间前缀：
+本仓库的 `ai-coding` 插件打包了编码工作流 Skills，加载后命令带 `ai-coding:` 命名空间前缀：
 
 ```bash
-claude --plugin-dir /path/to/yyj/ai
+claude --plugin-dir /path/to/ai/plugins/ai-coding
 ```
 
 ```bash
-/yyj-ai:fix-issue 42
-/yyj-ai:review-feedback
-/yyj-ai:pr-cycle 42
+/ai-coding:fix-issue 42
+/ai-coding:review-feedback
+/ai-coding:pr-cycle 42
+/ai-coding:address-copilot-review
+/ai-coding:copilot-review-loop
 ```
+
+详见 [Plugins — ai-coding 插件](./plugins#本仓库插件-ai-coding)。
 
 ### 方式三：Marketplace 安装
 

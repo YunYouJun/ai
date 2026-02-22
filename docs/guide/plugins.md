@@ -196,6 +196,33 @@ git push -u origin main
 
 发布到 Marketplace 的流程，详见 [Marketplace 市场 — 创建与分发](./marketplace#创建与分发-marketplace)。
 
+## 本仓库插件：ai-coding
+
+本仓库包含一个 `ai-coding` 插件，提供 AI 辅助编码工作流的 Skills 集合。
+
+### 插件信息
+
+<<< @/../plugins/ai-coding/.claude-plugin/plugin.json
+
+### 包含的 Skills
+
+| Skill | 命令 | 说明 |
+| --- | --- | --- |
+| `fix-issue` | `/ai-coding:fix-issue <issue>` | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR |
+| `review-feedback` | `/ai-coding:review-feedback [pr]` | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送 |
+| `pr-cycle` | `/ai-coding:pr-cycle <issue>` | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈 |
+| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复 |
+| `copilot-review-loop` | `/ai-coding:copilot-review-loop [pr]` | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮 |
+
+### 使用方式
+
+```bash
+# 本地加载插件
+claude --plugin-dir /path/to/ai/plugins/ai-coding
+```
+
+各 Skill 的完整指令内容和更多安装方式详见 [Skills — 安装与使用](/guide/skills#安装与使用)。
+
 ## 推荐常用插件
 
 以下是官方市场 (`claude-plugins-official`) 中推荐的常用插件：
@@ -284,9 +311,7 @@ git push -u origin main
 
 ## 参考链接
 
-- [Skills](./skills) — Skill 编写与使用
+- [Skills](./skills) — Skill 编写、使用与安装
 - [Marketplace 市场](./marketplace) — 发现、安装、创建与分发市场
 - [创建插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugins)
-- [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)
-- [vercel-labs/skills](https://github.com/vercel-labs/skills) — Skills CLI 安装工具
-- [PR 自动化实践](/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
+- [PR 自动化实践](/claude-code/pr-automation) — ai-coding 插件在 PR 工作流中的实际应用
