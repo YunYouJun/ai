@@ -12,6 +12,8 @@
   ],
   "main": "index.js",
   "scripts": {
+    "dev": "pnpm run docs:dev",
+    "build": "pnpm run docs:build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",

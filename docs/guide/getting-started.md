@@ -110,5 +110,4 @@ tsx index.ts
 ## 下一步
 
 - 学习 [最佳实践](./best-practices.md)
-- 查看 [项目案例](/examples/)
 - 探索 [工具资源](/tools/)

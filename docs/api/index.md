@@ -296,4 +296,3 @@ async function cachedGenerate(prompt: string) {
 
 - [开发指南](/guide/)
 - [工具资源](/tools/)
-- [项目案例](/examples/)

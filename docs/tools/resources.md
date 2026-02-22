@@ -123,4 +123,3 @@
 
 - [AI 框架](./frameworks.md)
 - [开发工具](./dev-tools.md)
-- [项目案例](/examples/)

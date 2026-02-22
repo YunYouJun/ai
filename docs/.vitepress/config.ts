@@ -29,13 +29,9 @@ export default defineConfig({
               { text: '介绍', link: '/guide/mcp/' },
             ],
           },
-          {
-            text: 'Skills',
-            collapsed: false,
-            items: [
-              { text: '介绍', link: '/guide/skills/' },
-            ],
-          },
+          { text: 'Skills', link: '/guide/skills' },
+          { text: 'Plugins', link: '/guide/plugins' },
+          { text: 'Marketplace', link: '/guide/marketplace' },
           {
             text: 'Claude Code',
             collapsed: false,

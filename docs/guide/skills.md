@@ -1,0 +1,212 @@
+# Skills
+
+> Skills 是 Claude Code 的自定义命令增强版，允许你通过 Markdown 文件定义可复用的自动化工作流。每个 Skill 定义了一组 AI 应该遵循的步骤，让复杂的开发流程变成一条斜杠命令。
+
+## 什么是 Skills？
+
+Skills 是用 Markdown 编写的**可执行指令集**，是插件系统的最小功能单元。
+
+Skills 分为两类：
+
+- **Commands（命令）**：位于 `commands/` 目录，作为 Markdown 文件，由用户通过 `/command` 显式调用
+- **Agent Skills（代理技能）**：位于 `skills/` 目录，包含 `SKILL.md` 文件，可由 Claude 根据任务上下文自动调用
+
+::: tip 与 Plugins 和 Marketplace 的关系
+Skills 是最小功能单元，可独立使用也可打包进 [Plugins](./plugins) 进行分发，通过 [Marketplace](./marketplace) 供社区发现和安装。三者是互补的层级关系。
+:::
+
+## Skills vs Plugins vs Marketplace 对比
+
+| 特性 | Skills | Plugins | Marketplace |
+| --- | --- | --- | --- |
+| **定位** | 最小功能单元 | 完整扩展包 | 分发与发现平台 |
+| **粒度** | 单个命令/技能 | 多个 Skills + Agents + Hooks + MCP | 多个 Plugins 的目录 |
+| **命名空间** | 无（独立配置时） | 有（`plugin-name:command`） | 有（`plugin@marketplace`） |
+| **安装方式** | 复制 `SKILL.md` 到项目 | `--plugin-dir` 或市场安装 | `/plugin install` |
+| **版本管理** | 手动 | 语义版本 (`plugin.json`) | 自动更新 |
+| **适用场景** | 个人工作流、快速实验 | 团队共享、跨项目复用 | 社区分发、企业内部 |
+| **冲突处理** | 可能冲突 | 命名空间隔离 | 完全隔离 |
+
+## Skill 文件结构
+
+每个 Skill 是一个独立目录，包含 `SKILL.md` 文件：
+
+```
+skills/
+├── fix-issue/
+│   └── SKILL.md
+├── review-feedback/
+│   └── SKILL.md
+├── pr-cycle/
+│   └── SKILL.md
+└── yunyoujun/
+    └── SKILL.md
+```
+
+`SKILL.md` 使用 YAML frontmatter 定义元数据，正文部分为 AI 的执行指令：
+
+```markdown
+---
+name: fix-issue
+description: Fix a GitHub issue end-to-end.
+disable-model-invocation: true
+---
+
+Fix a GitHub issue end-to-end.
+
+## Instructions
+
+1. Fetch the issue details using `gh issue view $ARGUMENTS`
+2. Analyze the issue...
+3. Create a new branch...
+```
+
+### Frontmatter 字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `name` | `string` | Skill 名称，即斜杠命令名（如 `fix-issue` → `/fix-issue`） |
+| `description` | `string` | 功能描述，帮助 AI 理解何时使用该 Skill |
+| `argument-hint` | `string` | 参数提示（如 `"[issue-number-or-url]"`） |
+| `disable-model-invocation` | `boolean` | 设为 `true` 则 AI 不会自动触发，仅限手动调用 |
+| `allowed-tools` | `string` | 限制 Skill 可使用的工具列表 |
+| `metadata` | `object` | 可选的额外信息（作者、版本等） |
+
+### `$ARGUMENTS` 参数传递
+
+使用 `$ARGUMENTS` 占位符捕获用户在斜杠命令后输入的参数，实现动态交互。参数会被原样传入 Skill 正文。
+
+```markdown
+Fix GitHub issue $ARGUMENTS end-to-end.
+```
+
+用户调用 `/fix-issue 42` 时，`$ARGUMENTS` 被替换为 `42`。
+
+## 编写 Skill 最佳实践
+
+### 基础 Skill 模板
+
+创建 `skills/<skill-name>/SKILL.md`：
+
+```markdown
+---
+name: my-skill
+description: "What this skill does in one sentence."
+argument-hint: "[required-argument]"
+disable-model-invocation: true
+allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, Edit, Write
+---
+
+Brief summary of the skill.
+
+## Instructions
+
+1. Step one — describe what the AI should do
+2. Step two — use `$ARGUMENTS` to accept user input
+3. Step three — include specific CLI commands
+4. Final step — report results to the user
+
+$ARGUMENTS should be <describe expected input>.
+```
+
+### 编写要点
+
+- 指令要**具体明确**，包含实际的 CLI 命令，减少 AI 的自由发挥空间
+- 建议设置 `disable-model-invocation: true`，避免 AI 在不恰当的时机自动触发
+- 使用 `allowed-tools` 限制可用工具范围，提升安全性
+- 用编号步骤组织指令，便于 AI 按顺序执行
+- 在最后一步要求 AI 汇报结果
+
+::: warning 注意事项
+- `$ARGUMENTS` 是用户在斜杠命令后输入的参数，会被原样传入
+- 将 skills 放在 `~/.claude/skills/` 下即可在所有项目中全局使用
+:::
+
+## 本仓库 Skills 一览
+
+### `/fix-issue` — 一键修复 Issue 并创建 PR
+
+<<< @/../skills/fix-issue/SKILL.md
+
+---
+
+### `/review-feedback` — 拉取 Review 意见并自动修改
+
+<<< @/../skills/review-feedback/SKILL.md
+
+---
+
+### `/pr-cycle` — 完整 PR 生命周期
+
+<<< @/../skills/pr-cycle/SKILL.md
+
+---
+
+### `/yunyoujun` — 编码偏好与工具约定
+
+<<< @/../skills/yunyoujun/SKILL.md
+
+## 安装与使用
+
+### 方式一：Skills CLI
+
+通过 [vercel-labs/skills](https://github.com/vercel-labs/skills) CLI 安装：
+
+```bash
+# 安装全部 skills
+pnpx skills add yunyoujun/ai --skill='*'
+
+# 安装单个 skill
+pnpx skills add yunyoujun/ai --skill=fix-issue
+```
+
+安装后直接用斜杠命令调用：
+
+```bash
+/fix-issue 42
+/review-feedback
+/pr-cycle 42
+```
+
+::: tip 全局共享
+将 skills 放在 `~/.claude/skills/` 下即可在所有项目中使用。
+:::
+
+### 方式二：Plugin 加载
+
+本仓库已打包为 Claude Code Plugin，整体加载后命令带 `yyj-ai:` 命名空间前缀：
+
+```bash
+claude --plugin-dir /path/to/yyj/ai
+```
+
+```bash
+/yyj-ai:fix-issue 42
+/yyj-ai:review-feedback
+/yyj-ai:pr-cycle 42
+```
+
+### 方式三：Marketplace 安装
+
+从官方或团队市场浏览和安装：
+
+```bash
+# 浏览官方市场
+/plugin
+# → 切换到「发现」选项卡浏览
+
+# 直接安装
+/plugin install commit-commands@claude-plugins-official
+```
+
+## 参考链接
+
+- [Plugins 开发](./plugins) — Plugin 创建、结构与迁移
+- [Marketplace 市场](./marketplace) — 发现、安装、创建与分发市场
+- [创建插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugins)
+- [发现和安装插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/discover-plugins)
+- [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)
+- [vercel-labs/skills](https://github.com/vercel-labs/skills) — Skills CLI 安装工具
+- [PR 自动化实践](/guide/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
+- [Claude Code 最佳实践](/guide/claude-code/best-practices) — 斜杠命令与工具配合技巧
+- [MCP（Model Context Protocol）](/guide/mcp/) — MCP Server 集成说明

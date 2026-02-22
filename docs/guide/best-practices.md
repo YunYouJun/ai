@@ -192,5 +192,4 @@ async function chat(prompt: string) {
 
 ## 相关资源
 
-- [项目案例](/examples/)
 - [工具资源](/tools/)
