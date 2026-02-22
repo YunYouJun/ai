@@ -54,19 +54,19 @@ claude --plugin-dir /path/to/yyj/ai
 
 ### `/fix-issue` — 一键修复 Issue 并创建 PR
 
-<<< @/../skills/fix-issue/SKILL.md
+<<< @/../plugins/ai-coding/skills/fix-issue/SKILL.md
 
 使用方式：`/fix-issue 42`（Plugin: `/yyj-ai:fix-issue 42`）
 
 ### `/review-feedback` — 拉取 Review 意见并自动修改
 
-<<< @/../skills/review-feedback/SKILL.md
+<<< @/../plugins/ai-coding/skills/review-feedback/SKILL.md
 
 使用方式：`/review-feedback` 或 `/review-feedback 123`
 
 ### `/pr-cycle` — 完整生命周期
 
-<<< @/../skills/pr-cycle/SKILL.md
+<<< @/../plugins/ai-coding/skills/pr-cycle/SKILL.md
 
 使用方式：`/pr-cycle 42`
 
