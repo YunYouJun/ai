@@ -1,9 +1,11 @@
 /**
- * 自定义样式
+ * Custom VitePress theme styles.
+ *
+ * Override VitePress CSS variables here.
+ * @see https://vitepress.dev/reference/default-theme-config#custom-css
  */
 
 :root {
-  // 自定义主色调
   --vp-c-brand-1: #646cff;
   --vp-c-brand-2: #747bff;
   --vp-c-brand-3: #535bf2;

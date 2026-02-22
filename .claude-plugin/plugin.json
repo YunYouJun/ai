@@ -1,6 +1,6 @@
 {
   "name": "yyj",
-  "description": "YunYouJun's AI coding skills - PR automation, issue fixing, review feedback, and personal coding conventions.",
+  "description": "YunYouJun's AI skills marketplace — a collection of plugins and coding conventions.",
   "version": "0.1.0",
   "author": {
     "name": "YunYouJun"
@@ -8,5 +8,5 @@
   "homepage": "https://github.com/YunYouJun/ai",
   "repository": "https://github.com/YunYouJun/ai",
   "license": "MIT",
-  "keywords": ["pr-automation", "issue-fix", "code-review", "conventions"]
+  "keywords": ["ai", "skills", "marketplace", "claude-code"]
 }

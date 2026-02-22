@@ -5,7 +5,7 @@
     "email": "me@yunyoujun.cn"
   },
   "metadata": {
-    "description": "YunYouJun's AI coding skills - PR automation, issue fixing, review feedback, and personal coding conventions.",
+    "description": "YunYouJun's AI skills collection — coding conventions, PR automation, and Copilot review workflows.",
     "version": "0.1.0",
     "homepage": "https://github.com/YunYouJun/ai",
     "repository": "https://github.com/YunYouJun/ai",
@@ -13,6 +13,7 @@
       "pr-automation",
       "issue-fix",
       "code-review",
+      "copilot-review",
       "conventions",
       "typescript",
       "vue"
@@ -20,53 +21,20 @@
   },
   "plugins": [
     {
-      "name": "fix-issue",
-      "description": "Fix a GitHub issue end-to-end - create branch, implement fix, run checks, and create PR.",
-      "source": "./skills/fix-issue",
+      "name": "ai-coding",
+      "description": "AI-assisted coding workflow skills — PR automation, issue fixing, code review, and Copilot review loop.",
+      "source": "./plugins/ai-coding",
       "version": "0.1.0",
       "author": {
         "name": "YunYouJun"
       },
       "keywords": [
         "github",
+        "pr",
         "issue",
-        "fix",
-        "pr",
-        "automation"
-      ],
-      "category": "productivity"
-    },
-    {
-      "name": "pr-cycle",
-      "description": "Full PR lifecycle automation: fix issue → create PR → wait for review → address feedback. All in one command.",
-      "source": "./skills/pr-cycle",
-      "version": "0.1.0",
-      "author": {
-        "name": "YunYouJun"
-      },
-      "keywords": [
-        "github",
-        "pr",
+        "copilot",
         "review",
-        "lifecycle",
         "automation"
-      ],
-      "category": "productivity"
-    },
-    {
-      "name": "review-feedback",
-      "description": "Fetch and address PR review feedback from Copilot or human reviewers - analyze, fix, push, and report.",
-      "source": "./skills/review-feedback",
-      "version": "0.1.0",
-      "author": {
-        "name": "YunYouJun"
-      },
-      "keywords": [
-        "github",
-        "pr",
-        "review",
-        "feedback",
-        "code-review"
       ],
       "category": "productivity"
     },

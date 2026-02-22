@@ -3,6 +3,14 @@ import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import './styles/index.scss'
 
+/**
+ * Custom VitePress theme extending the default theme.
+ *
+ * To add layout slots, override `Layout` with `h(DefaultTheme.Layout, null, { ... })`.
+ * To register global components, add an `enhanceApp` method.
+ *
+ * @see https://vitepress.dev/guide/extending-default-theme
+ */
 export default {
   extends: DefaultTheme,
   Layout: () => {

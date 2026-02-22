@@ -215,7 +215,7 @@ Claude 可以解释输出（包括图片）。建议在 VS Code 中并排打开 
 
 ### 使用 Git Worktrees 实现并行处理
 
-Git Worktree 允许在同一仓库的不同目录中检出多个分支，共享 `.git` 对象数据库，是多 Claude 并行开发的最佳搭档。详见 [Git Worktree 并行处理](/guide/claude-code/git-worktree)。
+Git Worktree 允许在同一仓库的不同目录中检出多个分支，共享 `.git` 对象数据库，是多 Claude 并行开发的最佳搭档。详见 [Git Worktree 并行处理](/claude-code/git-worktree)。
 
 ### 结合无头模式与自定义工具
 

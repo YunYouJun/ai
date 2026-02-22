@@ -289,4 +289,4 @@ git push -u origin main
 - [创建插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugins)
 - [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [vercel-labs/skills](https://github.com/vercel-labs/skills) — Skills CLI 安装工具
-- [PR 自动化实践](/guide/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
+- [PR 自动化实践](/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用

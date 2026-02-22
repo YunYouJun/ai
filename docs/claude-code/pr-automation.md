@@ -92,7 +92,7 @@ claude --plugin-dir /path/to/yyj/ai
 
 ## 进阶：多 Agent 协作
 
-可以结合 [多 Claude 工作流](/guide/claude-code/best-practices#_6-多-claude-工作流升级) 进一步提升效率：
+可以结合 [多 Claude 工作流](/claude-code/best-practices#_6-多-claude-工作流升级) 进一步提升效率：
 
 - **Claude A**（本地）：修复 Issue 并创建 PR
 - **Copilot**（GitHub）：自动 Review

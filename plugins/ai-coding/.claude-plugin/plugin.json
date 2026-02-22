@@ -1,0 +1,18 @@
+{
+  "name": "ai-coding",
+  "description": "AI-assisted coding workflow skills for Claude Code — PR automation, issue fixing, code review, and Copilot review loop.",
+  "version": "0.1.0",
+  "author": {
+    "name": "YunYouJun"
+  },
+  "homepage": "https://github.com/YunYouJun/ai",
+  "repository": "https://github.com/YunYouJun/ai",
+  "license": "MIT",
+  "keywords": [
+    "pr-automation",
+    "issue-fix",
+    "code-review",
+    "copilot-review",
+    "ai-coding"
+  ]
+}

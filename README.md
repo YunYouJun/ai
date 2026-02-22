@@ -1,5 +1,8 @@
 # AI
 
+- 国内: <https://ai.yunyoujun.cn>
+- 国外: <https://ai.yyj.moe>
+
 ## Rules
 
 自定义规则。

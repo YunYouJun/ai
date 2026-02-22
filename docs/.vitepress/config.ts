@@ -1,3 +1,14 @@
+/**
+ * VitePress site configuration for "小云的 AI 开发实践".
+ *
+ * Sections:
+ * - `/guide/`       — Getting started, best practices, MCP, skills, plugins
+ * - `/claude-code/` — Claude Code specific guides
+ * - `/tools/`       — AI frameworks, dev tools, browser automation
+ * - `/api/`         — API reference
+ *
+ * @see https://vitepress.dev/reference/site-config
+ */
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
@@ -8,13 +19,16 @@ export default defineConfig({
 
   themeConfig: {
     logo: '/favicon.svg',
-    
+
+    // ---- Navigation ----
     nav: [
       { text: '指南', link: '/guide/' },
+      { text: 'Claude Code', link: '/claude-code/' },
       { text: '工具', link: '/tools/' },
       { text: 'API', link: '/api/' },
     ],
 
+    // ---- Sidebar ----
     sidebar: [
       {
         text: '指南',
@@ -32,15 +46,15 @@ export default defineConfig({
           { text: 'Skills', link: '/guide/skills' },
           { text: 'Plugins', link: '/guide/plugins' },
           { text: 'Marketplace', link: '/guide/marketplace' },
-          {
-            text: 'Claude Code',
-            collapsed: false,
-            items: [
-              { text: '最佳实践', link: '/guide/claude-code/best-practices' },
-              { text: 'PR 自动化实践', link: '/guide/claude-code/pr-automation' },
-              { text: 'Git Worktree 并行处理', link: '/guide/claude-code/git-worktree' },
-            ],
-          },
+        ],
+      },
+      {
+        text: 'Claude Code',
+        items: [
+          { text: '介绍', link: '/claude-code/' },
+          { text: '最佳实践', link: '/claude-code/best-practices' },
+          { text: 'PR 自动化实践', link: '/claude-code/pr-automation' },
+          { text: 'Git Worktree 并行处理', link: '/claude-code/git-worktree' },
         ],
       },
       {
@@ -68,10 +82,12 @@ export default defineConfig({
       },
     ],
 
+    // ---- Social Links ----
     socialLinks: [
       { icon: 'github', link: 'https://github.com/YunYouJun' },
     ],
 
+    // ---- Search (local with Chinese translations) ----
     search: {
       provider: 'local',
       options: {
@@ -92,6 +108,7 @@ export default defineConfig({
       },
     },
 
+    // ---- Outline & Footer ----
     outline: {
       label: '页面导航',
       level: [2, 3],
@@ -110,6 +127,7 @@ export default defineConfig({
       },
     },
 
+    // ---- Accessibility i18n ----
     returnToTopLabel: '回到顶部',
     sidebarMenuLabel: '菜单',
     darkModeSwitchLabel: '主题',

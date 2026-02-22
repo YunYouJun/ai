@@ -207,6 +207,6 @@ claude --plugin-dir /path/to/yyj/ai
 - [发现和安装插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/discover-plugins)
 - [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [vercel-labs/skills](https://github.com/vercel-labs/skills) — Skills CLI 安装工具
-- [PR 自动化实践](/guide/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
-- [Claude Code 最佳实践](/guide/claude-code/best-practices) — 斜杠命令与工具配合技巧
+- [PR 自动化实践](/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
+- [Claude Code 最佳实践](/claude-code/best-practices) — 斜杠命令与工具配合技巧
 - [MCP（Model Context Protocol）](/guide/mcp/) — MCP Server 集成说明

@@ -3,12 +3,20 @@ dist
 
 .DS_Store
 *.log
+
+# env files (allow .env.example as template)
 *.env
+.env.*
+!.env.example
 
 # python
 venv
+__pycache__
+*.pyc
 
+# vitepress
 docs/.vitepress/cache
+docs/.vitepress/dist
 
 # claude
 .claude/settings.local.json

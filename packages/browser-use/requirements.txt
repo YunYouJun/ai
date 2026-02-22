@@ -1,0 +1,5 @@
+# Browser-use agent dependencies
+langchain-openai>=0.1.0
+browser-use>=0.1.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
