@@ -18,19 +18,19 @@ graph LR
 
 ## 官方市场
 
-| 市场 | 名称 | 说明 |
-| --- | --- | --- |
-| **Anthropic 官方** | `claude-plugins-official` | 启动 Claude Code 时自动可用，由 Anthropic 维护 |
-| **演示市场** | `claude-code-plugins` | 包含展示插件系统可能性的示例插件，由 Anthropic 维护 |
+| 市场               | 名称                      | 说明                                                |
+| ------------------ | ------------------------- | --------------------------------------------------- |
+| **Anthropic 官方** | `claude-plugins-official` | 启动 Claude Code 时自动可用，由 Anthropic 维护      |
+| **演示市场**       | `claude-code-plugins`     | 包含展示插件系统可能性的示例插件，由 Anthropic 维护 |
 
 ### 官方市场插件分类
 
-| 类别 | 说明 | 示例 |
-| --- | --- | --- |
-| **代码智能** | 使用 LSP 提供跳转定义、查找引用、类型错误检测 | Python (`pyright`), Go (`gopls`), Rust (`rust-analyzer`) |
-| **外部集成** | 捆绑预配置的 MCP 服务器，连接外部服务 | GitHub, GitLab, Jira, Linear, Notion, Figma, Vercel, Slack, Sentry |
-| **开发工作流** | 常见开发任务的命令和代理 | `commit-commands`, `pr-review-toolkit`, `agent-sdk-dev` |
-| **输出样式** | 自定义 Claude 的响应方式 | `explanatory-output-style`, `learning-output-style` |
+| 类别           | 说明                                          | 示例                                                               |
+| -------------- | --------------------------------------------- | ------------------------------------------------------------------ |
+| **代码智能**   | 使用 LSP 提供跳转定义、查找引用、类型错误检测 | Python (`pyright`), Go (`gopls`), Rust (`rust-analyzer`)           |
+| **外部集成**   | 捆绑预配置的 MCP 服务器，连接外部服务         | GitHub, GitLab, Jira, Linear, Notion, Figma, Vercel, Slack, Sentry |
+| **开发工作流** | 常见开发任务的命令和代理                      | `commit-commands`, `pr-review-toolkit`, `agent-sdk-dev`            |
+| **输出样式**   | 自定义 Claude 的响应方式                      | `explanatory-output-style`, `learning-output-style`                |
 
 ::: tip 代码智能插件
 代码智能插件需要在系统上安装对应的语言服务器二进制文件（如 Python 的 `pyright-langserver`、Go 的 `gopls`、Rust 的 `rust-analyzer`）。
@@ -74,12 +74,12 @@ claude plugin install formatter@your-org --scope project
 
 ### 安装范围
 
-| 安装范围 | 说明 | 共享 |
-| --- | --- | --- |
-| **用户范围**（默认） | 在所有项目中为自己安装 | 不共享 |
-| **项目范围** | 为此仓库的所有协作者安装（写入 `.claude/settings.json`） | 仓库级共享 |
-| **本地范围** | 仅在此仓库中为自己安装 | 不共享 |
-| **托管范围** | 由管理员通过托管设置安装 | 组织级，用户无法修改 |
+| 安装范围             | 说明                                                     | 共享                 |
+| -------------------- | -------------------------------------------------------- | -------------------- |
+| **用户范围**（默认） | 在所有项目中为自己安装                                   | 不共享               |
+| **项目范围**         | 为此仓库的所有协作者安装（写入 `.claude/settings.json`） | 仓库级共享           |
+| **本地范围**         | 仅在此仓库中为自己安装                                   | 不共享               |
+| **托管范围**         | 由管理员通过托管设置安装                                 | 组织级，用户无法修改 |
 
 ::: warning 安全提示
 安装插件前，务必检查插件主页了解其功能和可信度。Anthropic 不控制第三方插件的内容。
@@ -113,12 +113,12 @@ claude plugin install formatter@your-org --scope project
 
 ### 自动更新配置
 
-| 场景 | 默认行为 | 环境变量 |
-| --- | --- | --- |
-| 官方市场 | 自动更新 | — |
-| 第三方/本地市场 | 不自动更新 | — |
-| 完全禁用更新 | — | `DISABLE_AUTOUPDATER=true` |
-| 仅保留插件自动更新 | — | `FORCE_AUTOUPDATE_PLUGINS=true` |
+| 场景               | 默认行为   | 环境变量                        |
+| ------------------ | ---------- | ------------------------------- |
+| 官方市场           | 自动更新   | —                               |
+| 第三方/本地市场    | 不自动更新 | —                               |
+| 完全禁用更新       | —          | `DISABLE_AUTOUPDATER=true`      |
+| 仅保留插件自动更新 | —          | `FORCE_AUTOUPDATE_PLUGINS=true` |
 
 ## 创建与分发 Marketplace
 
@@ -172,27 +172,27 @@ Marketplace 文件位于仓库根目录的 `.claude-plugin/marketplace.json`。
 
 #### 必需字段
 
-| 字段 | 类型 | 说明 |
-| --- | --- | --- |
-| `name` | `string` | Marketplace 标识符（kebab-case，无空格），如 `acme-tools` |
-| `owner` | `object` | 维护者信息，包含 `name`（必需）和 `email`（可选） |
-| `plugins` | `array` | 可用插件列表 |
+| 字段      | 类型     | 说明                                                      |
+| --------- | -------- | --------------------------------------------------------- |
+| `name`    | `string` | Marketplace 标识符（kebab-case，无空格），如 `acme-tools` |
+| `owner`   | `object` | 维护者信息，包含 `name`（必需）和 `email`（可选）         |
+| `plugins` | `array`  | 可用插件列表                                              |
 
 #### 可选元数据
 
-| 字段 | 说明 |
-| --- | --- |
-| `metadata.description` | Marketplace 描述 |
-| `metadata.version` | Marketplace 版本 |
-| `metadata.pluginRoot` | 相对插件源路径的基目录 |
+| 字段                   | 说明                   |
+| ---------------------- | ---------------------- |
+| `metadata.description` | Marketplace 描述       |
+| `metadata.version`     | Marketplace 版本       |
+| `metadata.pluginRoot`  | 相对插件源路径的基目录 |
 
 #### Plugin 条目字段
 
 **必需：**
 
-| 字段 | 说明 |
-| --- | --- |
-| `name` | 插件标识符 |
+| 字段     | 说明                                   |
+| -------- | -------------------------------------- |
+| `name`   | 插件标识符                             |
 | `source` | 插件来源（字符串或对象，见下方源类型） |
 
 **可选（标准元数据）：**
@@ -334,11 +334,11 @@ git push -u origin main
 
 管理员可使用 `strictKnownMarketplaces` 限制用户允许添加的 Marketplace：
 
-| 配置值 | 效果 |
-| --- | --- |
-| **未定义** | 无限制，用户可添加任何 marketplace |
-| **空数组 `[]`** | 完全锁定，无法添加新 marketplace |
-| **源列表** | 仅允许添加匹配列表中的 marketplace |
+| 配置值          | 效果                               |
+| --------------- | ---------------------------------- |
+| **未定义**      | 无限制，用户可添加任何 marketplace |
+| **空数组 `[]`** | 完全锁定，无法添加新 marketplace   |
+| **源列表**      | 仅允许添加匹配列表中的 marketplace |
 
 ```json
 {
@@ -371,15 +371,15 @@ export GITLAB_TOKEN=glpat-xxxxxxxxxxxx
 
 ## 故障排除
 
-| 问题 | 解决方案 |
-| --- | --- |
-| Marketplace 未加载 | 检查 URL 可访问性、JSON 语法及文件路径（`.claude-plugin/marketplace.json`） |
-| Plugin 安装失败 | 检查源 URL 访问权限、目录结构及必需文件（`plugin.json`） |
-| 私有仓库认证失败 | 检查 git 凭证助手配置及环境变量中的 Token |
+| 问题                              | 解决方案                                                                    |
+| --------------------------------- | --------------------------------------------------------------------------- |
+| Marketplace 未加载                | 检查 URL 可访问性、JSON 语法及文件路径（`.claude-plugin/marketplace.json`） |
+| Plugin 安装失败                   | 检查源 URL 访问权限、目录结构及必需文件（`plugin.json`）                    |
+| 私有仓库认证失败                  | 检查 git 凭证助手配置及环境变量中的 Token                                   |
 | 相对路径在 URL Marketplace 中失败 | URL 方式仅下载 JSON 文件，需改用 GitHub/Git URL 源或基于 Git 的 Marketplace |
-| 安装后文件未找到 | 插件会被复制到缓存目录，无法引用插件目录外的文件，需使用符号链接或重构 |
-| `/plugin` 命令无法识别 | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端 |
-| 插件技能未出现 | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装 |
+| 安装后文件未找到                  | 插件会被复制到缓存目录，无法引用插件目录外的文件，需使用符号链接或重构      |
+| `/plugin` 命令无法识别            | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端                    |
+| 插件技能未出现                    | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装                   |
 
 ## 参考链接
 

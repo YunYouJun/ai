@@ -54,15 +54,15 @@ my-plugin/
 
 ### 组件目录说明
 
-| 目录/文件 | 位置 | 用途 |
-| --- | --- | --- |
-| `.claude-plugin/` | 根目录 | 包含 `plugin.json` 清单（标识为 Plugin） |
-| `commands/` | 根目录 | 命令 Skills（Markdown 文件，用户通过 `/` 调用） |
-| `skills/` | 根目录 | Agent Skills（含 `SKILL.md`，AI 可自动触发） |
-| `agents/` | 根目录 | 自定义 Agent 定义 |
-| `hooks/` | 根目录 | `hooks.json` 中的事件处理程序（如 `PostToolUse`） |
-| `.mcp.json` | 根目录 | MCP Server 配置 |
-| `.lsp.json` | 根目录 | LSP Server 配置（提供跳转定义、类型检查等代码智能） |
+| 目录/文件         | 位置   | 用途                                                |
+| ----------------- | ------ | --------------------------------------------------- |
+| `.claude-plugin/` | 根目录 | 包含 `plugin.json` 清单（标识为 Plugin）            |
+| `commands/`       | 根目录 | 命令 Skills（Markdown 文件，用户通过 `/` 调用）     |
+| `skills/`         | 根目录 | Agent Skills（含 `SKILL.md`，AI 可自动触发）        |
+| `agents/`         | 根目录 | 自定义 Agent 定义                                   |
+| `hooks/`          | 根目录 | `hooks.json` 中的事件处理程序（如 `PostToolUse`）   |
+| `.mcp.json`       | 根目录 | MCP Server 配置                                     |
+| `.lsp.json`       | 根目录 | LSP Server 配置（提供跳转定义、类型检查等代码智能） |
 
 ::: warning 目录位置
 Plugin 的组件（skills、commands、agents 等）应放在 Plugin **根目录**，而非 `.claude-plugin/` 内部。
@@ -206,13 +206,13 @@ git push -u origin main
 
 ### 包含的 Skills
 
-| Skill | 命令 | 说明 |
-| --- | --- | --- |
-| `fix-issue` | `/ai-coding:fix-issue <issue>` | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR |
-| `review-feedback` | `/ai-coding:review-feedback [pr]` | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送 |
-| `pr-cycle` | `/ai-coding:pr-cycle <issue>` | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈 |
-| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复 |
-| `copilot-review-loop` | `/ai-coding:copilot-review-loop [pr]` | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮 |
+| Skill                    | 命令                                     | 说明                                                             |
+| ------------------------ | ---------------------------------------- | ---------------------------------------------------------------- |
+| `fix-issue`              | `/ai-coding:fix-issue <issue>`           | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR    |
+| `review-feedback`        | `/ai-coding:review-feedback [pr]`        | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送          |
+| `pr-cycle`               | `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈 |
+| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复             |
+| `copilot-review-loop`    | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮       |
 
 ### 使用方式
 
@@ -231,22 +231,22 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 为常见开发任务添加命令和代理的插件：
 
-| 插件 | 说明 | 安装命令 |
-| --- | --- | --- |
-| `commit-commands` | Git 提交工作流，包括提交、推送和 PR 创建 | `/plugin install commit-commands@claude-plugins-official` |
-| `pr-review-toolkit` | 用于审查拉取请求的专门代理 | `/plugin install pr-review-toolkit@claude-plugins-official` |
-| `agent-sdk-dev` | 使用 Claude Agent SDK 构建的工具 | `/plugin install agent-sdk-dev@claude-plugins-official` |
-| `plugin-dev` | 用于创建您自己的插件的工具包 | `/plugin install plugin-dev@claude-plugins-official` |
+| 插件                | 说明                                     | 安装命令                                                    |
+| ------------------- | ---------------------------------------- | ----------------------------------------------------------- |
+| `commit-commands`   | Git 提交工作流，包括提交、推送和 PR 创建 | `/plugin install commit-commands@claude-plugins-official`   |
+| `pr-review-toolkit` | 用于审查拉取请求的专门代理               | `/plugin install pr-review-toolkit@claude-plugins-official` |
+| `agent-sdk-dev`     | 使用 Claude Agent SDK 构建的工具         | `/plugin install agent-sdk-dev@claude-plugins-official`     |
+| `plugin-dev`        | 用于创建您自己的插件的工具包             | `/plugin install plugin-dev@claude-plugins-official`        |
 
 ### 代码智能（LSP 集成）
 
 使用 LSP 提供跳转定义、查找引用、类型错误检测：
 
-| 插件 | 语言 | 需要安装 |
-| --- | --- | --- |
-| Python LSP | Python | `pyright-langserver` (`pip install pyright`) |
-| Go LSP | Go | `gopls` (`go install golang.org/x/tools/gopls@latest`) |
-| Rust LSP | Rust | `rust-analyzer` (随 `rustup` 安装) |
+| 插件           | 语言       | 需要安装                                                             |
+| -------------- | ---------- | -------------------------------------------------------------------- |
+| Python LSP     | Python     | `pyright-langserver` (`pip install pyright`)                         |
+| Go LSP         | Go         | `gopls` (`go install golang.org/x/tools/gopls@latest`)               |
+| Rust LSP       | Rust       | `rust-analyzer` (随 `rustup` 安装)                                   |
 | TypeScript LSP | TypeScript | `typescript-language-server` (`npm i -g typescript-language-server`) |
 
 ::: tip 代码智能插件
@@ -257,26 +257,26 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 捆绑预配置的 MCP 服务器，连接外部服务：
 
-| 插件 | 连接服务 | 用途 |
-| --- | --- | --- |
+| 插件   | 连接服务   | 用途                |
+| ------ | ---------- | ------------------- |
 | GitHub | GitHub API | Issue、PR、仓库管理 |
-| GitLab | GitLab API | 项目、MR 管理 |
-| Jira | Jira Cloud | 任务管理 |
-| Linear | Linear API | 项目跟踪 |
-| Notion | Notion API | 知识库、文档 |
-| Figma | Figma API | 设计稿获取 |
-| Vercel | Vercel API | 部署管理 |
-| Slack | Slack API | 消息通知 |
-| Sentry | Sentry API | 错误追踪 |
+| GitLab | GitLab API | 项目、MR 管理       |
+| Jira   | Jira Cloud | 任务管理            |
+| Linear | Linear API | 项目跟踪            |
+| Notion | Notion API | 知识库、文档        |
+| Figma  | Figma API  | 设计稿获取          |
+| Vercel | Vercel API | 部署管理            |
+| Slack  | Slack API  | 消息通知            |
+| Sentry | Sentry API | 错误追踪            |
 
 ### 输出样式
 
 自定义 Claude 的响应方式：
 
-| 插件 | 说明 |
-| --- | --- |
+| 插件                       | 说明                           |
+| -------------------------- | ------------------------------ |
 | `explanatory-output-style` | 教育性输出风格，添加解释性见解 |
-| `learning-output-style` | 交互式学习风格，鼓励探索 |
+| `learning-output-style`    | 交互式学习风格，鼓励探索       |
 
 ## 从现有配置迁移到 Plugin
 
@@ -291,23 +291,23 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 迁移前后对比：
 
-| 迁移前（独立配置） | 迁移后（Plugin） |
-| --- | --- |
-| `.claude/commands/hello.md` | `commands/hello.md` |
-| `.claude/skills/review/SKILL.md` | `skills/review/SKILL.md` |
-| `.claude/settings.json` 中的 hooks | `hooks/hooks.json` |
-| Skill 名 `/hello` | `/plugin-name:hello` |
+| 迁移前（独立配置）                 | 迁移后（Plugin）         |
+| ---------------------------------- | ------------------------ |
+| `.claude/commands/hello.md`        | `commands/hello.md`      |
+| `.claude/skills/review/SKILL.md`   | `skills/review/SKILL.md` |
+| `.claude/settings.json` 中的 hooks | `hooks/hooks.json`       |
+| Skill 名 `/hello`                  | `/plugin-name:hello`     |
 
 ## 故障排除
 
-| 问题 | 解决方案 |
-| --- | --- |
-| `/plugin` 命令无法识别 | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端 |
-| 插件技能未出现 | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装 |
-| `Executable not found in $PATH` | 安装对应的语言服务器二进制文件（如 `pyright`, `gopls`） |
-| Plugin 加载错误 | 运行 `/plugin` → 切换到「错误」选项卡查看详情 |
-| 命名空间冲突 | 使用 Plugin 方式加载（自动带命名空间前缀） |
-| 安装后文件未找到 | 插件会被复制到缓存目录，无法引用插件目录外的文件（如 `../shared`），需使用符号链接或重构 |
+| 问题                            | 解决方案                                                                                 |
+| ------------------------------- | ---------------------------------------------------------------------------------------- |
+| `/plugin` 命令无法识别          | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端                                 |
+| 插件技能未出现                  | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装                                |
+| `Executable not found in $PATH` | 安装对应的语言服务器二进制文件（如 `pyright`, `gopls`）                                  |
+| Plugin 加载错误                 | 运行 `/plugin` → 切换到「错误」选项卡查看详情                                            |
+| 命名空间冲突                    | 使用 Plugin 方式加载（自动带命名空间前缀）                                               |
+| 安装后文件未找到                | 插件会被复制到缓存目录，无法引用插件目录外的文件（如 `../shared`），需使用符号链接或重构 |
 
 ## 参考链接
 

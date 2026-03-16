@@ -3,7 +3,7 @@ name: address-copilot-review
 description: "Fetch Copilot review comments on a PR, triage, fix valid issues, and reply to each comment. Single-pass."
 argument-hint: "[pr-number-or-url]"
 disable-model-invocation: true
-allowed-tools: Bash(gh *), Bash(git *), Bash(pnpm *), Read, Grep, Glob, Edit, Write
+allowed-tools: Bash(gh *), Bash(git*), Bash(pnpm *), Read, Grep, Glob, Edit, Write
 ---
 
 Fetch and address GitHub Copilot review comments on a PR in a single pass: triage, fix, reply.

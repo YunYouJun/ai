@@ -4,9 +4,9 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "noEmit": true
+    "skipLibCheck": true
   },
   "include": [
     "docs/.vitepress/**/*.ts",

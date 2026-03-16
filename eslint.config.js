@@ -27,5 +27,6 @@ export default antfu({
   },
   ignores: [
     '**/docs/**/*.md/**',
+    '**/skills/**/*.md/**',
   ],
 })

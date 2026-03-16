@@ -22,13 +22,13 @@
 
 本实践依赖 [`ai-coding` 插件](/guide/plugins#本仓库插件-ai-coding)中的以下 Skills：
 
-| 命令 | 说明 |
-| --- | --- |
-| `/ai-coding:fix-issue <issue>` | 一键修复 Issue — 创建分支、实现修复、运行检查、创建 PR |
-| `/ai-coding:review-feedback [pr]` | 拉取 Review 意见（Copilot 或人工），分析、修复并推送 |
-| `/ai-coding:pr-cycle <issue>` | 完整 PR 生命周期 — 修复 → 创建 PR → 等待 Review → 处理反馈 |
-| `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复 |
-| `/ai-coding:copilot-review-loop [pr]` | 迭代 Copilot Review 循环 — 最多 2 轮 |
+| 命令                                     | 说明                                                       |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| `/ai-coding:fix-issue <issue>`           | 一键修复 Issue — 创建分支、实现修复、运行检查、创建 PR     |
+| `/ai-coding:review-feedback [pr]`        | 拉取 Review 意见（Copilot 或人工），分析、修复并推送       |
+| `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 → 创建 PR → 等待 Review → 处理反馈 |
+| `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复       |
+| `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 最多 2 轮                       |
 
 安装方式和各 Skill 的完整指令内容详见 [Skills — 安装与使用](/guide/skills#安装与使用)。
 
@@ -51,7 +51,7 @@
 - 可以在 GitHub 仓库设置中开启 Copilot 自动 review（Settings → Code review → Copilot），省去手动请求的步骤
 - 每次 `/ai-coding:review-feedback` 后 Claude 会汇报哪些改了、哪些跳过了，你可以决定是否需要再跑一次
 - 所有 skills 都设置了 `disable-model-invocation: true`，防止 Claude 自动触发，仅限手动调用
-:::
+  :::
 
 ## 进阶：多 Agent 协作
 

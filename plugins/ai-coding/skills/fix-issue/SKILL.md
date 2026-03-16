@@ -3,7 +3,7 @@ name: fix-issue
 description: Fix a GitHub issue end-to-end - create branch, implement fix, run checks, and create PR.
 argument-hint: "[issue-number-or-url]"
 disable-model-invocation: true
-allowed-tools: Bash(gh *), Bash(git *), Bash(pnpm *), Read, Grep, Glob, Edit, Write
+allowed-tools: Bash(gh *), Bash(git*), Bash(pnpm *), Read, Grep, Glob, Edit, Write
 ---
 
 Fix GitHub issue $ARGUMENTS end-to-end.

@@ -17,15 +17,15 @@ Skills 是最小功能单元，可独立使用也可打包进 [Plugins](./plugin
 
 ## Skills vs Plugins vs Marketplace 对比
 
-| 特性 | Skills | Plugins | Marketplace |
-| --- | --- | --- | --- |
-| **定位** | 最小功能单元 | 完整扩展包 | 分发与发现平台 |
-| **粒度** | 单个命令/技能 | 多个 Skills + Agents + Hooks + MCP | 多个 Plugins 的目录 |
-| **命名空间** | 无（独立配置时） | 有（`plugin-name:command`） | 有（`plugin@marketplace`） |
-| **安装方式** | 复制 `SKILL.md` 到项目 | `--plugin-dir` 或市场安装 | `/plugin install` |
-| **版本管理** | 手动 | 语义版本 (`plugin.json`) | 自动更新 |
-| **适用场景** | 个人工作流、快速实验 | 团队共享、跨项目复用 | 社区分发、企业内部 |
-| **冲突处理** | 可能冲突 | 命名空间隔离 | 完全隔离 |
+| 特性         | Skills                 | Plugins                            | Marketplace                |
+| ------------ | ---------------------- | ---------------------------------- | -------------------------- |
+| **定位**     | 最小功能单元           | 完整扩展包                         | 分发与发现平台             |
+| **粒度**     | 单个命令/技能          | 多个 Skills + Agents + Hooks + MCP | 多个 Plugins 的目录        |
+| **命名空间** | 无（独立配置时）       | 有（`plugin-name:command`）        | 有（`plugin@marketplace`） |
+| **安装方式** | 复制 `SKILL.md` 到项目 | `--plugin-dir` 或市场安装          | `/plugin install`          |
+| **版本管理** | 手动                   | 语义版本 (`plugin.json`)           | 自动更新                   |
+| **适用场景** | 个人工作流、快速实验   | 团队共享、跨项目复用               | 社区分发、企业内部         |
+| **冲突处理** | 可能冲突               | 命名空间隔离                       | 完全隔离                   |
 
 ## Skill 文件结构
 
@@ -63,14 +63,14 @@ Fix a GitHub issue end-to-end.
 
 ### Frontmatter 字段
 
-| 字段 | 类型 | 说明 |
-| --- | --- | --- |
-| `name` | `string` | Skill 名称，即斜杠命令名（如 `fix-issue` → `/fix-issue`） |
-| `description` | `string` | 功能描述，帮助 AI 理解何时使用该 Skill |
-| `argument-hint` | `string` | 参数提示（如 `"[issue-number-or-url]"`） |
-| `disable-model-invocation` | `boolean` | 设为 `true` 则 AI 不会自动触发，仅限手动调用 |
-| `allowed-tools` | `string` | 限制 Skill 可使用的工具列表 |
-| `metadata` | `object` | 可选的额外信息（作者、版本等） |
+| 字段                       | 类型      | 说明                                                      |
+| -------------------------- | --------- | --------------------------------------------------------- |
+| `name`                     | `string`  | Skill 名称，即斜杠命令名（如 `fix-issue` → `/fix-issue`） |
+| `description`              | `string`  | 功能描述，帮助 AI 理解何时使用该 Skill                    |
+| `argument-hint`            | `string`  | 参数提示（如 `"[issue-number-or-url]"`）                  |
+| `disable-model-invocation` | `boolean` | 设为 `true` 则 AI 不会自动触发，仅限手动调用              |
+| `allowed-tools`            | `string`  | 限制 Skill 可使用的工具列表                               |
+| `metadata`                 | `object`  | 可选的额外信息（作者、版本等）                            |
 
 ### `$ARGUMENTS` 参数传递
 
@@ -118,9 +118,10 @@ $ARGUMENTS should be <describe expected input>.
 - 在最后一步要求 AI 汇报结果
 
 ::: warning 注意事项
+
 - `$ARGUMENTS` 是用户在斜杠命令后输入的参数，会被原样传入
 - 将 skills 放在 `~/.claude/skills/` 下即可在所有项目中全局使用
-:::
+  :::
 
 ## 本仓库 Skills 一览
 

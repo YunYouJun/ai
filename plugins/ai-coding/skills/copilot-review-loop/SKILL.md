@@ -3,7 +3,7 @@ name: copilot-review-loop
 description: "Iterative Copilot review loop: trigger review → delegate to address-copilot-review → re-trigger. Max 2 cycles until clean."
 argument-hint: "[pr-number-or-url]"
 disable-model-invocation: true
-allowed-tools: Bash(gh *), Bash(git *), Bash(pnpm *), Read, Grep, Glob, Edit, Write
+allowed-tools: Bash(gh *), Bash(git*), Bash(pnpm *), Read, Grep, Glob, Edit, Write
 ---
 
 Iterative Copilot review loop. Triggers Copilot review, delegates comment handling to `/address-copilot-review`, then re-triggers until clean. Max 2 cycles.

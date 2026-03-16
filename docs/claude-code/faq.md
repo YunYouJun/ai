@@ -21,16 +21,16 @@
 
 ## 常用快捷命令
 
-| 命令 | 作用 |
-| --- | --- |
-| `!<command>` | 直接执行 Bash 命令，输出纳入对话上下文 |
-| `#` | 将内容写入 `CLAUDE.md` 记忆文件 |
-| `/clear` | 清除当前对话上下文 |
-| `/permissions` | 管理工具权限白名单 |
-| `/plugin` | 打开插件管理器（发现、已安装、市场、错误） |
-| `/plugin marketplace add <owner/repo>` | 添加一个 Plugin Marketplace |
-| `/plugin marketplace update <name>` | 刷新指定 marketplace 的插件列表 |
-| `/plugin install <name>@<marketplace>` | 从指定 marketplace 安装插件 |
+| 命令                                   | 作用                                       |
+| -------------------------------------- | ------------------------------------------ |
+| `!<command>`                           | 直接执行 Bash 命令，输出纳入对话上下文     |
+| `#`                                    | 将内容写入 `CLAUDE.md` 记忆文件            |
+| `/clear`                               | 清除当前对话上下文                         |
+| `/permissions`                         | 管理工具权限白名单                         |
+| `/plugin`                              | 打开插件管理器（发现、已安装、市场、错误） |
+| `/plugin marketplace add <owner/repo>` | 添加一个 Plugin Marketplace                |
+| `/plugin marketplace update <name>`    | 刷新指定 marketplace 的插件列表            |
+| `/plugin install <name>@<marketplace>` | 从指定 marketplace 安装插件                |
 
 例如 `/plugin marketplace update yunyoujun` 会从 `yunyoujun` 这个已注册的 marketplace 源拉取最新的插件列表，确保本地缓存与远程仓库同步。
 

@@ -6,12 +6,12 @@ Git Worktree 允许在同一仓库的不同目录中检出多个分支，**共�
 
 ## 为什么用 Worktree 而不是多次 Clone？
 
-| 对比项 | `git clone`（多次） | `git worktree add` |
-| --- | --- | --- |
-| 磁盘占用 | 每个 clone 一份完整 `.git` | 所有 worktree 共享同一份 |
-| 创建速度 | 需要网络拉取 | 本地瞬间完成 |
-| 分支同步 | 各 clone 独立，需手动 fetch | 天然共享 refs，自动同步 |
-| 适用场景 | 完全隔离的环境 | 同一项目的并行任务 |
+| 对比项   | `git clone`（多次）         | `git worktree add`       |
+| -------- | --------------------------- | ------------------------ |
+| 磁盘占用 | 每个 clone 一份完整 `.git`  | 所有 worktree 共享同一份 |
+| 创建速度 | 需要网络拉取                | 本地瞬间完成             |
+| 分支同步 | 各 clone 独立，需手动 fetch | 天然共享 refs，自动同步  |
+| 适用场景 | 完全隔离的环境              | 同一项目的并行任务       |
 
 ## 核心命令速查
 
@@ -37,18 +37,18 @@ git worktree prune
 
 ### 常用选项
 
-| 命令 | 选项 | 说明 |
-| --- | --- | --- |
-| `add` | `-b <branch>` | 创建并检出新分支 |
-| `add` | `-B <branch>` | 创建或重置分支 |
-| `add` | `--detach` | 分离 HEAD，不关联分支（适合临时测试） |
-| `add` | `--lock` | 创建后立即锁定 |
-| `add` | `--no-checkout` | 不执行 checkout，用于自定义稀疏检出 |
-| `list` | `--porcelain` | 机器可解析格式，适合脚本 |
-| `remove` | `-f` | 强制移除（含未提交更改时） |
-| `lock` | `--reason <msg>` | 指定锁定原因 |
-| `move` | `<worktree> <new-path>` | 移动 worktree 到新位置 |
-| `repair` | `[<path>...]` | 修复移动后断裂的链接 |
+| 命令     | 选项                    | 说明                                  |
+| -------- | ----------------------- | ------------------------------------- |
+| `add`    | `-b <branch>`           | 创建并检出新分支                      |
+| `add`    | `-B <branch>`           | 创建或重置分支                        |
+| `add`    | `--detach`              | 分离 HEAD，不关联分支（适合临时测试） |
+| `add`    | `--lock`                | 创建后立即锁定                        |
+| `add`    | `--no-checkout`         | 不执行 checkout，用于自定义稀疏检出   |
+| `list`   | `--porcelain`           | 机器可解析格式，适合脚本              |
+| `remove` | `-f`                    | 强制移除（含未提交更改时）            |
+| `lock`   | `--reason <msg>`        | 指定锁定原因                          |
+| `move`   | `<worktree> <new-path>` | 移动 worktree 到新位置                |
+| `repair` | `[<path>...]`           | 修复移动后断裂的链接                  |
 
 ::: tip 路径约定
 建议将 worktree 放在主仓库的**同级目录**下，以项目名作为前缀。例如主仓库在 `~/repos/my-project`，worktree 放在 `~/repos/my-project-feat`、`~/repos/my-project-fix`。
@@ -123,11 +123,12 @@ done
 ## 注意事项
 
 ::: warning 使用限制
+
 - **同一分支不能同时被两个 worktree 检出**。创建 worktree 时请使用 `-b` 新建分支，或用 `--detach` 分离 HEAD
 - **子模块支持不完整**。包含 submodule 的项目谨慎使用多 worktree
 - 如果 worktree 目录被手动删除（非 `git worktree remove`），运行 `git worktree prune` 清理残留
 - 使用 `git worktree lock` 保护位于外部设备上的 worktree，防止被 `git gc` 误清理
-:::
+  :::
 
 ## 进阶配置
 
