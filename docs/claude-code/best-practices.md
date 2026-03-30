@@ -129,6 +129,38 @@ Anthropic 工程师 90% 的 git 操作由 Claude 完成：
 - 撰写提交信息
 - 处理复杂操作（解决冲突、应用补丁）
 
+#### Commit / Push 工作流最佳实践
+
+**不需要为 commit 和 commit-push 单独创建 Skill。** 理由如下：
+
+1. **Claude 原生能力已覆盖**：Claude Code 天然擅长生成 [Conventional Commits](https://www.conventionalcommits.org/) 格式的提交信息，直接告诉它 "commit" 或 "commit and push" 即可
+2. **官方插件已有 [`commit-commands`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/commit-commands)**：可通过 `/plugin install commit-commands@claude-plugins-official` 安装，提供三个命令：
+   - `/commit` — 分析变更并生成提交信息，自动避免提交敏感文件
+   - `/commit-push-pr` — commit + push + 创建 PR 一步到位
+   - `/clean_gone` — 清理本地已被删除的远程分支
+3. **现有 Skills 已覆盖相关场景**：
+   - `review-staged` — commit 前审查暂存区变更，支持 `--fix` 自动修复
+   - `fix-issue` — 包含 commit → push → create PR 完整流程
+   - `pr-cycle` — 完整的 commit → push → PR → review 生命周期
+
+推荐的 commit 工作流组合：
+
+```bash
+# 1. 暂存变更
+git add -A  # 或选择性暂存
+
+# 2. 提交前审查（可选但推荐）
+/ai-coding:review-staged --fix
+
+# 3. 让 Claude 直接 commit + push
+# 直接用自然语言即可，无需专门的 skill
+> commit and push
+```
+
+::: tip 何时该用 Skill，何时不该
+Skill 适合**需要多步编排**的复杂工作流（如 PR 生命周期、代码审查循环）。对于 `git commit` 和 `git push` 这样的**原子操作**，Claude 的原生能力已经足够好，额外封装 Skill 反而增加了不必要的间接层。
+:::
+
 ### 使用 Claude 与 GitHub 交互
 
 - 创建 PR（理解 "pr" 简写）

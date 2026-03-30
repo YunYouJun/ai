@@ -32,14 +32,14 @@ npx skills add YunYouJun/ai --skill=fix-issue
 
 AI 辅助编程工作流 — PR 自动化、Issue 修复、代码审查、Copilot Review 循环。
 
-| Skill | 说明 |
-| --- | --- |
-| `review-staged` | 审查 staged changes，分类标注严重程度 |
-| `fix-issue` | 端到端修复 GitHub Issue — 创建分支、实现修复、跑检查、创建 PR |
-| `pr-cycle` | 完整 PR 生命周期自动化：修复 → 创建 PR → 等待 Review → 处理反馈 |
-| `address-copilot-review` | 获取 Copilot Review 评论，分类、修复并回复 |
-| `copilot-review-loop` | 迭代式 Copilot Review 循环，最多 2 轮直到通过 |
-| `review-feedback` | 处理 PR Review 反馈 |
+| Skill                    | 说明                                                            |
+| ------------------------ | --------------------------------------------------------------- |
+| `review-staged`          | 审查 staged changes，分类标注严重程度                           |
+| `fix-issue`              | 端到端修复 GitHub Issue — 创建分支、实现修复、跑检查、创建 PR   |
+| `pr-cycle`               | 完整 PR 生命周期自动化：修复 → 创建 PR → 等待 Review → 处理反馈 |
+| `address-copilot-review` | 获取 Copilot Review 评论，分类、修复并回复                      |
+| `copilot-review-loop`    | 迭代式 Copilot Review 循环，最多 2 轮直到通过                   |
+| `review-feedback`        | 处理 PR Review 反馈                                             |
 
 ### yunyoujun
 

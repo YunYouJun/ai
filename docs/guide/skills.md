@@ -141,6 +141,12 @@ $ARGUMENTS should be <describe expected input>.
 
 ---
 
+#### `/ai-coding:review-staged` — 提交前审查暂存区变更
+
+<<< @/../plugins/ai-coding/skills/review-staged/SKILL.md
+
+---
+
 #### `/ai-coding:review-feedback` — 拉取 Review 意见并自动修改
 
 <<< @/../plugins/ai-coding/skills/review-feedback/SKILL.md

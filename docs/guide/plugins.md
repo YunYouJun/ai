@@ -206,13 +206,14 @@ git push -u origin main
 
 ### 包含的 Skills
 
-| Skill                    | 命令                                     | 说明                                                             |
-| ------------------------ | ---------------------------------------- | ---------------------------------------------------------------- |
-| `fix-issue`              | `/ai-coding:fix-issue <issue>`           | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR    |
-| `review-feedback`        | `/ai-coding:review-feedback [pr]`        | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送          |
-| `pr-cycle`               | `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈 |
-| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复             |
-| `copilot-review-loop`    | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮       |
+| Skill                    | 命令                                     | 说明                                                              |
+| ------------------------ | ---------------------------------------- | ----------------------------------------------------------------- |
+| `fix-issue`              | `/ai-coding:fix-issue <issue>`           | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR     |
+| `review-staged`          | `/ai-coding:review-staged [--fix]`       | 提交前审查暂存区变更 — 扫描 bug、安全问题、风格问题，支持自动修复 |
+| `review-feedback`        | `/ai-coding:review-feedback [pr]`        | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送           |
+| `pr-cycle`               | `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈  |
+| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复              |
+| `copilot-review-loop`    | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮        |
 
 ### 使用方式
 
@@ -231,12 +232,12 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 为常见开发任务添加命令和代理的插件：
 
-| 插件                | 说明                                     | 安装命令                                                    |
-| ------------------- | ---------------------------------------- | ----------------------------------------------------------- |
-| `commit-commands`   | Git 提交工作流，包括提交、推送和 PR 创建 | `/plugin install commit-commands@claude-plugins-official`   |
-| `pr-review-toolkit` | 用于审查拉取请求的专门代理               | `/plugin install pr-review-toolkit@claude-plugins-official` |
-| `agent-sdk-dev`     | 使用 Claude Agent SDK 构建的工具         | `/plugin install agent-sdk-dev@claude-plugins-official`     |
-| `plugin-dev`        | 用于创建您自己的插件的工具包             | `/plugin install plugin-dev@claude-plugins-official`        |
+| 插件                | 说明                                                          | 安装命令                                                    |
+| ------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
+| `commit-commands`   | Git 提交工作流（`/commit`、`/commit-push-pr`、`/clean_gone`） | `/plugin install commit-commands@claude-plugins-official`   |
+| `pr-review-toolkit` | 用于审查拉取请求的专门代理                                    | `/plugin install pr-review-toolkit@claude-plugins-official` |
+| `agent-sdk-dev`     | 使用 Claude Agent SDK 构建的工具                              | `/plugin install agent-sdk-dev@claude-plugins-official`     |
+| `plugin-dev`        | 用于创建您自己的插件的工具包                                  | `/plugin install plugin-dev@claude-plugins-official`        |
 
 ### 代码智能（LSP 集成）
 
