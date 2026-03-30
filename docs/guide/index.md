@@ -2,47 +2,33 @@
 
 欢迎来到 AI 开发实践指南！本指南将帮助你了解 AI 项目开发的基础知识、最佳实践和常用工作流程。
 
-## 内容概览
+## 内容导航
 
-本指南包含以下内容：
+### [快速开始](./getting-started)
 
-### [快速开始](./getting-started.md)
+安装 Skills 和 Plugins，开始使用 AI Coding Agent。
 
-如果你是 AI 开发新手，建议从这里开始：
+### [Skills](./skills)
 
-- 开发环境搭建
-- 基础概念介绍
-- 第一个 AI 项目
+Skill 编写、安装与完整列表 — 用 Markdown 定义可复用的自动化工作流。
 
-### [最佳实践](./best-practices.md)
+### [Plugins](./plugins)
 
-学习业界认可的最佳实践：
+Plugin 结构、创建步骤与推荐插件 — 将 Skills 打包为完整扩展包。
 
-- 项目结构设计
-- 代码规范
-- 测试策略
-- 部署方案
+### [Marketplace](./marketplace)
 
-## 为什么要学习 AI 开发？
+发现和安装社区插件 — 集中式的插件分发目录。
 
-AI 技术正在快速发展，掌握 AI 开发技能可以帮助你：
+### [MCP](./mcp/)
 
-- 🚀 **提升效率** - 利用 AI 工具自动化重复性工作
-- 💡 **创新产品** - 开发智能化应用和服务
-- 🎯 **解决问题** - 用 AI 技术解决复杂业务问题
-- 📈 **职业发展** - 获得更多职业机会
+MCP（Model Context Protocol）协议概述与集成说明。
 
-## 推荐学习路径
+### [最佳实践](./best-practices)
 
-```mermaid
-graph LR
-    A[快速开始] --> B[基础概念]
-    B --> C[实践项目]
-    C --> D[最佳实践]
-    D --> E[进阶主题]
-```
+AI Coding 工作流策略、Skill 编写技巧、上下文管理。
 
 ## 相关资源
 
-- [工具与资源](/tools/) - 常用开发工具
-- [API 文档](/api/) - 接口文档
+- [Claude Code 实践](/claude-code/) — Claude Code 使用经验和技巧
+- [工具与资源](/tools/) — 常用 AI 开发工具和框架

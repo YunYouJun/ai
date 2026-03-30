@@ -171,11 +171,13 @@ $ARGUMENTS should be <describe expected input>.
 
 ```bash
 # 安装全部 skills
-pnpx skills add yunyoujun/ai --skill='*'
+npx skills add YunYouJun/ai --skill='*'
 
 # 安装单个 skill
-pnpx skills add yunyoujun/ai --skill=fix-issue
+npx skills add YunYouJun/ai --skill=fix-issue
 ```
+
+> 也可使用 `pnpx skills add YunYouJun/ai` 等其他包管理器。
 
 安装后直接用斜杠命令调用：
 

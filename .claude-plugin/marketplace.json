@@ -22,7 +22,7 @@
   "plugins": [
     {
       "name": "ai-coding",
-      "description": "AI-assisted coding workflow skills — PR automation, issue fixing, code review, and Copilot review loop.",
+      "description": "AI-assisted coding workflow — PR automation, issue fixing, code review, and Copilot review loop.",
       "source": "./plugins/ai-coding",
       "version": "0.1.0",
       "author": {

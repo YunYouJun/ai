@@ -1,113 +1,67 @@
 # 快速开始
 
-本指南将帮助你快速搭建 AI 开发环境，并创建第一个 AI 项目。
+本仓库提供了一系列 AI 辅助编程的 **Skills** 和 **Plugins**，适用于 Claude Code / CodeBuddy 等 AI Coding Agent。
 
 ## 前置要求
 
-在开始之前，请确保你的开发环境满足以下要求：
+- **Node.js** >= 18（用于 `npx` 运行 Skills CLI）
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 或 [CodeBuddy](https://www.codebuddy.ai/) 等支持 Skills/Plugins 的 AI Coding Agent
 
-- **Node.js** >= 18.0.0
-- **Python** >= 3.9
-- **Git** 版本控制工具
-- 代码编辑器（推荐 VS Code）
+## 安装 Skills
 
-## 安装依赖
-
-### 1. 安装 Node.js 和 pnpm
+通过 [vercel-labs/skills](https://github.com/vercel-labs/skills) CLI 一键安装：
 
 ```bash
-# 使用 nvm 安装 Node.js
-nvm install 18
-nvm use 18
+# 安装全部 skills
+npx skills add YunYouJun/ai --skill='*'
 
-# 安装 pnpm
-npm install -g pnpm
+# 安装单个 skill（如 fix-issue）
+npx skills add YunYouJun/ai --skill=fix-issue
 ```
 
-### 2. 安装 Python 和 pip
+安装后即可在 AI Agent 中使用斜杠命令调用：
 
 ```bash
-# macOS
-brew install python@3.11
-
-# Linux
-sudo apt-get install python3.11
-
-# 验证安装
-python3 --version
-pip3 --version
+/fix-issue 42
+/review-feedback
+/pr-cycle 42
 ```
 
-## 创建项目
+::: tip 全局共享
+将 skills 放在 `~/.claude/skills/` 下即可在所有项目中使用。
+:::
 
-### 使用 pnpm 创建项目
+更多安装方式和 Skill 列表详见 [Skills](./skills)。
+
+## 安装 Plugins
+
+### CodeBuddy
+
+通过 CodeBuddy CLI 安装插件（需 CodeBuddy ≥ 2.4）：
 
 ```bash
-# 创建项目目录
-mkdir my-ai-project
-cd my-ai-project
-
-# 初始化 package.json
-pnpm init
-
-# 安装开发依赖
-pnpm add -D typescript @types/node
+codebuddy plugin install ai-coding@yunyoujun
 ```
 
-### 使用 Python 创建虚拟环境
+### Claude Code
 
 ```bash
-# 创建虚拟环境
-python3 -m venv venv
-
-# 激活虚拟环境
-# macOS/Linux
-source venv/bin/activate
-
-# Windows
-.\venv\Scripts\activate
-
-# 安装依赖
-pip install openai anthropic
+claude plugin install ai-coding@yunyoujun
 ```
 
-## 第一个 AI 应用
-
-创建一个简单的 AI 聊天应用：
-
-```typescript
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
-
-async function chat(message: string) {
-  const response = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 1024,
-    messages: [
-      { role: 'user', content: message },
-    ],
-  })
-
-  console.log(response.content)
-}
-
-chat('你好，介绍一下自己')
-```
-
-## 运行项目
+安装后命令带 `ai-coding:` 命名空间前缀：
 
 ```bash
-# 设置环境变量
-export ANTHROPIC_API_KEY=your_api_key_here
-
-# 运行项目
-tsx index.ts
+/ai-coding:fix-issue 42
+/ai-coding:pr-cycle 42
+/ai-coding:address-copilot-review
 ```
+
+更多插件信息和使用方式详见 [Plugins](./plugins)。
 
 ## 下一步
 
-- 学习 [最佳实践](./best-practices.md)
-- 探索 [工具资源](/tools/)
+- 📖 [Skills 文档](./skills) — Skill 编写、安装与完整列表
+- 🔌 [Plugins 文档](./plugins) — Plugin 结构与推荐插件
+- 🏪 [Marketplace 市场](./marketplace) — 发现和安装社区插件
+- ✨ [最佳实践](./best-practices) — AI 辅助编码工作流技巧

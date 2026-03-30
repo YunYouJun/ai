@@ -1,195 +1,131 @@
 # 最佳实践
 
-本文总结了 AI 开发过程中的最佳实践，帮助你构建更加可靠和可维护的 AI 应用。
+本文总结了使用 AI Coding Agent（Claude Code / CodeBuddy 等）进行日常开发的最佳实践。
 
-## 项目结构
+## 工作流策略
 
-推荐的项目结构：
+### 探索 → 规划 → 编码 → 提交
 
-```
-project/
-├── src/
-│   ├── agents/       # AI Agent 实现
-│   ├── prompts/      # Prompt 模板
-│   ├── tools/        # 工具函数
-│   └── utils/        # 工具库
-├── tests/            # 测试文件
-├── docs/             # 文档
-└── examples/         # 示例代码
-```
+适用于大多数任务的通用流程：
 
-## 代码规范
+1. **探索**：让 AI 读取相关文件和上下文，**明确告知暂时不要写代码**
+2. **规划**：使用 "think" / "think hard" 触发深度思考，将计划保存为文档或 Issue
+3. **编码**：让 AI 实施解决方案
+4. **提交**：让 AI 提交并创建 PR
 
-### 1. 使用 TypeScript
+### TDD 驱动
 
-TypeScript 提供类型安全，减少运行时错误：
+Anthropic 内部推崇的开发方式：
 
-```typescript
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'system'
-  content: string
-}
+1. 让 AI 写测试（明确告知不要写实现代码）
+2. 运行测试确认失败
+3. 提交测试
+4. 让 AI 写代码通过测试（禁止修改测试）
+5. 提交代码
 
-interface ChatOptions {
-  model: string
-  temperature?: number
-  maxTokens?: number
-}
+### PR 全流程自动化
 
-async function chat(
-  messages: ChatMessage[],
-  options: ChatOptions
-): Promise<string> {
-  // 实现
-}
+使用 [`ai-coding` 插件](/guide/plugins#本仓库插件-ai-coding) 实现 Issue → PR → Review 的闭环：
+
+```bash
+/ai-coding:fix-issue 42           # 修复 Issue 并创建 PR
+/ai-coding:review-feedback         # 拉取 Review 意见并修复
+/ai-coding:copilot-review-loop     # 自动迭代 Copilot Review
 ```
 
-### 2. Prompt 管理
+详见 [PR 自动化实践](/claude-code/pr-automation)。
 
-将 Prompt 模板集中管理：
+## Skill 编写技巧
 
-```typescript
-// prompts/system.ts
-export const SYSTEM_PROMPTS = {
-  assistant: `你是一个有帮助的 AI 助手...`,
-  coder: `你是一个专业的程序员...`,
-}
+### 指令要具体
 
-// 使用
-const messages = [
-  { role: 'system', content: SYSTEM_PROMPTS.assistant },
-  { role: 'user', content: userInput },
-]
+具体的指令能显著提高成功率，减少 AI 的自由发挥：
+
+```markdown
+<!-- ❌ 模糊 -->
+Review the code changes.
+
+<!-- ✅ 具体 -->
+1. Run `git diff --cached --stat` to get changed files
+2. For each file, read the full file for context
+3. Review staged hunks for: bugs, security issues, types, dead code
+4. Categorize as MUST_FIX / SHOULD_FIX / NIT / GOOD
+5. Print summary table with file:line, severity, and suggestion
 ```
 
-### 3. 错误处理
+### 限制工具范围
 
-优雅地处理 API 错误：
+通过 `allowed-tools` 减少安全风险和意外操作：
 
-```typescript
-async function callAI(prompt: string) {
-  try {
-    const response = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: prompt }],
-    })
-    return response
-  } catch (error) {
-    if (error.status === 429) {
-      // 处理速率限制
-      console.error('Rate limit exceeded')
-    } else if (error.status === 500) {
-      // 处理服务器错误
-      console.error('Server error')
-    }
-    throw error
-  }
-}
+```yaml
+allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, Edit, Write
 ```
 
-## 性能优化
+### 设置 `disable-model-invocation: true`
 
-### 1. 使用流式响应
+避免 AI 在不恰当的时机自动触发 Skill。除非你明确希望 AI 按需自动调用（如通用代码审查 Skill），否则建议保持手动触发。
 
-对于长文本生成，使用流式响应提升用户体验：
+### 使用 `$ARGUMENTS` 传参
 
-```typescript
-const stream = await client.messages.create({
-  model: 'claude-3-5-sonnet-20241022',
-  max_tokens: 1024,
-  messages: [{ role: 'user', content: prompt }],
-  stream: true,
-})
+让 Skill 灵活接受用户输入，如 Issue 编号、PR URL、自定义选项：
 
-for await (const event of stream) {
-  if (event.type === 'content_block_delta') {
-    process.stdout.write(event.delta.text)
-  }
-}
+```markdown
+Fix GitHub issue $ARGUMENTS end-to-end.
 ```
 
-### 2. 缓存策略
+## 上下文管理
 
-缓存常用的 AI 响应：
+### 善用 `CLAUDE.md`
 
-```typescript
-const cache = new Map<string, string>()
+在仓库根目录创建 `CLAUDE.md`，记录：
 
-async function cachedChat(prompt: string) {
-  if (cache.has(prompt)) {
-    return cache.get(prompt)
-  }
+- 常用命令（lint、test、build）
+- 代码风格约定
+- 分支命名规则
+- 项目特有的注意事项
 
-  const response = await chat(prompt)
-  cache.set(prompt, response)
-  return response
-}
+### 及时 `/clear`
+
+长会话中上下文会累积无关信息。在切换任务时使用 `/clear` 重置，保持上下文聚焦。
+
+### 多实例并行
+
+分离上下文通常比单个会话处理所有事情效果更好：
+
+- **Claude A**：功能开发
+- **Claude B**：修复 Bug 并创建 PR
+- **Claude C**：审查 PR 并处理反馈
+
+可以结合 [Git Worktree](/claude-code/git-worktree) 实现真正的并行开发。
+
+## Plugin 开发建议
+
+### 命名空间
+
+Plugin 中的命令自动带 `plugin-name:command` 前缀，避免与其他 Plugin 冲突。设计 Skill 名时保持简短有意义：
+
+```bash
+/ai-coding:fix-issue     # ✅ 清晰
+/ai-coding:do-thing      # ❌ 含糊
 ```
 
-## 安全性
+### 版本管理
 
-### 1. API Key 管理
+在 `plugin.json` 中使用语义版本控制，添加重大更新时升级版本号。
 
-永远不要在代码中硬编码 API Key：
+### 测试验证
 
-```typescript
-// ❌ 错误
-const apiKey = 'sk-xxx'
+发布前用 `claude plugin validate .` 或 `--plugin-dir` 本地验证：
 
-// ✅ 正确
-const apiKey = process.env.ANTHROPIC_API_KEY
-```
-
-### 2. 输入验证
-
-验证用户输入，防止注入攻击：
-
-```typescript
-function sanitizeInput(input: string): string {
-  // 移除危险字符
-  return input
-    .replace(/<script>/gi, '')
-    .replace(/javascript:/gi, '')
-    .trim()
-}
-```
-
-## 测试
-
-### 单元测试
-
-```typescript
-import { describe, expect, it } from 'vitest'
-
-describe('AI Chat', () => {
-  it('should return response', async () => {
-    const response = await chat('Hello')
-    expect(response).toBeTruthy()
-    expect(typeof response).toBe('string')
-  })
-})
-```
-
-## 监控和日志
-
-记录关键操作和错误：
-
-```typescript
-async function chat(prompt: string) {
-  console.log(`[${new Date().toISOString()}] User prompt:`, prompt)
-
-  try {
-    const response = await client.messages.create(...)
-    console.log(`[${new Date().toISOString()}] AI response length:`, response.content.length)
-    return response
-  } catch (error) {
-    console.error(`[${new Date().toISOString()}] Error:`, error)
-    throw error
-  }
-}
+```bash
+claude --plugin-dir ./my-plugin
+claude plugin validate .
 ```
 
 ## 相关资源
 
-- [工具资源](/tools/)
+- [Skills 文档](/guide/skills) — Skill 编写与完整列表
+- [Plugins 文档](/guide/plugins) — Plugin 结构与推荐插件
+- [Claude Code 最佳实践](/claude-code/best-practices) — 更详细的 Claude Code 使用技巧
+- [PR 自动化实践](/claude-code/pr-automation) — Issue → PR → Review 实战
+- [Git Worktree](/claude-code/git-worktree) — 多实例并行开发
