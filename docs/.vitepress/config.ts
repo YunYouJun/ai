@@ -52,6 +52,7 @@ export default defineConfig({
         text: 'Claude Code',
         items: [
           { text: '介绍', link: '/claude-code/' },
+          { text: '使用前准备', link: '/claude-code/registration' },
           { text: '最佳实践', link: '/claude-code/best-practices' },
           { text: 'PR 自动化实践', link: '/claude-code/pr-automation' },
           { text: 'Git Worktree 并行处理', link: '/claude-code/git-worktree' },
