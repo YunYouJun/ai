@@ -23,8 +23,15 @@ claude plugin install ai-coding@yunyoujun
 npx skills add YunYouJun/ai --skill='*'
 
 # 安装单个 skill
-npx skills add YunYouJun/ai --skill=fix-issue
+npx skills add YunYouJun/ai --skill=simplify-documents
 ```
+
+## Skills
+
+| Skill                | 说明                                                       |
+| -------------------- | ---------------------------------------------------------- |
+| `simplify-documents` | 在保留事实、约束、步骤和指定段落的前提下按目标比例精简文档 |
+| `yunyoujun`          | YunYouJun 的编码偏好和工具约定（TypeScript、Vue、pnpm 等） |
 
 ## Plugins
 
@@ -41,17 +48,14 @@ AI 辅助编程工作流 — PR 自动化、Issue 修复、代码审查、Copilo
 | `copilot-review-loop`    | 迭代式 Copilot Review 循环，最多 2 轮直到通过                   |
 | `review-feedback`        | 处理 PR Review 反馈                                             |
 
-### yunyoujun
-
-YunYouJun 的编码偏好和工具约定（TypeScript、Vue、ESLint、pnpm 等）。
-
 ## 仓库结构
 
 ```
 ├── plugins/              # Plugin 扩展包
 │   └── ai-coding/        # AI 辅助编程工作流插件
 ├── skills/               # 独立 Skills
-│   └── yunyoujun/        # 编码偏好与工具约定
+│   ├── simplify-documents/ # 高保真文档精简
+│   └── yunyoujun/          # 编码偏好与工具约定
 ├── docs/                 # 文档站（VitePress）
 ├── packages/             # 工具包
 └── test/                 # 测试

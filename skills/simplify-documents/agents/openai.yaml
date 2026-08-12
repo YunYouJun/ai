@@ -1,0 +1,4 @@
+interface:
+  display_name: "文档精简"
+  short_description: "在保留事实、约束、步骤和指定段落的前提下安全缩短文档"
+  default_prompt: "使用 $simplify-documents 为指定读者精简这份文档，并逐字保留不可删除段落。"

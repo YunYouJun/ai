@@ -27,6 +27,7 @@ export default antfu({
   },
   ignores: [
     '**/docs/**/*.md/**',
+    '**/skills/**/agents/openai.yaml',
     '**/skills/**/*.md/**',
   ],
 })

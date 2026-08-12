@@ -5,7 +5,7 @@
     "email": "me@yunyoujun.cn"
   },
   "metadata": {
-    "description": "YunYouJun's AI skills collection — coding conventions, PR automation, and Copilot review workflows.",
+    "description": "YunYouJun's AI skills collection — document workflows, coding conventions, PR automation, and Copilot review workflows.",
     "version": "0.1.0",
     "homepage": "https://github.com/YunYouJun/ai",
     "repository": "https://github.com/YunYouJun/ai",
@@ -35,6 +35,23 @@
         "copilot",
         "review",
         "automation"
+      ],
+      "category": "productivity"
+    },
+    {
+      "name": "simplify-documents",
+      "description": "Faithfully condense documents while preserving facts, constraints, procedures, and protected passages.",
+      "source": "./skills/simplify-documents",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "documents",
+        "simplification",
+        "editing",
+        "compression",
+        "writing"
       ],
       "category": "productivity"
     },

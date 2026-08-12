@@ -1,0 +1,14 @@
+{
+  "should_trigger": [
+    "把这份发布说明压缩到原文的 45%，面向一线运维，并逐字保留两段安全警告。",
+    "Remove repetition and filler from this policy, but keep every requirement, exception, and example that changes how the rule is applied.",
+    "将这个 API 指南精简到 800 字，读者是刚入职的客户端工程师，命令和参数不能改。",
+    "Tighten this proposal for executives. Preserve all numbers, owners, deadlines, and the paragraph marked DO NOT DELETE."
+  ],
+  "should_not_trigger_alone": [
+    "Summarize the plot of this novel in three sentences.",
+    "Translate this document into Japanese without shortening it.",
+    "Fix the spelling and punctuation in this paragraph without changing its length.",
+    "Create a new project proposal from these five bullet points."
+  ]
+}

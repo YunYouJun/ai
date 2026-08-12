@@ -20,6 +20,7 @@
     "build": "pnpm run docs:build",
     "lint": "eslint .",
     "test": "vitest",
+    "test:skills": "python3 -m unittest discover -s test/skills/simplify-documents -p 'test_*.py' -v",
     "typecheck": "tsc --noEmit",
     "docs:dev": "pnpm --filter @yyj/docs run docs:dev",
     "docs:build": "pnpm --filter @yyj/docs run docs:build",

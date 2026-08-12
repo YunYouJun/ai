@@ -33,12 +33,10 @@ Skills 是最小功能单元，可独立使用也可打包进 [Plugins](./plugin
 
 ```
 skills/
-├── fix-issue/
-│   └── SKILL.md
-├── review-feedback/
-│   └── SKILL.md
-├── pr-cycle/
-│   └── SKILL.md
+├── simplify-documents/
+│   ├── SKILL.md
+│   ├── scripts/
+│   └── references/
 └── yunyoujun/
     └── SKILL.md
 ```
@@ -127,6 +125,14 @@ $ARGUMENTS should be <describe expected input>.
 
 ### 独立 Skills
 
+#### `/simplify-documents` — 高保真文档精简
+
+按照目标读者和长度限制精简文档，并保留事实、约束、步骤、关键示例和不可删除段落。详见[文档精简 Skill](./skills/simplify-documents)。
+
+<<< @/../skills/simplify-documents/SKILL.md
+
+---
+
 #### `/yunyoujun` — 编码偏好与工具约定
 
 <<< @/../skills/yunyoujun/SKILL.md
@@ -180,7 +186,7 @@ $ARGUMENTS should be <describe expected input>.
 npx skills add YunYouJun/ai --skill='*'
 
 # 安装单个 skill
-npx skills add YunYouJun/ai --skill=fix-issue
+npx skills add YunYouJun/ai --skill=simplify-documents
 ```
 
 > 也可使用 `pnpx skills add YunYouJun/ai` 等其他包管理器。
@@ -188,6 +194,7 @@ npx skills add YunYouJun/ai --skill=fix-issue
 安装后直接用斜杠命令调用：
 
 ```bash
+/simplify-documents
 /fix-issue 42
 /review-feedback
 /pr-cycle 42
