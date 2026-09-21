@@ -28,9 +28,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@types/node": "catalog:",
     "@unocss/eslint-plugin": "catalog:",
+    "@yunyoujun/vitepress-skill-directory": "workspace:*",
     "eslint": "catalog:",
     "eslint-plugin-format": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   }
 }

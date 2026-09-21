@@ -30,4 +30,12 @@ export default antfu({
     '**/skills/**/agents/openai.yaml',
     '**/skills/**/*.md/**',
   ],
+}, {
+  // 仓库未启用 UnoCSS 配置文件，组件包使用 scoped CSS，关闭 unocss 排序规则避免 worker 崩溃
+  files: ['packages/**/*.vue'],
+  rules: {
+    'unocss/order': 'off',
+    'unocss/order-attributify': 'off',
+    'unocss/blocklist': 'off',
+  },
 })
