@@ -11,6 +11,7 @@
   "include": [
     "docs/.vitepress/**/*.ts",
     "eslint.config.js",
+    "packages/**/*.ts",
     "test/**/*.ts",
     "vitest.config.ts"
   ],

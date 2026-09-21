@@ -18,7 +18,7 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp() {
     // 可以在这里注册全局组件
   },
 } satisfies Theme
