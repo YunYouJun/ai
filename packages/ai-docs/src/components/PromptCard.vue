@@ -88,15 +88,15 @@ function copyToClipboard() {
   overflow: hidden;
   margin: 20px 0 28px;
   padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 13%, var(--vp-c-divider));
+  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1, #646cff) 13%, var(--vp-c-divider, #e2e2e3));
   border-radius: 18px;
   background:
     radial-gradient(
       ellipse 65% 70% at 100% 0%,
-      color-mix(in srgb, var(--vp-c-brand-1) 9%, transparent),
+      color-mix(in srgb, var(--vp-c-brand-1, #646cff) 9%, transparent),
       transparent 75%
     ),
-    var(--vp-c-bg-soft);
+    var(--vp-c-bg-soft, #f6f6f7);
   box-shadow:
     0 12px 32px rgb(0 0 0 / 4%),
     0 2px 6px rgb(0 0 0 / 3%);
@@ -116,14 +116,14 @@ function copyToClipboard() {
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in srgb, var(--vp-c-brand-1) 50%, transparent),
+    color-mix(in srgb, var(--vp-c-brand-1, #646cff) 50%, transparent),
     transparent
   );
 }
 
 .prompt-card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--vp-c-brand-1) 32%, var(--vp-c-divider));
+  border-color: color-mix(in srgb, var(--vp-c-brand-1, #646cff) 32%, var(--vp-c-divider, #e2e2e3));
   box-shadow:
     0 18px 42px rgb(0 0 0 / 7%),
     0 3px 10px rgb(0 0 0 / 4%);
@@ -154,10 +154,10 @@ function copyToClipboard() {
   width: 44px;
   height: 44px;
   place-items: center;
-  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1, #646cff) 22%, transparent);
   border-radius: 13px;
-  background: color-mix(in srgb, var(--vp-c-brand-1) 10%, var(--vp-c-bg));
-  color: var(--vp-c-brand-1);
+  background: color-mix(in srgb, var(--vp-c-brand-1, #646cff) 10%, var(--vp-c-bg, #fff));
+  color: var(--vp-c-brand-1, #646cff);
 }
 
 .prompt-mark svg {
@@ -173,7 +173,7 @@ function copyToClipboard() {
   margin: 0;
   padding: 0;
   border: 0;
-  color: var(--vp-c-text-1);
+  color: var(--vp-c-text-1, #213547);
   font-size: 18px;
   font-weight: 650;
   line-height: 1.35;
@@ -181,7 +181,7 @@ function copyToClipboard() {
 
 .prompt-heading-text p {
   margin: 5px 0 0;
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-text-2, #476582);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -194,8 +194,8 @@ function copyToClipboard() {
   padding: 7px 13px;
   border: 1px solid transparent;
   border-radius: 9px;
-  background: var(--vp-c-text-1);
-  color: var(--vp-c-bg);
+  background: var(--vp-c-text-1, #213547);
+  color: var(--vp-c-bg, #fff);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.2;
@@ -212,12 +212,12 @@ function copyToClipboard() {
 
 .copy-button:focus-visible,
 .expand-button:focus-visible {
-  outline: 2px solid var(--vp-c-brand-1);
+  outline: 2px solid var(--vp-c-brand-1, #646cff);
   outline-offset: 3px;
 }
 
 .copy-button.is-error {
-  background: var(--vp-c-danger-1);
+  background: var(--vp-c-danger-1, #e03e3e);
   color: #fff;
 }
 
@@ -235,9 +235,9 @@ function copyToClipboard() {
 
 .prompt-tag {
   padding: 3px 9px;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--vp-c-divider, #e2e2e3);
   border-radius: 999px;
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-text-2, #476582);
   font-size: 11px;
   font-weight: 500;
   line-height: 1.4;
@@ -259,7 +259,7 @@ function copyToClipboard() {
   padding: 0 16px;
   border-bottom: 1px solid rgb(255 255 255 / 8%);
   color: #8b91a0;
-  font-family: var(--vp-font-family-mono);
+  font-family: var(--vp-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -295,7 +295,7 @@ function copyToClipboard() {
 
 .prompt-code code {
   color: inherit;
-  font-family: var(--vp-font-family-mono);
+  font-family: var(--vp-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   font-size: 13px;
   line-height: 1.8;
   white-space: inherit;
