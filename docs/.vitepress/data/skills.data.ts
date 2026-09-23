@@ -1,4 +1,4 @@
-import type { SkillItem } from '@yunyoujun/vitepress-skill-directory'
+import type { SkillItem } from '@yunyoujun/ai-docs'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 

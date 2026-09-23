@@ -64,7 +64,7 @@ export default defineConfig({
           { text: '概览', link: '/tools/' },
           { text: 'AI 框架', link: '/tools/frameworks' },
           { text: '开发工具', link: '/tools/dev-tools' },
-          { text: 'Skill Directory 组件', link: '/tools/skill-directory' },
+          { text: 'AI Docs 组件', link: '/tools/ai-docs' },
           {
             text: '浏览器自动化',
             collapsed: false,

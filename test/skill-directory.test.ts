@@ -1,5 +1,5 @@
-import type { SkillItem } from '@yunyoujun/vitepress-skill-directory/types'
-import { filterSkills, getSkillCategories } from '@yunyoujun/vitepress-skill-directory/filter'
+import type { SkillItem } from '@yunyoujun/ai-docs/types'
+import { filterSkills, getSkillCategories } from '@yunyoujun/ai-docs/filter'
 import { describe, expect, it } from 'vitest'
 
 const skills: SkillItem[] = [
