@@ -1,15 +1,15 @@
 {
-  "name": "@yunyoujun/vitepress-skill-directory",
+  "name": "@yunyoujun/ai-docs",
   "type": "module",
-  "version": "0.0.1",
-  "description": "VitePress/Vue 3 的 Agent Skill 目录橱窗组件：卡片、搜索、分类筛选与安装命令复制",
+  "version": "0.1.0",
+  "description": "Reusable Vue components for AI documentation sites: prompts and skill directories",
   "author": "YunYouJun",
   "license": "MIT",
-  "homepage": "https://github.com/YunYouJun/ai/tree/main/packages/vitepress-skill-directory",
+  "homepage": "https://github.com/YunYouJun/ai/tree/main/packages/ai-docs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YunYouJun/ai.git",
-    "directory": "packages/vitepress-skill-directory"
+    "directory": "packages/ai-docs"
   },
   "keywords": [
     "vitepress",
@@ -17,7 +17,8 @@
     "agent",
     "skill",
     "directory",
-    "showcase"
+    "prompt",
+    "documentation"
   ],
   "sideEffects": false,
   "exports": {

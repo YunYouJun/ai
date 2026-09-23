@@ -59,7 +59,7 @@ AI 辅助编程工作流 — PR 自动化、Issue 修复、代码审查、Copilo
 ├── docs/                 # 文档站（VitePress）
 ├── packages/             # 工具包
 │   ├── browser-use/      # 浏览器自动化
-│   └── vitepress-skill-directory/ # VitePress Skill 目录橱窗组件
+│   └── ai-docs/ # 提示词卡片与 Skill 目录等文档组件
 └── test/                 # 测试
 ```
 

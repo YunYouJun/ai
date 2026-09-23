@@ -1,17 +1,17 @@
 # npm OIDC trusted publishing：不使用长期 NPM_TOKEN。
-# 前置条件见 packages/vitepress-skill-directory/README.md 的「发布」一节。
-name: Publish vitepress-skill-directory
+# 前置条件见 packages/ai-docs/README.md 的「发布」一节。
+name: Publish ai-docs
 
 on:
   workflow_dispatch:
   push:
     tags:
-      - 'skill-directory-v*'
+      - 'ai-docs-v*'
 
 permissions: {}
 
 concurrency:
-  group: publish-skill-directory
+  group: publish-ai-docs
   cancel-in-progress: false
 
 jobs:
@@ -29,8 +29,8 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs'
-          const { version } = JSON.parse(readFileSync('packages/vitepress-skill-directory/package.json', 'utf8'))
-          if (process.env.GITHUB_REF_NAME !== `skill-directory-v${version}`)
+          const { version } = JSON.parse(readFileSync('packages/ai-docs/package.json', 'utf8'))
+          if (process.env.GITHUB_REF_NAME !== `ai-docs-v${version}`)
             throw new Error(`Release tag must match package version ${version}`)
           NODE
 
@@ -56,4 +56,4 @@ jobs:
 
       # OIDC 可信发布自动附带 provenance，无需 --provenance 或 token
       - run: npm publish --registry=https://registry.npmjs.org
-        working-directory: packages/vitepress-skill-directory
+        working-directory: packages/ai-docs

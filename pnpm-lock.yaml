@@ -66,9 +66,9 @@ importers:
       '@unocss/eslint-plugin':
         specifier: 'catalog:'
         version: 66.7.5(eslint@10.8.1(jiti@2.7.0))(typescript@5.9.3)
-      '@yunyoujun/vitepress-skill-directory':
+      '@yunyoujun/ai-docs':
         specifier: workspace:*
-        version: link:packages/vitepress-skill-directory
+        version: link:packages/ai-docs
       eslint:
         specifier: 'catalog:'
         version: 10.8.1(jiti@2.7.0)
@@ -84,9 +84,9 @@ importers:
 
   docs:
     dependencies:
-      '@yunyoujun/vitepress-skill-directory':
+      '@yunyoujun/ai-docs':
         specifier: workspace:*
-        version: link:../packages/vitepress-skill-directory
+        version: link:../packages/ai-docs
     devDependencies:
       mermaid:
         specifier: 'catalog:'
@@ -110,7 +110,7 @@ importers:
         specifier: 'catalog:'
         version: 3.5.41(typescript@5.9.3)
 
-  packages/vitepress-skill-directory:
+  packages/ai-docs:
     dependencies:
       vue:
         specifier: ^3.5.0

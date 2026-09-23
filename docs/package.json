@@ -8,7 +8,7 @@
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
-    "@yunyoujun/vitepress-skill-directory": "workspace:*"
+    "@yunyoujun/ai-docs": "workspace:*"
   },
   "devDependencies": {
     "mermaid": "catalog:",
