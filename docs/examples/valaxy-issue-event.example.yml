@@ -1,0 +1,45 @@
+# 非激活示例：位于 docs/examples，不会被 GitHub Actions 执行。
+# 仅展示筛选与去重键；没有任务派发、持久化去重、锁或维护者权限验证。
+# 接入前必须单独授权；不要直接移动到 .github/workflows 后声称闭环已实现。
+name: Valaxy issue event dry-run example
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  triage-envelope:
+    if: >-
+      github.repository == 'YunYouJun/valaxy' &&
+      (github.event.action == 'opened' ||
+       (github.event.action == 'labeled' && github.event.label.name == 'ai-ready'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate envelope and emit a read-only proposal
+        # 不 checkout / 执行 Issue 提供的代码；不把正文插入 shell。
+        # Actions 事件文件属于结构化数据，jq 输出也只是数据。
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -e '
+            .repository.id == 467617659 and
+            .repository.full_name == "YunYouJun/valaxy" and
+            .issue.state == "open" and
+            (.issue.number | type == "number" and . > 0 and floor == .) and
+            (.issue.updated_at | type == "string") and
+            (.action == "opened" or (.action == "labeled" and .label.name == "ai-ready"))
+          ' "$GITHUB_EVENT_PATH" > /dev/null
+          jq '{
+            mode: "dry-run",
+            repositoryId: .repository.id,
+            issueNumber: .issue.number,
+            updatedAt: .issue.updated_at,
+            versionKey: [.repository.id, .issue.number, .issue.updated_at],
+            proposedActor: .sender.login,
+            decision: "needs-maintainer-verification-and-deduplication",
+            dispatch: false
+          }' "$GITHUB_EVENT_PATH"
