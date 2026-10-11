@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 const assets = new URL('../plugins/ai-coding/skills/triage-issues/assets/', import.meta.url)
 const policy = JSON.parse(readFileSync(new URL('valaxy.policy.example.json', assets), 'utf8'))
 const record = JSON.parse(readFileSync(new URL('task-record.example.json', assets), 'utf8'))
+const triageSkill = readFileSync(new URL('../SKILL.md', assets), 'utf8')
+const cycleSkill = readFileSync(new URL('../../pr-cycle/SKILL.md', assets), 'utf8')
 
 // These are example-contract regression checks, not a runtime policy engine.
 describe('issue autopilot examples', () => {
@@ -73,6 +75,15 @@ describe('issue autopilot examples', () => {
       postIssueComments: false,
       postPrComments: false,
     })
+  })
+
+  it('documents a one-way handoff for an existing task Draft PR', () => {
+    // Prompt-contract regression only; these assertions do not enforce runtime routing.
+    expect(triageSkill).toContain('不再调用 `pr-cycle` 或重新运行 `fix-issue`')
+    expect(cycleSkill).toContain('If this task already has a verified linked Draft PR')
+    expect(cycleSkill).toContain('do not rerun `fix-issue` or create another branch / PR')
+    expect(cycleSkill).toContain('resume at Step 3 only when review work is authorized')
+    expect(cycleSkill).toContain('Check the task record and related PRs first')
   })
 
   it('does not preapprove an issue, file edit, test result or PR in the blank record', () => {

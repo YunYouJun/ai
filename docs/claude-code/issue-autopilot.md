@@ -9,7 +9,8 @@
 - [triage-issues](https://github.com/YunYouJun/ai/tree/main/plugins/ai-coding/skills/triage-issues)：只读筛选和门禁
 - [Valaxy 策略示例](https://github.com/YunYouJun/ai/blob/main/plugins/ai-coding/skills/triage-issues/assets/valaxy.policy.example.json)：精确限定 `YunYouJun/valaxy`（仓库 ID `467617659`）
 - [任务记录模板](https://github.com/YunYouJun/ai/blob/main/plugins/ai-coding/skills/triage-issues/assets/task-record.example.json)：保存版本、授权、锁、预算与验证证据
-- 修复和 review 继续复用 `fix-issue` → `pr-cycle` / `copilot-review-loop`，不另写一套修复器
+- `triage-issues` 通过门禁后调用 `fix-issue`；已有 Draft PR 的获授权反馈交给 `copilot-review-loop` / `address-copilot-review`
+- `pr-cycle` 是从 Issue 开始的初始编排入口，不在创建 PR 后回调；同一任务已有 Draft PR 时跳过修复，避免重复创建分支或 PR
 
 ```text
 /ai-coding:triage-issues YunYouJun/valaxy
