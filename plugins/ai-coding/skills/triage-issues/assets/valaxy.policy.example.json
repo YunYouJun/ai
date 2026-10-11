@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "mode": "dry-run",
+  "scope": {
+    "repository": "YunYouJun/valaxy",
+    "repositoryId": 467617659,
+    "baseBranch": "main",
+    "allowOtherRepositories": false
+  },
+  "trigger": {
+    "strategy": "event-first",
+    "initialInventoryOnce": true,
+    "events": ["issues.opened", "issues.labeled"],
+    "eligibilityLabel": "ai-ready",
+    "polling": false,
+    "adapterConfigured": false
+  },
+  "eligibility": {
+    "requireMaintainerApproval": true,
+    "approvalModes": ["explicit-one-time-selection", "verified-maintainer-label-event"],
+    "requiredPermission": ["admin", "maintain", "write"],
+    "requireOpenIssue": true,
+    "requireReproduction": true,
+    "requireLowRisk": true,
+    "skipExistingFixOrPullRequest": true
+  },
+  "deduplication": {
+    "versionKey": ["repositoryId", "issueNumber", "updatedAt"],
+    "deliveryKey": "X-GitHub-Delivery",
+    "newVersionRequiresRetriage": true,
+    "existingTaskOrPullRequestBlocksNewTask": true
+  },
+  "taskLock": {
+    "required": true,
+    "keys": ["repositoryId", "issueNumber"],
+    "repositoryConcurrencyLock": true,
+    "atomicAcquireRequired": true,
+    "staleLockAction": "stop-for-human",
+    "releaseAfterTerminalRecord": true
+  },
+  "budget": {
+    "maxConcurrency": 1,
+    "maxIssuesPerPilot": 1,
+    "maxRetries": 2,
+    "maxMinutesPerIssue": 45,
+    "maxReviewCycles": 2,
+    "allowPaidServices": false
+  },
+  "fileBounds": {
+    "requireExactFileAllowlistBeforeEdit": true,
+    "maxFiles": 5,
+    "maxChangedLines": 200,
+    "forbiddenGlobs": [".github/**", "**/.env*", "**/*lock*", "**/package.json", "**/migrations/**", "**/auth/**", "**/security/**", "**/payment/**"],
+    "highRiskExclusions": ["credentials", "authentication", "authorization", "security-settings", "payments", "data-migrations", "dependency-upgrades", "public-api-breaks", "major-refactors", "release", "deployment"]
+  },
+  "gates": ["dry-run", "maintainer-approved-low-risk-selection", "dedupe-and-lock", "reproduction", "minimal-fix", "tests", "independent-review", "draft-pr"],
+  "publication": {
+    "draftOnly": true,
+    "requireExplicitPublishAuthorization": true,
+    "autoMerge": false,
+    "release": false,
+    "deploy": false,
+    "postIssueComments": false,
+    "postPrComments": false
+  },
+  "runtimeEnforcement": {
+    "implemented": false,
+    "policyIsNotSandbox": true,
+    "failClosedWithoutEnforcement": true
+  }
+}

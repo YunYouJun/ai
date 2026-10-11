@@ -1,0 +1,23 @@
+{
+  "recordVersion": 1,
+  "repository": "YunYouJun/valaxy",
+  "repositoryId": 467617659,
+  "issueNumber": null,
+  "updatedAt": null,
+  "baseSha": null,
+  "deliveryId": null,
+  "mode": "dry-run",
+  "status": "unselected",
+  "approval": { "actor": null, "permission": null, "source": null },
+  "dedupe": { "versionKey": null, "existingTask": null, "existingPullRequest": null },
+  "lock": { "owner": null, "acquiredAt": null, "releasedAt": null },
+  "budget": { "issuesStarted": 0, "retriesUsed": 0, "reviewCyclesUsed": 0, "startedAt": null },
+  "exactFileAllowlist": [],
+  "reproduction": { "command": null, "before": null, "after": null },
+  "checks": [],
+  "review": { "reviewer": null, "result": null },
+  "publicationAuthorization": null,
+  "replyAuthorization": null,
+  "draftPullRequest": null,
+  "stopReason": null
+}
