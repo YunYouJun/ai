@@ -301,15 +301,44 @@ export async function updateReleaseNotesLayout({ tag, dryRun = false, client }) 
   return { status: !result.changed ? 'unchanged' : dryRun ? 'preview' : 'published', tag, body: result.body }
 }
 
-async function main() {
+export function resolveReleaseNotesInputs(env = {}) {
+  const raw = env.RELEASE_NOTES_OPTIONS?.trim() || '{}'
+  let extra
+  try {
+    extra = JSON.parse(raw)
+  }
+  catch {
+    throw new Error('Release note options must be a JSON object')
+  }
+  if (!extra || typeof extra !== 'object' || Array.isArray(extra))
+    throw new Error('Release note options must be a JSON object')
+  const allowed = new Set(['from_tag', 'language', 'force', 'dry_run'])
+  for (const key of Object.keys(extra)) {
+    if (!allowed.has(key))
+      throw new Error(`Unknown release note option: ${key}`)
+    if (['force', 'dry_run'].includes(key) && typeof extra[key] !== 'boolean')
+      throw new TypeError(`Release note option ${key} must be a boolean`)
+    if (['from_tag', 'language'].includes(key) && typeof extra[key] !== 'string')
+      throw new TypeError(`Release note option ${key} must be a string`)
+  }
+  if (extra.from_tag)
+    parseReleaseTag(extra.from_tag)
+  const language = extra.language ?? (env.RELEASE_NOTES_LANGUAGE || 'both')
+  requestedLanguages(language)
   const truthy = value => value === 'true'
+  return {
+    tag: env.RELEASE_NOTES_TAG,
+    fromTag: extra.from_tag ?? env.RELEASE_NOTES_FROM_TAG,
+    language,
+    automatic: truthy(env.RELEASE_NOTES_AUTOMATIC),
+    force: extra.force ?? truthy(env.RELEASE_NOTES_FORCE),
+    dryRun: truthy(env.RELEASE_NOTES_DRY_RUN) || truthy(env.GH_AW_SAFE_OUTPUTS_STAGED) || extra.dry_run === true,
+  }
+}
+
+async function main() {
   const options = {
-    tag: process.env.RELEASE_NOTES_TAG,
-    fromTag: process.env.RELEASE_NOTES_FROM_TAG,
-    language: process.env.RELEASE_NOTES_LANGUAGE || 'both',
-    automatic: truthy(process.env.RELEASE_NOTES_AUTOMATIC),
-    force: truthy(process.env.RELEASE_NOTES_FORCE),
-    dryRun: truthy(process.env.RELEASE_NOTES_DRY_RUN) || truthy(process.env.GH_AW_SAFE_OUTPUTS_STAGED),
+    ...resolveReleaseNotesInputs(process.env),
     client: createReleaseClient({ repository: process.env.GITHUB_REPOSITORY, token: process.env.GH_TOKEN || process.env.GITHUB_TOKEN, apiUrl: process.env.GITHUB_API_URL }),
   }
   if (process.argv[2] === 'prepare') {

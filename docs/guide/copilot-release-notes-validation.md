@@ -119,7 +119,7 @@ GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`stat
 
 2026-10-16，经仓库所有者明确选择，`YunYouJun/ai` 已改为公开仓库。GitHub 的访问规则只允许公开调用方引用公开的 reusable workflow；此前 ADV.JS 的调用因此被拒绝，未调用模型或修改 Release。
 
-公共入口为 `.github/workflows/release-notes.lock.yml@release-notes-v1`。版本标签指向已通过验证的提交 `8023830649c9050b3f41a81fd0f88452524cd253`；ADV.JS 固定引用相同的完整 SHA。其他仓库只需安装 14 行的自动调用示例，或使用带手动输入的完整示例，不需要复制脚本、安装 gh-aw、配置 PAT 或 `secrets: inherit`。
+公共入口为 `.github/workflows/release-notes.lock.yml@release-notes-v1`。首次发布时版本标签指向已通过验证的提交 `8023830649c9050b3f41a81fd0f88452524cd253`；当次 ADV.JS 固定引用相同的完整 SHA。后续兼容更新见下节。其他仓库只需安装 14 行的自动调用示例，或使用带手动输入的完整示例，不需要复制脚本、安装 gh-aw、配置 PAT 或 `secrets: inherit`。
 
 预检查和发布 job 按 `job.workflow_sha` 加载同版本 ai 脚本，分析 job 则检出调用方完整历史。最初的云端试运行发现 gh-aw 默认跳过跨仓库的配置检出，导致 runtime-import 找不到提示词；修复后 activation 提前检出同一 ai 提交的提示词，并有回归检查保证其位于模板渲染之前。
 
@@ -135,6 +135,23 @@ GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`stat
 前后对比确认，现有 v0.1.4 Release 的 ID、tag、标题、目标、正文、附件、草稿和预发布标记、创建时间、发布时间和更新时间全部不变。正文 SHA-256 为 `06a7b18f0e771c10d12b7fdc63c56a72167727556157f908ae32f5137e8d881e`。集中渲染器对该正文返回 `changed=false`，中文优先的折叠布局和原 changelog 原文保持不变。
 
 本地验证包括 gh-aw v0.92.0 编译、actionlint、ai 的 73 项测试、lint、类型检查和文档构建，以及 ADV.JS 的 17 项调用与发版回归。生成器测试集中在 ai；ADV.JS 只维护调用接口和原有发布事务。
+
+## 手动输入的集中维护
+
+2026-10-16，新增 `release-notes.yml` 事件入口。调用方用 15 行配置同时支持自动发布与手动 tag，只有一个必须声明的 `tag` 字段，不再复制多个输入或 `with` 映射。高级使用只增加可选 `options` JSON；既有 `release-notes.lock.yml` typed API 保持兼容，发版事务直接调用它，不需要中间仓库再次声明 `workflow_call.inputs`。
+
+发布 `release-notes-v1.1.0`，并将兼容别名 `release-notes-v1` 快进到实现提交 `d62e0cf890a0999c027c8e2589808b0f314d2de9`；ADV.JS 两个入口固定引用相同提交。别名更新使用 `force=false`，没有覆盖分叉历史。GitHub 的手动表单仍需在调用方声明，未使用不存在的输入 schema 继承能力，也未改用 ai 仓库的令牌。
+
+[只填 tag 的验证 38891625132](https://github.com/YunYouJun/advjs/actions/runs/38891625132) 使用 `tag=v0.1.4`，没有 `options`。请求允许进入补丁版手动检查，随后因 `already-generated` 跳过，所有模型和发布 job 均未运行。
+
+[JSON 英文预览 38891611437](https://github.com/YunYouJun/advjs/actions/runs/38891611437) 使用 `tag=core-v0.1.2` 和 `options={"language":"en","dry_run":true}`，预检查、activation、真实 Copilot 分析、检测、预览发布和 conclusion 全部成功：
+
+- 实际提示词指向调用方 `YunYouJun/advjs`，目标 SHA `8a62e9be8444496eaa4f0e7e1d9fa3bba95a1dd0`，请求语言只有 `en`。
+- 预览仅包含英文区块，英文默认展开；7 个提交引用均属于目标历史。产物 `release-notes-38891611437` 共 2,110 字节，SHA-256 为 `5588c0caf4b31b6765f5194614af3ad466229d2c52cc62c1e033395148ac722e`。
+- options JSON 在预检查和发布端使用同一解析器。未知键、无效类型和无效语言在模型前失败；不能改写 tag 或自动模式，不能用 JSON 关闭已启用的 dry-run／staged 保护。
+- 现有 v0.1.4 的正文、附件、tag、标题、目标、正式标记、创建时间、发布时间和更新时间全部不变；正文 SHA-256 仍为 `06a7b18f0e771c10d12b7fdc63c56a72167727556157f908ae32f5137e8d881e`。
+
+本地 78 项集中测试、编译、actionlint、lint、类型检查和文档构建通过；包含真实 CLI + 本地 HTTP 的 JSON 选项验证，确认预览只 GET、不 PATCH，原文逐字保留。ADV.JS 的 17 项调用与发版回归及文档检查通过。用户界面与 CLI 的进阶选项统一为 `options`，例如旧的 `-f language=en -f force=true` 改为 `-f options='{"language":"en","force":true}'`。
 
 ## 运维入口
 
