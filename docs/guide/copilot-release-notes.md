@@ -59,6 +59,8 @@ gh aw compile release-notes-zh --validate
 
 GitHub Release 只有单一正文，使用“简体中文 · English”导航和原生 `<details>` 分区，默认展开，读者可折叠。它提供页面内定位，不提供应用式互斥标签页或持久化语言偏好。参见 [GitHub 折叠区块说明](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections)。保留原工作流文件名 `release-notes-zh.lock.yml`，兼容既有调用；Actions 显示名为“AI Release Notes”。
 
+语言目标使用 `<a name="ai-release-notes-zh"></a>`，导航链接包含 GitHub 渲染后的 `user-content-` 前缀。仅使用 `id` 的空锚点在真实 Release 页可能只改变 URL、不滚动；PR 正文预览不能替代 Release 页检查。应实际点击两种语言并确认目标进入视口，再分别折叠、展开。导航不会自动展开已折叠的分区。
+
 ## 版本筛选与原文保留
 
 预检查与 Copilot 分析是不同 job。`on.steps` 中的 `fetch-depth: 0` 只作用于预检查；分析 job 还需要单独配置完整历史，否则补生成旧 tag 时会出现 `fatal: bad object`：
