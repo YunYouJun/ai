@@ -54,6 +54,8 @@ gh-aw 的 Docker 扫描器未运行，本记录不将编译成功等同于容器
 
 产物为 `release-notes-38866967520` artifact 内的 `release-notes-preview.md`，SHA-256 为 `1dd18baf0251511f50862a821d4911c7d4c536214b6c49480d4a0bad5f4719b4`，默认保留 14 天。产物包含中英文、对应分类和六个完全一致的完整 commit URL，逐一确认均为目标 `core-v0.1.2` 的可达历史。未自动验证摘要完整覆盖所有变化。
 
+另以相同实现提交运行[仅英文预览 38868360367](https://github.com/YunYouJun/advjs/actions/runs/38868360367)，参数 `language=en`、`tag=core-v0.1.2`、`dry_run=true`；整体成功。产物只有英文分区及 English 导航，没有中文区块或失效的中文链接。SHA-256 为 `bcd43aeca3d83005abfd4b548554ae91599e925538233e3b16b86a172897a4a1`。
+
 本地及渲染检查：
 
 - 62 项发版回归通过，覆盖单双语、补缺失语言、旧中文区块按字节保留、按语言重写、请求语言完整性、引用集合、重复调用、原文保留和真实 Git 历史。
