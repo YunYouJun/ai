@@ -5,9 +5,6 @@ hero:
   name: "小云的 AI 开发实践"
   text: "实践、工具与资源"
   tagline: 记录 AI 开发过程中的实践经验和优质资源
-  image:
-    src: /favicon.svg
-    alt: 小云的 AI 开发实践
   actions:
     - theme: brand
       text: 快速开始
