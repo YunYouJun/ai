@@ -12,11 +12,11 @@
   },
   "devDependencies": {
     "mermaid": "catalog:",
-    "sass": "catalog:",
     "unocss": "catalog:",
     "unplugin-vue-components": "catalog:",
     "vitepress": "catalog:",
     "vitepress-plugin-mermaid": "catalog:",
+    "vitepress-theme-yunlefun": "catalog:",
     "vue": "catalog:"
   }
 }
