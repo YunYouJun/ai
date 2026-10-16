@@ -84,6 +84,22 @@ GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`stat
 
 这确认了 ADV.JS 默认分支的双语工作流已启用，后续正式主／次版本可走现有发布流程，补丁版使用手动入口。本次仅做预览，没有创建或修改正式 Release；真实正文更新保护仍由前述回归与本地 HTTP 模拟验证。
 
+## npm 0.1.4 正式 Release 补生成
+
+2026-10-16，为用户指定的 npm 正式版补建 [ADV.JS v0.1.4](https://github.com/YunYouJun/advjs/releases/tag/v0.1.4)。此前没有 GitHub Release，也没有 `v0.1.4` tag。`advjs@0.1.4` 与 `@advjs/core@0.1.4` 的 npm provenance 均指向提交 `55584d6f3cd903d74c985e6b8fcd27dbbc3394db`，其 subject digest 与 npm tarball integrity 一致；新 tag 指向该提交。采用 `v` 系列，不触发 `core-v*` 的 npm 发布流程。
+
+完整 changelog 由仓库现有生成器按 `v0.1.0-beta.1..55584d6f` 恢复并作为 Release 初始正文，共 22,295 字节，SHA-256 为 `52b08a71caae9c77b7b4ff6d5469de0e2e9d36b2e63752a6654fca0aa36c7564`。这是累计变更范围，不代表只比较 npm 0.1.3 到 0.1.4。
+
+从默认分支 `dev` 手动运行 [38873463874](https://github.com/YunYouJun/advjs/actions/runs/38873463874)，参数为 `tag=v0.1.4`、`from_tag=v0.1.0-beta.1`、`language=both`、`automatic=false`、`dry_run=false`、`force=false`。Copilot、检测、真实发布及 conclusion 全部成功。核对结果：
+
+- 两种语言引用 URL 集合一致，所有引用提交均属于指定范围；正文重复合并不会再写入。
+- AI 区块之外的 changelog 按字节完整保留；Release ID、标题、tag、目标提交、正式发布标记和附件未变。
+- 真实页面最初使用空 `id` 锚点，点击 English 后 fragment 已改变，但目标仍在视口下方约 1,061 像素。单独删除链接前缀、改用不带前缀的命名锚点均未修复。
+- 将目标改为 `name` 并保留链接的 `user-content-` 前缀后，英文目标进入视口顶部约 59 像素，中文回跳也正常。只修正布局，保留模型摘要与完整 changelog；修复同步到发布脚本与复用示例。
+- 实测中文、英文可分别折叠和展开；两种语言均折叠时，下方原始 changelog 仍可阅读。默认仍为两种语言展开，导航负责定位，折叠内容由读者展开。
+
+此次真实写入继续使用 Actions 的 `GITHUB_TOKEN` 和仓库所有者的 Copilot 额度，没有创建 PAT、模型密钥或 Actions secret，也没有重新发布 npm 包。前两节的预览记录不等于本次真实 Release 页验收。
+
 ## 运维入口
 
 日常操作、补生成、强制替换及额度说明见[ADV.JS AI 双语 Release Notes](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。复用模板和个人／组织计费差异记录在 [复用指南](./copilot-release-notes)。
