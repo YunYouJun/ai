@@ -26,6 +26,7 @@ export default antfu({
     },
   },
   ignores: [
+    '**/*.lock.yml',
     '**/docs/**/*.md/**',
     '**/skills/**/agents/openai.yaml',
     '**/skills/**/*.md/**',

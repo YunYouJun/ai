@@ -1,0 +1,14 @@
+name: Release Notes
+on:
+  release:
+    types: [published]
+jobs:
+  notes:
+    uses: YunYouJun/ai/.github/workflows/release-notes.lock.yml@release-notes-v1
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: read
+      copilot-requests: write
+    with:
+      tag: ${{ github.event.release.tag_name }}

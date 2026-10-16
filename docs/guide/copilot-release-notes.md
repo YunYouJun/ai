@@ -21,29 +21,48 @@ model: auto
 
 这不是独立的公共免费 AI API。所有者必须有可用 Copilot 额度及模型访问权限，Actions 计算时间也按仓库现有规则计费。模板使用 `max-ai-credits: 50` 和运行超时控制成本，但这不能替代 Copilot 账单中的预算设置，也不应作为账单硬上限。
 
-## 下载并编译模板
+## 跨仓库直接接入
 
-模板位于仓库的 [examples/copilot-release-notes](https://github.com/YunYouJun/ai/tree/main/examples/copilot-release-notes)，包含两个文件：
+在目标仓库创建 `.github/workflows/release-notes.yml`，合并到默认分支：
 
-| 文件                                    | 职责                                          |
-| --------------------------------------- | --------------------------------------------- |
-| `.github/workflows/release-notes-zh.md` | 事件、权限、提示词、只读分析和发布 job        |
-| `scripts/release/release-notes.mjs`     | 版本筛选、确定 Git 范围、保留原正文、定向写入 |
+<<< ../../examples/copilot-release-notes/.github/workflows/release-notes-minimal.yml
 
-把模板目录的内容复制到目标仓库根目录，按项目读者调整提示词中的受众说明。模板不放在本仓库的 `.github/workflows` 下，不会对 `YunYouJun/ai` 启用自动发版说明。
+`release-notes-v1` 是此复用接口的版本标签，接收兼容修复。需要固定执行代码时，将 `@release-notes-v1` 换成该标签对应的完整提交 SHA。调用方不需要安装 gh-aw、复制脚本或配置 `secrets: inherit`。
 
-在目标仓库中使用 GitHub CLI 和固定版本的 gh-aw 编译：
+自动调用默认 `automatic=true`：只处理正式主／次版本，跳过补丁版、草稿和预发布。支持 `1.2.0`、`v1.2.0`、`core-v1.2.0`、`desktop-v1.2.0` 四种 tag 形式；不同前缀各自比较。非这些形式的 tag 会报错。
+
+需要手动指定 tag、选择语言、强制重写或 dry-run 时，改用下方完整调用示例；两个示例任选一个，不要同时安装：
+
+<<< ../../examples/copilot-release-notes/.github/workflows/release-notes.yml
+
+| 输入        | 默认值  | 用途                                           |
+| ----------- | ------- | ---------------------------------------------- |
+| `tag`       | 必填    | 已有 Release 的目标 tag；dry-run 只需 tag 存在 |
+| `from_tag`  | 空      | 同前缀、较早且属于目标祖先的比较起点           |
+| `language`  | `both`  | `both`、`zh-CN`、`en`                          |
+| `force`     | `false` | 重写所选语言，保留其他语言和原文               |
+| `dry_run`   | `false` | 只上传预览，不修改 Release                     |
+| `automatic` | `true`  | 自动筛选主／次版本；手动入口默认传 `false`     |
+
+工作流运行在调用方仓库，使用调用方的 `GITHUB_TOKEN`、Copilot 额度和 Actions 资源。`actions: read` 供 gh-aw 确认所引用工作流版本；分析 job 仅有只读仓库权限和 Copilot 请求权限，只有检测通过后的发布 job 获得 `contents: write`。公共 ai 仓库提供代码，不替其他仓库承担模型额度。
+
+GitHub Actions 必须允许调用公共仓库的 reusable workflow 和其中使用的 actions。个人仓库仍需所有者有可用 Copilot 额度，组织仓库遵循组织策略；接入不会绕过这些前提。
+
+## 集中维护与版本固定
+
+源码位于 [release-notes.md](https://github.com/YunYouJun/ai/blob/main/.github/workflows/release-notes.md)，实际执行入口为编译后的 `release-notes.lock.yml`。版本筛选和发布脚本位于 [scripts/release-notes.mjs](https://github.com/YunYouJun/ai/blob/main/scripts/release-notes.mjs)。
+
+预检查分别检出 ai 的实现和调用方完整历史。实现检出使用 GitHub 的 `job.workflow_repository` 与 `job.workflow_sha`，固定到 `uses` 实际解析的提交；字段缺失则失败，不回退到 `main`。Copilot 只分析调用方仓库，发布 job 只执行同一 ai 提交中的脚本。调用方的 Release tag 不能替换发布脚本。
+
+维护者在 ai 仓库修改源码后编译并提交生成文件；接入方无须执行：
 
 ```bash
 gh extension install github/gh-aw --pin v0.92.0
-gh aw compile release-notes-zh --validate
+gh aw compile release-notes --no-check-update --validate
+pnpm vitest run
 ```
 
-已经安装其他 gh-aw 版本时，先核对版本再编译，升级时重新验证生成结果。提交源 Markdown、生成的 `.lock.yml`、`.github/aw/actions-lock.json` 和 `.gitattributes`，然后合并到默认分支。GitHub 执行 `.lock.yml`，修改 Markdown 后必须重新编译。
-
-完整工作流源码：
-
-<<< ../../examples/copilot-release-notes/.github/workflows/release-notes-zh.md
+源码、`.lock.yml`、`.github/aw/actions-lock.json` 和 `.gitattributes` 一并提交。CI 检查重新编译无差异，并运行回归测试、lint、类型检查和文档构建。兼容修复可以更新 v1 标签；不兼容的输入、权限或 tag 规则变更应发布新的主版本。GitHub Enterprise Server 不提供所需的 `job.workflow_*` 字段，目前仅支持 GitHub.com。
 
 ## 语言选择与阅读方式
 
@@ -92,7 +111,7 @@ checkout:
 GITHUB_REPOSITORY=OWNER/REPO \
 RELEASE_NOTES_TAG=v1.2.3 \
 RELEASE_NOTES_DRY_RUN=true \
-node scripts/release/release-notes.mjs layout
+node scripts/release-notes.mjs layout
 ```
 
 确认 `release-notes-preview.md` 后，将 `RELEASE_NOTES_DRY_RUN` 改为 `false` 写入。命令保留已有摘要和原 changelog，重复执行返回 `unchanged`，不嵌套折叠；没有 AI 摘要的普通 Release 不会被强制改写。
@@ -101,13 +120,13 @@ node scripts/release/release-notes.mjs layout
 
 [GitHub Actions 事件规则](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow) 规定，`GITHUB_TOKEN` 引发的大多数事件不会启动新的工作流。如果已有流程通过它创建 Release，不能只依赖 `release: published`。
 
-在现有发布 job 成功后调用同仓库的可复用工作流。下面的 `tag` 必须替换为发布 job 导出的目标 tag，`needs` 必须指向实际完成发布的 job：
+在现有发布 job 成功后直接调用 ai 的可复用工作流。下面的 `tag` 必须替换为发布 job 导出的目标 tag，`needs` 必须指向实际完成发布的 job：
 
 ```yaml
 jobs:
   release-notes:
     needs: publish
-    uses: ./.github/workflows/release-notes-zh.lock.yml
+    uses: YunYouJun/ai/.github/workflows/release-notes.lock.yml@release-notes-v1
     permissions:
       actions: read
       contents: write
