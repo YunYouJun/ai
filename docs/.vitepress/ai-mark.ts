@@ -1,0 +1,13 @@
+import type { YunlefunBrandIcon } from 'vitepress-theme-yunlefun/config'
+
+/**
+ * The AI mark: the yunyoujun.cn blocky face with a sparkle eye and a cursor eye.
+ *
+ * It shares the frame with the docs.yunyoujun.cn mark. Shapes fill with
+ * `currentColor`, so the mark follows `--ylf-c-brand` in light and dark.
+ */
+export const aiMark: YunlefunBrandIcon = {
+  width: 100,
+  height: 70,
+  body: '<g fill="currentColor"><path fill-rule="evenodd" d="M85 0H15V15H0V55H15V70H85V55H100V15H85V0ZM85 15H15V55H85V15Z"/><path d="M35 23Q37.5 32.5 47 35Q37.5 37.5 35 47Q32.5 37.5 23 35Q32.5 32.5 35 23Z"/><rect x="60" y="24" width="9" height="22" rx="1.5"/></g>',
+}

@@ -24,7 +24,8 @@
     "typecheck": "tsc --noEmit",
     "docs:dev": "pnpm --filter @yyj/docs run docs:dev",
     "docs:build": "pnpm --filter @yyj/docs run docs:build",
-    "docs:preview": "pnpm --filter @yyj/docs run docs:preview"
+    "docs:preview": "pnpm --filter @yyj/docs run docs:preview",
+    "brand:icons": "node docs/scripts/generate-brand-icons.mjs"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
