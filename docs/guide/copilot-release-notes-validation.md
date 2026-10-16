@@ -1,4 +1,4 @@
-# Copilot 中文 Release Notes 验证记录
+# Copilot Release Notes 验证记录
 
 日期：2026-10-16。首次本地检查和临时分支预览通过后，ADV.JS PR #70 与 AI PR #2 已合并；正式入口复验发现分析 job 的浅克隆遗漏，修复和回归见下节。全程未创建测试 Release。
 
@@ -42,6 +42,48 @@ gh-aw 的 Docker 扫描器未运行，本记录不将编译成功等同于容器
 
 新增回归测试从实际编译的分析 job 读取 checkout 深度，以真实 Git 仓库复现历史提交读取：修复前连续出现 `bad object`，修复后通过。发版相关测试总数由 49 增至 50。修复后的云端运行可在 [ADV.JS 中文 Release Notes 工作流](https://github.com/YunYouJun/advjs/actions/workflows/release-notes-zh.lock.yml)查看；需要同时确认整体成功和预览 artifact，不能只看 agent job 成功。
 
+## 双语设计与验证
+
+2026-10-16 的双语改动见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [AI PR #4](https://github.com/YunYouJun/ai/pull/4)。工作流文件名保留 `release-notes-zh.lock.yml`；显示名改为“AI Release Notes”。本节保留 PR 阶段的验证，默认分支的启用情况见下节。
+
+默认 `language=both`，手动可选 `zh-CN`、`en`。一次分析后生成请求语言，已有另一语言作翻译对照；默认只补缺失语言，`force` 只重写所选语言。新生成摘要必须有可点击的 PR/commit 引用，双语同时生成时引用 URL 集合必须一致；这不替代语义审阅。
+
+首轮[双语预览 38866174171](https://github.com/YunYouJun/advjs/actions/runs/38866174171)链路成功，但人工检查发现来源用了裸 SHA，因此增加可点击引用和双语引用集合检查，再运行最终预览。
+
+最终预览：[运行 38866967520](https://github.com/YunYouJun/advjs/actions/runs/38866967520)，实现提交 `f45afb28`，参数为 `tag=core-v0.1.2`、`language=both`、`dry_run=true`。整体及 pre-activation、Copilot agent、检测、预览发布、conclusion 均成功。
+
+产物为 `release-notes-38866967520` artifact 内的 `release-notes-preview.md`，SHA-256 为 `1dd18baf0251511f50862a821d4911c7d4c536214b6c49480d4a0bad5f4719b4`，默认保留 14 天。产物包含中英文、对应分类和六个完全一致的完整 commit URL，逐一确认均为目标 `core-v0.1.2` 的可达历史。未自动验证摘要完整覆盖所有变化。
+
+另以相同实现提交运行[仅英文预览 38868360367](https://github.com/YunYouJun/advjs/actions/runs/38868360367)，参数 `language=en`、`tag=core-v0.1.2`、`dry_run=true`；整体成功。产物只有英文分区及 English 导航，没有中文区块或失效的中文链接。SHA-256 为 `bcd43aeca3d83005abfd4b548554ae91599e925538233e3b16b86a172897a4a1`。
+
+本地及渲染检查：
+
+- 62 项发版回归通过，覆盖单双语、补缺失语言、旧中文区块按字节保留、按语言重写、请求语言完整性、引用集合、重复调用、原文保留和真实 Git 历史。
+- 通过真实 CLI 与本地 HTTP 模拟服务器验证：预检查输出为单行 JSON、旧中文仅补英文、dry-run 不 PATCH、正式调用仅 PATCH `body`、重复调用不写入、完整双语在模型前跳过。未向真实 Release API 写入。
+- GitHub Markdown API 实际渲染保留两个默认展开的 `<details>`；导航 fragment 均能匹配渲染后的锚点。GitHub 会给 ID 添加 `user-content-` 前缀，导航已相应适配。
+- 在 PR #72 正文样例中实测语言导航与折叠中文后阅读英文。GitHub 单一正文使用导航和折叠，不提供互斥标签页或语言偏好存储。
+- gh-aw v0.92.0 编译 0 warnings，改动文件 ESLint、ADV.JS 文档检查与构建通过；actionlint 使用前节相同的窄范围诊断排除。
+- 模板脚本与 ADV.JS 一致；本仓库 18 项测试、lint、类型检查和文档构建通过。
+
+全程没有创建 GitHub Release、PAT、模型 API key 或 Actions secret。真实正文更新的保护通过回归与本地 HTTP 模拟验证；云端运行使用仓库所有者的 Copilot 额度，但只生成预览 artifact。
+
+## 双语工作流默认分支复验
+
+2026-10-16，ADV.JS PR #72 合并到默认分支 `dev`，合并提交为 [2e7cae5c](https://github.com/YunYouJun/advjs/commit/2e7cae5c0c0801be55d7d6801435234db7302be1)。合并前最新提交的 28 项检查通过，另 3 项按配置跳过或中性结束。通用 E2E 首轮在仓鼠 Demo 的运行时初始化等待超时；[相同提交重跑](https://github.com/YunYouJun/advjs/actions/runs/38866973432)通过，没有修改游戏逻辑或测试断言，首轮超时的根因未确认。
+
+GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`state=active`。默认分支的源码和编译配置均已核对：`language` 默认 `both`，手动选项为 `both / zh-CN / en`，现有发布流程仍在发布事务和桌面附件成功后以 `automatic=true` 调用该工作流。Copilot 继续使用 `github.token`，没有新增 PAT 或模型密钥。
+
+| 复验                           | 运行与结果                                                                                                                         |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 省略 `language` 的默认双语预览 | [运行 38870751064](https://github.com/YunYouJun/advjs/actions/runs/38870751064)，整体及 Copilot、检测、预览发布、conclusion 均成功 |
+| 自动补丁版筛选                 | [运行 38870746274](https://github.com/YunYouJun/advjs/actions/runs/38870746274)，成功；只执行预检查，模型、检测与发布 job 均跳过   |
+
+两次均从默认分支 `dev` 的合并提交运行，使用 `tag=core-v0.1.2`、`dry_run=true`。默认双语预览未传 `language`，确认默认值实际生效；自动补丁版运行另传 `automatic=true`，确认模型调用前的版本筛选生效。
+
+产物 `release-notes-38870751064` 中的 `release-notes-preview.md` 已检查：包含中英文区块、两个默认展开的语言分区及对应导航，引用集合一致。六个 commit URL 均在目标 tag 历史内，两个 PR 引用均已合并，且其合并提交也在该历史内。产物 SHA-256 为 `68b49c35b9da531bb0ce1d641ada7bdeea658149eabbdeee8078a26c36621e93`。模板脚本与 `dev` 实现一致。
+
+这确认了 ADV.JS 默认分支的双语工作流已启用，后续正式主／次版本可走现有发布流程，补丁版使用手动入口。本次仅做预览，没有创建或修改正式 Release；真实正文更新保护仍由前述回归与本地 HTTP 模拟验证。
+
 ## 运维入口
 
-日常操作、补生成、强制替换及额度说明见[ADV.JS 中文 Release Notes](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。复用模板和个人／组织计费差异记录在 [复用指南](./copilot-release-notes)。
+日常操作、补生成、强制替换及额度说明见[ADV.JS AI 双语 Release Notes](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。复用模板和个人／组织计费差异记录在 [复用指南](./copilot-release-notes)。
