@@ -1,6 +1,6 @@
-# 用 Copilot 自动生成中文 Release Notes
+# 用 Copilot 自动生成双语 Release Notes
 
-使用 GitHub Agentic Workflows，在正式主／次版本发布后生成中文摘要，并保留原有 changelog。补丁版按需手动指定 tag 补生成。此方案使用 Actions 自带的 `GITHUB_TOKEN`，无需创建 PAT 或配置模型 API key。
+使用 GitHub Agentic Workflows，在正式主／次版本发布后生成中英文摘要，并保留原有 changelog。补丁版按需手动指定 tag 和语言补生成。此方案使用 Actions 自带的 `GITHUB_TOKEN`，无需创建 PAT 或配置模型 API key。
 
 ## 认证与计费
 
@@ -45,6 +45,20 @@ gh aw compile release-notes-zh --validate
 
 <<< ../../examples/copilot-release-notes/.github/workflows/release-notes-zh.md
 
+## 语言选择与阅读方式
+
+默认 `language=both`，共用一次 Git 变更分析生成简体中文和英文。两版保持分类、事实和引用对应；已有另一语言时，先核对 Git 范围，再用现有摘要作为翻译对照。每种新摘要必须提供可点击的 GitHub PR/commit 链接，同时生成两种语言时，脚本会验证引用 URL 集合一致；语义正确性仍需审阅。导航和折叠不会调用 AI。
+
+| `language` | 行为                                       |
+| ---------- | ------------------------------------------ |
+| `both`     | 默认只补缺失的语言；中英文均存在则跳过模型 |
+| `zh-CN`    | 只生成中文，保留英文                       |
+| `en`       | 只生成英文，保留中文                       |
+
+`force=true` 只重写所选语言。旧版中文标记兼容：补英文会升级为双语布局，已有中文区块保持原样。
+
+GitHub Release 只有单一正文，使用“简体中文 · English”导航和原生 `<details>` 分区，默认展开，读者可折叠。它提供页面内定位，不提供应用式互斥标签页或持久化语言偏好。参见 [GitHub 折叠区块说明](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections)。保留原工作流文件名 `release-notes-zh.lock.yml`，兼容既有调用；Actions 显示名为“AI Release Notes”。
+
 ## 版本筛选与原文保留
 
 预检查与 Copilot 分析是不同 job。`on.steps` 中的 `fetch-depth: 0` 只作用于预检查；分析 job 还需要单独配置完整历史，否则补生成旧 tag 时会出现 `fatal: bad object`：
@@ -66,9 +80,9 @@ checkout:
 
 默认起点是同一 tag 系列下、目标提交的祖先中版本最高的较早正式 tag。可用 `from_tag` 指定起点，但必须为同系列、较早且为目标祖先的版本。没有起点时分析目标提交可达历史。所有范围绑定完整提交 SHA，不使用当前默认分支 HEAD 代替历史版本。
 
-模型只提交 `notes`，不能指定 Release、原正文或 Git 范围。发布脚本重新读取目标 Release，添加 `ai-notes-zh:start/end` 区块，区块外的原文保持不变，PATCH 请求只包含 `body`。不会修改仓库内的 `CHANGELOG.md`、不可变发版清单或 Release 附件。
+模型只提交本次请求的 `notes_zh`、`notes_en`，不能指定 Release、原正文或 Git 范围。脚本要求请求的语言完整，拒绝额外语言和模型提供的管理标记、折叠布局。发布前重新读取目标 Release，只更新 `ai-release-notes:start/end` 管理区域；每种语言另有 `ai-notes-zh:start/end`、`ai-notes-en:start/end` 标记，未选中语言区块与外部原文保持不变，PATCH 请求只包含 `body`。不会修改仓库内的 `CHANGELOG.md`、不可变发版清单或 Release 附件。
 
-已有完整区块默认跳过，`force=true` 只替换该区块。标记损坏或重复时失败，避免误覆盖。按 tag 串行执行、发布前复读和幂等检查共同防止重复添加。
+所选语言均有完整区块时默认跳过，`force=true` 只重写所选语言。标记损坏或重复时失败，避免误覆盖。按 tag 串行执行、发布前复读和幂等检查共同防止重复添加。
 
 ## 从现有发布流程直接调用
 
@@ -104,21 +118,21 @@ gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
   -f tag=core-v0.1.2 -f dry_run=true
 ```
 
-正式写入要求对应 GitHub Release 已发布。补丁版补生成和重生成已有区块分别使用：
+正式写入要求对应 GitHub Release 已发布。补丁版补齐中英文，和只重写英文分别使用：
 
 ```bash
 gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
   -f tag=v0.4.1
 
 gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
-  -f tag=v0.4.1 -f from_tag=v0.4.0 -f force=true
+  -f tag=v0.4.1 -f from_tag=v0.4.0 -f language=en -f force=true
 ```
 
 选择包含最新脚本的默认分支运行。预检查和发布 job 使用 `github.workflow_sha` 检出脚本，所以补生成旧 tag 时不会因为旧代码缺少脚本而失败。
 
 ## 验证与排查
 
-编译通过只能证明静态配置有效。还需要云端预览确认仓库的 Copilot 额度、权限和模型访问可用，再检查 Summary 与 `release-notes-zh-<run_id>` artifact。正式发布后确认中文摘要、原文和附件。
+编译通过只能证明静态配置有效。还需要云端预览确认仓库的 Copilot 额度、权限和模型访问可用，再检查 Summary 与 `release-notes-<run_id>` artifact 中的 `release-notes-preview.md`。正式发布后确认两种语言内容对应、导航与折叠正常、原文和附件完整。
 
 | 现象                   | 检查方向                                                        |
 | ---------------------- | --------------------------------------------------------------- |
@@ -126,10 +140,10 @@ gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
 | 发布了但没有运行       | 是否由 `GITHUB_TOKEN` 创建 Release，是否已接入 `workflow_call`  |
 | 补丁版自动运行被跳过   | 符合设计，使用手动入口且保持 `automatic=false`                  |
 | 缺少 GitHub Release    | 先完成实际发布，或以 `dry_run=true` 预览已有 tag                |
-| 已有中文区块而跳过     | 需要重生成时手动传 `force=true`                                 |
+| 所选语言已存在而跳过   | 需要重生成时选择语言并传 `force=true`；补另一语言不需要 force   |
 | 发布 job 没有写入      | 检查模型是否提交输出、威胁检测是否通过、正文标记是否有效        |
 
-ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、原文保留、重复调用和写入范围；模板源自同一实现。静态检查和云端认证是不同层级的证据，不应将编译成功记作真实 Release 已更新。
+ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、单双语选择、旧中文区块升级、按语言重写、原文保留、重复调用和写入范围；模板源自同一实现。静态检查和云端认证是不同层级的证据，不应将编译成功记作真实 Release 已更新。
 
 ## 已验证实例
 
