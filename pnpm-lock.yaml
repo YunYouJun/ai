@@ -48,6 +48,9 @@ catalogs:
     vue:
       specifier: ^3.5.41
       version: 3.5.41
+    yaml:
+      specifier: 2.9.0
+      version: 2.9.0
 
 overrides:
   vitepress@1.6.4>vite: 6.4.3
@@ -81,6 +84,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@25.9.8)(vite@7.3.6(@types/node@25.9.8)(jiti@2.7.0)(sass@1.102.0)(yaml@2.9.0))
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
 
   docs:
     dependencies:

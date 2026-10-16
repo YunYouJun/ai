@@ -1,34 +1,6 @@
 ---
 name: AI Release Notes
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 已存在的 Release tag
-        type: string
-        required: true
-      from_tag:
-        description: 可选，指定同系列的比较起点 tag
-        type: string
-      language:
-        description: 生成语言；默认仅补齐缺失的中英文摘要
-        type: choice
-        options: [both, zh-CN, en]
-        default: both
-      force:
-        description: 重新生成所选语言，保留其他语言和原 changelog
-        type: boolean
-        default: false
-      dry_run:
-        description: 仅生成预览，不修改 Release；可验证尚未发布的 tag
-        type: boolean
-        default: false
-      automatic:
-        description: 发版流程内部调用，限制为正式主／次版本
-        type: boolean
-        default: false
   workflow_call:
     inputs:
       tag:
@@ -52,9 +24,25 @@ on:
   permissions:
     contents: read
   steps:
-    - uses: actions/checkout@v7
+    - name: Require the exact reusable workflow revision
+      env:
+        WORKFLOW_REPOSITORY: ${{ job.workflow_repository }}
+        WORKFLOW_SHA: ${{ job.workflow_sha }}
+      run: |
+        test "$WORKFLOW_REPOSITORY" = YunYouJun/ai
+        [[ "$WORKFLOW_SHA" =~ ^[0-9a-f]{40}$ ]]
+    - name: Checkout trusted workflow implementation
+      uses: actions/checkout@v7
       with:
-        ref: ${{ github.workflow_sha }}
+        repository: ${{ job.workflow_repository }}
+        ref: ${{ job.workflow_sha }}
+        persist-credentials: false
+    - name: Checkout caller release history
+      uses: actions/checkout@v7
+      with:
+        repository: ${{ github.repository }}
+        ref: ${{ github.sha }}
+        path: source
         fetch-depth: 0
         persist-credentials: false
     - name: Resolve release scope before using Copilot
@@ -64,16 +52,19 @@ on:
         RELEASE_NOTES_TAG: ${{ inputs.tag || github.event.release.tag_name }}
         RELEASE_NOTES_FROM_TAG: ${{ inputs.from_tag }}
         RELEASE_NOTES_LANGUAGE: ${{ inputs.language || 'both' }}
-        RELEASE_NOTES_AUTOMATIC: ${{ github.event_name == 'release' || inputs.automatic }}
+        RELEASE_NOTES_AUTOMATIC: ${{ inputs.automatic }}
         RELEASE_NOTES_FORCE: ${{ inputs.force }}
         RELEASE_NOTES_DRY_RUN: ${{ inputs.dry_run }}
-      run: node scripts/release/release-notes.mjs prepare
+      working-directory: source
+      run: node ../scripts/release-notes.mjs prepare
 permissions:
   contents: read
   pull-requests: read
   copilot-requests: write
 engine: copilot
 checkout:
+  repository: ${{ github.repository }}
+  current: true
   fetch-depth: 0
 model: auto
 timeout-minutes: 15
@@ -121,19 +112,28 @@ safe-outputs:
           description: 仅在请求 en 时提供与中文事实一致的英文摘要 Markdown
           type: string
       steps:
-        - uses: actions/checkout@v7
+        - name: Require the exact reusable workflow revision
+          env:
+            WORKFLOW_REPOSITORY: ${{ job.workflow_repository }}
+            WORKFLOW_SHA: ${{ job.workflow_sha }}
+          run: |
+            test "$WORKFLOW_REPOSITORY" = YunYouJun/ai
+            [[ "$WORKFLOW_SHA" =~ ^[0-9a-f]{40}$ ]]
+        - name: Checkout trusted workflow implementation
+          uses: actions/checkout@v7
           with:
-            ref: ${{ github.workflow_sha }}
+            repository: ${{ job.workflow_repository }}
+            ref: ${{ job.workflow_sha }}
             persist-credentials: false
         - name: Preserve the original changelog and publish requested languages
           env:
             GH_TOKEN: ${{ github.token }}
             RELEASE_NOTES_TAG: ${{ inputs.tag || github.event.release.tag_name }}
             RELEASE_NOTES_LANGUAGE: ${{ inputs.language || 'both' }}
-            RELEASE_NOTES_AUTOMATIC: ${{ github.event_name == 'release' || inputs.automatic }}
+            RELEASE_NOTES_AUTOMATIC: ${{ inputs.automatic }}
             RELEASE_NOTES_FORCE: ${{ inputs.force }}
             RELEASE_NOTES_DRY_RUN: ${{ inputs.dry_run }}
-          run: node scripts/release/release-notes.mjs publish
+          run: node scripts/release-notes.mjs publish
         - uses: actions/upload-artifact@v7
           with:
             name: release-notes-${{ github.run_id }}

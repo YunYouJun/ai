@@ -1,0 +1,42 @@
+name: Release Notes Checks
+on:
+  pull_request:
+    paths:
+      - .github/workflows/release-notes*
+      - .github/aw/**
+      - scripts/release-notes.mjs
+      - test/release-notes*
+      - examples/copilot-release-notes/**
+      - docs/guide/copilot-release-notes*
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - eslint.config.js
+      - vitest.config.ts
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: pnpm install --frozen-lockfile
+      - run: gh extension install github/gh-aw --pin v0.92.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: gh aw compile release-notes --no-check-update --validate
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: git diff --exit-code -- .github/workflows/release-notes.lock.yml .github/aw/actions-lock.json .gitattributes
+      - run: pnpm vitest run
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm docs:build
