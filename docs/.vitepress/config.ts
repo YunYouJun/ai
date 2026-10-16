@@ -36,6 +36,7 @@ export default defineConfig({
           { text: '简介', link: '/guide/' },
           { text: '快速开始', link: '/guide/getting-started' },
           { text: '最佳实践', link: '/guide/best-practices' },
+          { text: 'Copilot 中文 Release Notes', link: '/guide/copilot-release-notes' },
           {
             text: 'MCP',
             collapsed: false,
