@@ -11,7 +11,7 @@
  */
 import { defineConfig } from 'vitepress'
 import { withYunlefun, yunlefunMarkdown, zhThemeConfig } from 'vitepress-theme-yunlefun/config'
-import { yunMark } from './yun-mark'
+import { aiMark } from './ai-mark'
 
 export default defineConfig(withYunlefun({
   title: '小云的 AI 开发实践',
@@ -20,12 +20,15 @@ export default defineConfig(withYunlefun({
   base: '/',
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon-32.png', type: 'image/png', sizes: '32x32' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' }],
+    ['link', { rel: 'manifest', href: '/site.webmanifest' }],
   ],
 
   themeConfig: {
     ...zhThemeConfig,
-    brand: { icon: yunMark, hero: true },
+    brand: { icon: aiMark, hero: true },
 
     // ---- Navigation ----
     nav: [
