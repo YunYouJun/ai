@@ -28,7 +28,7 @@ export default defineConfig(withYunlefun({
 
   themeConfig: {
     ...zhThemeConfig,
-    brand: { icon: aiMark, hero: true },
+    brand: { icon: aiMark, hero: true, sky: true },
 
     // ---- Navigation ----
     nav: [
