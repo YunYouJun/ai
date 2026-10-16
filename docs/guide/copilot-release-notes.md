@@ -130,4 +130,4 @@ ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、原文保留、�
 - [自动补丁版跳过运行](https://github.com/YunYouJun/advjs/actions/runs/38850942124)：同一 tag、`automatic=true`；只执行预检查，agent、检测和发布 job 全部跳过。
 - gh-aw v0.92.0 编译验证、49 项发版相关回归、ADV.JS 文档检查与构建通过；本仓库的 18 项测试、类型检查、lint 和文档构建通过。
 
-验证入口在临时分支上借用已有 CI 文件，以绕过新工作流必须先进入默认分支才能直接 dispatch 的限制；模板本身保持不变。验证时仓库没有 GitHub Release，未创建测试 Release 或执行真实正文 PATCH。原 changelog 保留由回归测试覆盖。更多范围和环境信息见 [ADV.JS 验证记录](https://github.com/YunYouJun/advjs/blob/dev/docs/reports/2026-10-16-copilot-release-notes.md)。
+验证入口在临时分支上借用已有 CI 文件，以绕过新工作流必须先进入默认分支才能直接 dispatch 的限制；模板本身保持不变。验证时仓库没有 GitHub Release，未创建测试 Release 或执行真实正文 PATCH。原 changelog 保留由回归测试覆盖。更多范围和环境信息见 [云端验证记录](./copilot-release-notes-validation)。
