@@ -47,6 +47,15 @@ gh aw compile release-notes-zh --validate
 
 ## 版本筛选与原文保留
 
+预检查与 Copilot 分析是不同 job。`on.steps` 中的 `fetch-depth: 0` 只作用于预检查；分析 job 还需要单独配置完整历史，否则补生成旧 tag 时会出现 `fatal: bad object`：
+
+```yaml
+checkout:
+  fetch-depth: 0
+```
+
+这是 [gh-aw 的分析 job 检出配置](https://github.github.com/gh-aw/reference/checkout/)。提示词优先使用本地 Git 证据，GitHub MCP 只补充 PR 信息；完整性过滤可能隐藏 API 返回的历史提交，不能只依赖 MCP。无需关闭该过滤。首次发布没有较早 tag，起点 SHA 为空属于正常情况。
+
 | 入口                 | 规则                                             |
 | -------------------- | ------------------------------------------------ |
 | `release: published` | 自动运行，正式版本且 patch 为 0，排除 `0.0.0`    |

@@ -1,6 +1,6 @@
 # Copilot 中文 Release Notes 验证记录
 
-日期：2026-10-16。状态：本地检查和真实 GitHub Actions 预览通过；工作流待合并到默认分支启用，未创建测试 Release。
+日期：2026-10-16。首次本地检查和临时分支预览通过后，ADV.JS PR #70 与 AI PR #2 已合并；正式入口复验发现分析 job 的浅克隆遗漏，修复和回归见下节。全程未创建测试 Release。
 
 ## 验证对象
 
@@ -33,6 +33,14 @@
 - actionlint v1.7.12：其尚不支持 `copilot-requests`、`concurrency.queue` 和 gh-aw 生成的 `job.workflow_*` 字段；仅排除这三类诊断后通过，GitHub 云端也已接受并运行相同工作流。
 
 gh-aw 的 Docker 扫描器未运行，本记录不将编译成功等同于容器扫描通过。
+
+## 合并后复验与历史检出修复
+
+默认分支的[自动补丁版筛选](https://github.com/YunYouJun/advjs/actions/runs/38859130945)成功；[首次手动预览](https://github.com/YunYouJun/advjs/actions/runs/38859142602)失败，未发布摘要。代理先尝试本地 Git，得到目标提交 `fatal: bad object`，随后 GitHub MCP 的历史提交响应被完整性策略全部过滤，因而报告 `missing_data`。目标 SHA 已正确传入；首次发布的空起点不属于缺失数据。
+
+原因是预检查和分析 job 使用不同的 checkout。初版只为预检查配置完整历史，分析 job 仍使用默认浅克隆。模板现已补上顶层 `checkout.fetch-depth: 0`，并明确优先读取本地 Git；原有 MCP 完整性过滤保留。
+
+新增回归测试从实际编译的分析 job 读取 checkout 深度，以真实 Git 仓库复现历史提交读取：修复前连续出现 `bad object`，修复后通过。发版相关测试总数由 49 增至 50。修复后的云端运行可在 [ADV.JS 中文 Release Notes 工作流](https://github.com/YunYouJun/advjs/actions/workflows/release-notes-zh.lock.yml)查看；需要同时确认整体成功和预览 artifact，不能只看 agent job 成功。
 
 ## 运维入口
 
