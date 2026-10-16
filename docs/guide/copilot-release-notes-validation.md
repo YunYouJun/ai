@@ -100,6 +100,21 @@ GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`stat
 
 此次真实写入继续使用 Actions 的 `GITHUB_TOKEN` 和仓库所有者的 Copilot 额度，没有创建 PAT、模型密钥或 Actions secret，也没有重新发布 npm 包。前两节的预览记录不等于本次真实 Release 页验收。
 
+## 中文优先的折叠布局
+
+2026-10-16，按用户阅读偏好优化 [v0.1.4 实际 Release 页](https://github.com/YunYouJun/advjs/releases/tag/v0.1.4)：中文默认展开，英文和完整 changelog 默认折叠。此处替代前节“两种语言默认展开”的展示策略；历史验证记录保留当时状态。仅英文的生成结果仍默认展开英文，由回归测试覆盖。
+
+命名锚点移入各自 `<details>` 的内容内，继续链接到带 `user-content-` 前缀的目标。实际页面复验：
+
+- 以不带 fragment 的 URL 重新加载，三个分区的状态分别为中文展开、英文折叠、完整记录折叠。
+- 点击 English 后自动展开英文并滚动到目标；点击“完整变更记录”同样自动展开并定位。展开完成后，目标位置分别约为视口顶部 0.008 和 0.203 像素。
+- 英文分区使用 Enter 可折叠和重新展开；中文、英文、完整记录分别使用原生分区控件。
+- 中英文管理区块逐字不变；折叠容器内的原始 changelog 仍为 22,295 字节，SHA-256 仍为 `52b08a71caae9c77b7b4ff6d5469de0e2e9d36b2e63752a6654fca0aa36c7564`。Release ID、标题、tag、目标提交、正式发布标记和附件未变。
+
+发布脚本与复用示例提供独立 `layout` 入口，只更新排版，不读取模型输出或调用 Copilot。使用实际 Release 数据的 CLI 与本地 HTTP 验证确认：预览不 PATCH，正式写入只发送 `body`，重复执行不写入，预览结果与真实页面正文一致。损坏、重复或错位的 changelog 标记会停止更新；完整 changelog 不会重复嵌套折叠。
+
+本地 65 项 ADV.JS 发版回归、相关 ESLint 和文档检查通过；AI 仓库 18 项测试、lint、类型检查与文档构建通过。脚本和模板一致，工作流认证与版本筛选规则不变，本次排版优化没有重新生成摘要或消耗 Copilot 额度。
+
 ## 运维入口
 
 日常操作、补生成、强制替换及额度说明见[ADV.JS AI 双语 Release Notes](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。复用模板和个人／组织计费差异记录在 [复用指南](./copilot-release-notes)。
