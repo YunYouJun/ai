@@ -75,6 +75,22 @@ concurrency:
   cancel-in-progress: false
   job-discriminator: ${{ inputs.tag || github.event.release.tag_name || github.run_id }}
 jobs:
+  activation:
+    pre-steps:
+      - name: Require the exact reusable workflow revision
+        env:
+          WORKFLOW_REPOSITORY: ${{ job.workflow_repository }}
+          WORKFLOW_SHA: ${{ job.workflow_sha }}
+        run: |
+          test "$WORKFLOW_REPOSITORY" = YunYouJun/ai
+          [[ "$WORKFLOW_SHA" =~ ^[0-9a-f]{40}$ ]]
+      - name: Checkout trusted runtime prompt
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
+          persist-credentials: false
+          sparse-checkout: .github/workflows
   pre-activation:
     outputs:
       should_run: ${{ steps.release_scope.outputs.should_run }}
