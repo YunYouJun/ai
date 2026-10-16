@@ -40,8 +40,8 @@ catalogs:
       specifier: ^2.0.17
       version: 2.0.17
     vitepress-theme-yunlefun:
-      specifier: ^0.4.0
-      version: 0.4.0
+      specifier: ^0.4.2
+      version: 0.4.2
     vitest:
       specifier: ^5.0.5
       version: 5.0.5
@@ -111,7 +111,7 @@ importers:
         version: 2.0.17(mermaid@11.17.2)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))
       vitepress-theme-yunlefun:
         specifier: 'catalog:'
-        version: 0.4.0(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
+        version: 0.4.2(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
       vue:
         specifier: 'catalog:'
         version: 3.5.44(typescript@5.9.3)
@@ -3597,8 +3597,8 @@ packages:
       mermaid: 10 || 11
       vitepress: ^1.0.0 || ^1.0.0-alpha
 
-  vitepress-theme-yunlefun@0.4.0:
-    resolution: {integrity: sha512-ZU+vtmyaZ0xlKX/HjlO8VtKDnqgI7dRl5uNyFUHABpvVskzchh1PvYtZQjAiN5sgiwiDU2I/Ax/EjHpkpLb59g==}
+  vitepress-theme-yunlefun@0.4.2:
+    resolution: {integrity: sha512-LqWxMqQqOQqxocby5CGNGwneMpgZX0Dhkf3xsqfxGoGghMeXMvjRv8ef3uyCJBede8QgOMhdHE3mJ4GphcU4MQ==}
     peerDependencies:
       vitepress: ^1.6.4 || ^2.0.0-alpha.16
       vue: ^3.5.0
@@ -4489,7 +4489,7 @@ snapshots:
       detect-libc: 2.1.2
       is-glob: 4.0.3
       node-addon-api: 7.1.1
-      picomatch: 4.0.5
+      picomatch: 4.0.7
     optionalDependencies:
       '@parcel/watcher-android-arm64': 2.6.0
       '@parcel/watcher-darwin-arm64': 2.6.0
@@ -6137,6 +6137,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.5
 
+  fdir@6.5.0(picomatch@4.0.7):
+    optionalDependencies:
+      picomatch: 4.0.7
+
   file-entry-cache@11.1.5:
     dependencies:
       flat-cache: 6.1.23
@@ -7040,7 +7044,7 @@ snapshots:
     dependencies:
       chokidar: 5.0.0
       immutable: 5.1.9
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
     optionalDependencies:
       '@parcel/watcher': 2.6.0
     optional: true
@@ -7163,7 +7167,7 @@ snapshots:
 
   ts-declaration-location@1.0.7(typescript@5.9.3):
     dependencies:
-      picomatch: 4.0.5
+      picomatch: 4.0.7
       typescript: 5.9.3
     optional: true
 
@@ -7336,9 +7340,9 @@ snapshots:
   vite@7.3.6(@types/node@26.6.5)(jiti@2.7.0)(sass@1.102.0)(yaml@2.9.1):
     dependencies:
       esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
-      postcss: 8.5.26
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
+      postcss: 8.5.30
       rollup: 4.62.4
       tinyglobby: 0.2.17
     optionalDependencies:
@@ -7355,7 +7359,7 @@ snapshots:
     optionalDependencies:
       '@mermaid-js/mermaid-mindmap': 9.3.0
 
-  vitepress-theme-yunlefun@0.4.0(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3)):
+  vitepress-theme-yunlefun@0.4.2(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3)):
     dependencies:
       '@yunlefun/icons': 0.3.1
       '@yunlefun/ui': 0.0.7(sass@1.102.0)
