@@ -23,26 +23,41 @@ model: auto
 
 ## 跨仓库直接接入
 
-在目标仓库创建 `.github/workflows/release-notes.yml`，合并到默认分支：
-
-<<< ../../examples/copilot-release-notes/.github/workflows/release-notes-minimal.yml
-
-`release-notes-v1` 是此复用接口的版本标签，接收兼容修复。需要固定执行代码时，将 `@release-notes-v1` 换成该标签对应的完整提交 SHA。调用方不需要安装 gh-aw、复制脚本或配置 `secrets: inherit`。
-
-自动调用默认 `automatic=true`：只处理正式主／次版本，跳过补丁版、草稿和预发布。支持 `1.2.0`、`v1.2.0`、`core-v1.2.0`、`desktop-v1.2.0` 四种 tag 形式；不同前缀各自比较。非这些形式的 tag 会报错。
-
-需要手动指定 tag、选择语言、强制重写或 dry-run 时，改用下方完整调用示例；两个示例任选一个，不要同时安装：
+在目标仓库创建 `.github/workflows/release-notes.yml`，合并到默认分支。下面的 15 行同时支持正式主／次版本自动生成，以及手动输入 tag 补生成：
 
 <<< ../../examples/copilot-release-notes/.github/workflows/release-notes.yml
 
-| 输入        | 默认值  | 用途                                           |
-| ----------- | ------- | ---------------------------------------------- |
-| `tag`       | 必填    | 已有 Release 的目标 tag；dry-run 只需 tag 存在 |
-| `from_tag`  | 空      | 同前缀、较早且属于目标祖先的比较起点           |
-| `language`  | `both`  | `both`、`zh-CN`、`en`                          |
-| `force`     | `false` | 重写所选语言，保留其他语言和原文               |
-| `dry_run`   | `false` | 只上传预览，不修改 Release                     |
-| `automatic` | `true`  | 自动筛选主／次版本；手动入口默认传 `false`     |
+调用方只声明一个 `tag`，不需要 `with`、语言、布尔开关或第二套 `workflow_call.inputs`。在 Actions → Run workflow 输入目标 tag，或运行：
+
+```bash
+gh workflow run release-notes.yml -R OWNER/REPO -f tag=v1.2.3
+```
+
+[GitHub 的手动输入表单](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onworkflow_dispatchinputs) 来自调用方的 `workflow_dispatch.inputs`，不能从远端 `workflow_call` 继承表单。`tag` 的这一处声明仍需留在调用方；转发、默认值和事件判断都由 ai 的 `release-notes.yml` 入口集中处理：Release 事件自动筛选主／次版本，手动事件允许补丁版；默认补齐中英文。
+
+只需自动生成时，也可保留原来的 [14 行示例](https://github.com/YunYouJun/ai/blob/main/examples/copilot-release-notes/.github/workflows/release-notes-minimal.yml)。两种入口均支持 `1.2.0`、`v1.2.0`、`core-v1.2.0`、`desktop-v1.2.0`，不同前缀各自比较。
+
+`release-notes-v1` 是兼容版本标签。生产环境可将标签换成完整提交 SHA。调用方不需要安装 gh-aw、复制脚本或配置 `secrets: inherit`。
+
+### 高级选项只增加一个字段
+
+需要预览、指定语言或重新生成时，增加一个可选 `options` 字符串即可，无须逐项复制输入定义：
+
+<<< ../../examples/copilot-release-notes/.github/workflows/release-notes-options.yml
+
+```bash
+gh workflow run release-notes.yml -R OWNER/REPO -f tag=v1.2.3 \
+  -f options='{"language":"en","dry_run":true}'
+```
+
+| JSON 字段  | 默认值   | 用途                                 |
+| ---------- | -------- | ------------------------------------ |
+| `from_tag` | 自动确定 | 同前缀、较早且属于目标祖先的比较起点 |
+| `language` | `both`   | `both`、`zh-CN`、`en`                |
+| `force`    | `false`  | 重写所选语言，保留其他语言和原文     |
+| `dry_run`  | `false`  | 只上传预览，不修改 Release           |
+
+`options` 必须是 JSON 对象，布尔值使用 `true` / `false`，不能用字符串。未知字段、无效类型或语言会在调用模型前报错；`tag` 和自动筛选模式不能通过 JSON 覆盖。JSON 可以覆盖对应参数的默认值，但不能关闭已由显式参数或 staged 模式启用的预览保护。
 
 工作流运行在调用方仓库，使用调用方的 `GITHUB_TOKEN`、Copilot 额度和 Actions 资源。`actions: read` 供 gh-aw 确认所引用工作流版本；分析 job 仅有只读仓库权限和 Copilot 请求权限，只有检测通过后的发布 job 获得 `contents: write`。公共 ai 仓库提供代码，不替其他仓库承担模型额度。
 
@@ -50,7 +65,7 @@ GitHub Actions 必须允许调用公共仓库的 reusable workflow 和其中使�
 
 ## 集中维护与版本固定
 
-源码位于 [release-notes.md](https://github.com/YunYouJun/ai/blob/main/.github/workflows/release-notes.md)，实际执行入口为编译后的 `release-notes.lock.yml`。版本筛选和发布脚本位于 [scripts/release-notes.mjs](https://github.com/YunYouJun/ai/blob/main/scripts/release-notes.mjs)。
+源码位于 [release-notes.md](https://github.com/YunYouJun/ai/blob/main/.github/workflows/release-notes.md)，事件入口 `release-notes.yml` 将调用方事件转发给编译后的 `release-notes.lock.yml`。后者保留独立的 typed `workflow_call` API，供发版 job 通过 `with` 传参。版本筛选和发布脚本位于 [scripts/release-notes.mjs](https://github.com/YunYouJun/ai/blob/main/scripts/release-notes.mjs)。
 
 预检查分别检出 ai 的实现和调用方完整历史。实现检出使用 GitHub 的 `job.workflow_repository` 与 `job.workflow_sha`，固定到 `uses` 实际解析的提交；字段缺失则失败，不回退到 `main`。Copilot 只分析调用方仓库，发布 job 只执行同一 ai 提交中的脚本。调用方的 Release tag 不能替换发布脚本。
 
@@ -91,11 +106,11 @@ checkout:
 
 这是 [gh-aw 的分析 job 检出配置](https://github.github.com/gh-aw/reference/checkout/)。提示词优先使用本地 Git 证据，GitHub MCP 只补充 PR 信息；完整性过滤可能隐藏 API 返回的历史提交，不能只依赖 MCP。无需关闭该过滤。首次发布没有较早 tag，起点 SHA 为空属于正常情况。
 
-| 入口                 | 规则                                             |
-| -------------------- | ------------------------------------------------ |
-| `release: published` | 自动运行，正式版本且 patch 为 0，排除 `0.0.0`    |
-| `workflow_call`      | 默认 `automatic=true`，供已有发版流程直接调用    |
-| `workflow_dispatch`  | 必填 tag，默认允许补丁版；可选择预览和强制重生成 |
+| 入口                 | 规则                                                      |
+| -------------------- | --------------------------------------------------------- |
+| `release: published` | 自动运行，正式版本且 patch 为 0，排除 `0.0.0`             |
+| `workflow_call`      | `.lock.yml` API 默认 `automatic=true`，供发版流程直接调用 |
+| `workflow_dispatch`  | 必填 tag，默认允许补丁版；可选择预览和强制重生成          |
 
 支持 `v1.2.0`、`core-v1.2.0`、`desktop-v1.2.0`。其他命名需要先调整 `parseReleaseTag` 和对应测试。预发布 tag、GitHub prerelease 和草稿不自动总结。筛选在 pre-activation 阶段完成，跳过时不调用模型。
 
@@ -137,6 +152,8 @@ jobs:
       automatic: true
 ```
 
+此处直接调用 `.lock.yml` 的 typed API，保留现有参数，免于在调用方再声明 `workflow_call.inputs`。`options` JSON 也可通过 API 的同名字符串输入传入。
+
 这是需要接入既有 `publish` job 的片段，不是独立可执行的发布工作流。直接调用和事件触发同时发生时，同一 tag 的串行执行及已生成检查会避免重复发布。
 
 ADV.JS 的实现接在发布事务和桌面附件上传成功之后。仅 npm 发包、推送 tag 或 dry-run 发版都不会新增摘要。实际项目入口见 [ADV.JS 发版工作流](https://github.com/YunYouJun/advjs/blob/dev/.github/workflows/release.yml) 和[维护指南](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。
@@ -147,7 +164,7 @@ ADV.JS 的实现接在发布事务和桌面附件上传成功之后。仅 npm �
 
 ```bash
 gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
-  -f tag=core-v0.1.2 -f dry_run=true
+  -f tag=core-v0.1.2 -f options='{"dry_run":true}'
 ```
 
 正式写入要求对应 GitHub Release 已发布。补丁版补齐中英文，和只重写英文分别使用：
@@ -157,10 +174,10 @@ gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
   -f tag=v0.4.1
 
 gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
-  -f tag=v0.4.1 -f from_tag=v0.4.0 -f language=en -f force=true
+  -f tag=v0.4.1 -f options='{"from_tag":"v0.4.0","language":"en","force":true}'
 ```
 
-选择包含最新脚本的默认分支运行。预检查和发布 job 使用 `github.workflow_sha` 检出脚本，所以补生成旧 tag 时不会因为旧代码缺少脚本而失败。
+选择包含最新脚本的默认分支运行。预检查和发布 job 使用 `job.workflow_sha` 检出 ai 中的脚本，所以补生成旧 tag 时不会因为旧代码缺少脚本而失败。
 
 ## 验证与排查
 
@@ -175,7 +192,7 @@ gh workflow run release-notes-zh.lock.yml -R YunYouJun/advjs --ref dev \
 | 所选语言已存在而跳过   | 需要重生成时选择语言并传 `force=true`；补另一语言不需要 force   |
 | 发布 job 没有写入      | 检查模型是否提交输出、威胁检测是否通过、正文标记是否有效        |
 
-ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、单双语选择、旧中文区块升级、按语言重写、原文保留、重复调用和写入范围；模板源自同一实现。静态检查和云端认证是不同层级的证据，不应将编译成功记作真实 Release 已更新。
+ai 的集中回归覆盖版本边界、真实 Git 历史、单双语选择、旧中文区块升级、JSON 选项、原文保留、幂等和定向写入；ADV.JS 检查事件入口与发布事务。静态检查和云端认证是不同层级的证据，不应将编译成功记作真实 Release 已更新。
 
 ## 已验证实例
 
