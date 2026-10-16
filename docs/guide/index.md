@@ -30,7 +30,7 @@ AI Coding 工作流策略、Skill 编写技巧、上下文管理。
 
 ## 相关资源
 
-- [Copilot 中文 Release Notes](./copilot-release-notes) — 使用 GITHUB_TOKEN 自动总结版本，保留原 changelog
+- [Copilot 双语 Release Notes](./copilot-release-notes) — 使用 GITHUB_TOKEN 自动总结版本，保留原 changelog
 
 - [Claude Code 实践](/claude-code/) — Claude Code 使用经验和技巧
 - [工具与资源](/tools/) — 常用 AI 开发工具和框架
