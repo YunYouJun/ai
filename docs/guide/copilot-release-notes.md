@@ -20,6 +20,19 @@
 
 这也适用于跨仓库和多层复用：[GitHub reusable workflow 的 `github` 上下文始终属于调用方](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#github-context)，其中的 `github.token` 和 `secrets.GITHUB_TOKEN` 都来自调用方。`uses: YunYouJun/ai/...` 只引用工作流代码，不共享 ai 仓库的凭据或 Copilot 订阅；[GitHub 托管 runner 的计费也归调用方](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#how-reusable-workflows-use-runners)。
 
+### Copilot Free 能用吗？
+
+**可以，不要求付费 Copilot 订阅。** [GitHub 2026-06-11 官方公告](https://github.blog/changelog/2026-06-11-agentic-workflows-no-longer-need-a-personal-access-token/) 明确说明，使用 `GITHUB_TOKEN` 的 Agentic Workflows 支持所有 Copilot 套餐，包括 Copilot Free。结合上述个人仓库计费规则，仓库所有者可以使用自己的 Free 额度，无需 PAT。
+
+接入条件和限制如下：
+
+- 个人仓库所有者需已[开通 Copilot Free](https://docs.github.com/en/copilot/get-started/plans)，并有可用额度。仅有免费的 GitHub 账号、公开仓库或 `GITHUB_TOKEN`，不会自动获得无限 AI 推理能力。
+- [当前套餐说明](https://docs.github.com/en/copilot/get-started/plans#models)规定，Copilot Free 只支持自动选模。本工作流已使用 `model: auto`，编译后的分析和威胁检测 job 均使用 `COPILOT_MODEL: auto`，无需在接入 YAML 中另加模型配置。
+- [Copilot Free 包含有限的 AI credits](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing#github-ai-credits-allowance-by-plan)，可用量以账户用量页面为准，不保证每月可生成固定数量的 Release Notes。长历史分析、双语输出和威胁检测会增加消费；`dry_run` 预览也会消费额度。额度耗尽时，需按 GitHub 提供的方案等待重置或增加可用额度，`copilot-requests: write` 不会绕过套餐限制。
+- 组织仓库仍按组织的 Copilot 策略和可用预算运行；触发者拥有 Copilot Free，不会让组织工作流改为消耗其个人免费额度。
+
+以上是截至 2026-10-16 的**官方支持范围与当前配置核对结果**，并非独立 Free 账号的端到端实测。本文已有云端运行记录未覆盖独立 Copilot Free 账号；首次接入仍应在目标仓库用已有 tag 执行 `dry_run` 预览，确认该账户的授权、额度和模型访问正常。预检查跳过或 CI 编译通过，不能证明 Free 账号已成功调用模型。
+
 ### 无需 PAT 的认证方式
 
 关键配置是：
