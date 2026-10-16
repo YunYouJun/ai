@@ -6,6 +6,9 @@ on:
       tag:
         type: string
         required: true
+      options:
+        type: string
+        default: ''
       from_tag:
         type: string
         default: ''
@@ -53,6 +56,7 @@ on:
         RELEASE_NOTES_FROM_TAG: ${{ inputs.from_tag }}
         RELEASE_NOTES_LANGUAGE: ${{ inputs.language || 'both' }}
         RELEASE_NOTES_AUTOMATIC: ${{ inputs.automatic }}
+        RELEASE_NOTES_OPTIONS: ${{ inputs.options }}
         RELEASE_NOTES_FORCE: ${{ inputs.force }}
         RELEASE_NOTES_DRY_RUN: ${{ inputs.dry_run }}
       working-directory: source
@@ -147,6 +151,7 @@ safe-outputs:
             RELEASE_NOTES_TAG: ${{ inputs.tag || github.event.release.tag_name }}
             RELEASE_NOTES_LANGUAGE: ${{ inputs.language || 'both' }}
             RELEASE_NOTES_AUTOMATIC: ${{ inputs.automatic }}
+            RELEASE_NOTES_OPTIONS: ${{ inputs.options }}
             RELEASE_NOTES_FORCE: ${{ inputs.force }}
             RELEASE_NOTES_DRY_RUN: ${{ inputs.dry_run }}
           run: node scripts/release-notes.mjs publish

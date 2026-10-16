@@ -1,0 +1,18 @@
+name: Release Notes
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag: {type: string, required: true}
+      options:
+        description: 可选 JSON，例如 {"language":"en","dry_run":true}
+        type: string
+jobs:
+  notes:
+    uses: YunYouJun/ai/.github/workflows/release-notes.yml@release-notes-v1
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: read
+      copilot-requests: write

@@ -1,9 +1,12 @@
 // @vitest-environment node
 
 import { execFile } from 'node:child_process'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { createServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
@@ -15,6 +18,7 @@ import {
   parseReleaseTag,
   prepareReleaseNotes,
   publishReleaseNotes,
+  resolveReleaseNotesInputs,
   resolveReleaseRange,
   shouldGenerateAutomatically,
   updateReleaseNotesLayout,
@@ -330,6 +334,73 @@ describe('preserving the original changelog', () => {
       const invalid = { get: vi.fn(async () => release), update: vi.fn() }
       await expect(updateReleaseNotesLayout({ tag: 'v0.2.0', client: invalid })).rejects.toThrow('published Release')
       expect(invalid.update).not.toHaveBeenCalled()
+    }
+  })
+})
+
+describe('centralized manual options', () => {
+  it('defaults a tag-only manual request to bilingual patch backfill', () => {
+    expect(resolveReleaseNotesInputs({ RELEASE_NOTES_TAG: 'v1.2.3' })).toEqual({
+      tag: 'v1.2.3',
+      fromTag: undefined,
+      language: 'both',
+      automatic: false,
+      force: false,
+      dryRun: false,
+    })
+    expect(resolveReleaseNotesInputs({ RELEASE_NOTES_OPTIONS: '  ' }).language).toBe('both')
+  })
+
+  it('parses supported options without allowing target or automation overrides', () => {
+    expect(resolveReleaseNotesInputs({
+      RELEASE_NOTES_TAG: 'v1.2.3',
+      RELEASE_NOTES_OPTIONS: '{"from_tag":"v1.2.0","language":"en","force":true,"dry_run":true}',
+    })).toMatchObject({ tag: 'v1.2.3', fromTag: 'v1.2.0', language: 'en', force: true, dryRun: true, automatic: false })
+    for (const value of ['[]', 'null', 'true', '{', '{"tag":"v9.0.0"}', '{"automatic":false}', '{"force":"true"}', '{"dry_run":1}', '{"language":null}', '{"language":"fr"}', '{"from_tag":false}', '{"from_tag":"../tag"}', '{"__proto__":{}}'])
+      expect(() => resolveReleaseNotesInputs({ RELEASE_NOTES_OPTIONS: value })).toThrow()
+  })
+
+  it('cannot turn off an existing preview or staged-mode guard', () => {
+    for (const key of ['RELEASE_NOTES_DRY_RUN', 'GH_AW_SAFE_OUTPUTS_STAGED'])
+      expect(resolveReleaseNotesInputs({ [key]: 'true', RELEASE_NOTES_OPTIONS: '{"dry_run":false}' }).dryRun).toBe(true)
+    expect(resolveReleaseNotesInputs({ RELEASE_NOTES_AUTOMATIC: 'true' }).automatic).toBe(true)
+  })
+
+  it('applies JSON options in the real publishing CLI without PATCH during preview', async () => {
+    const calls = []
+    const server = createServer((request, response) => {
+      calls.push({ method: request.method, url: request.url })
+      response.setHeader('content-type', 'application/json')
+      response.end(JSON.stringify({ id: 42, tag_name: 'v0.2.0', draft: false, prerelease: false, body: original }))
+    })
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+    try {
+      const directory = await mkdtemp(join(tmpdir(), 'release-notes-options-'))
+      temporaryDirectories.push(directory)
+      const agentOutput = join(directory, 'agent-output.json')
+      await writeFile(agentOutput, JSON.stringify({ items: [{ type: 'publish_release_notes', notes_en: english }] }))
+      const result = await execFileAsync(process.execPath, [fileURLToPath(new URL('../scripts/release-notes.mjs', import.meta.url)), 'publish'], {
+        cwd: directory,
+        env: {
+          ...process.env,
+          GH_TOKEN: 'fixture-token',
+          GITHUB_REPOSITORY: 'example/repo',
+          GITHUB_API_URL: `http://127.0.0.1:${server.address().port}`,
+          GH_AW_AGENT_OUTPUT: agentOutput,
+          GITHUB_STEP_SUMMARY: '',
+          RELEASE_NOTES_TAG: 'v0.2.0',
+          RELEASE_NOTES_OPTIONS: '{"language":"en","dry_run":true}',
+        },
+      })
+      expect(JSON.parse(result.stdout)).toEqual({ status: 'preview', tag: 'v0.2.0' })
+      expect(calls).toEqual([{ method: 'GET', url: '/repos/example/repo/releases/tags/v0.2.0' }])
+      const preview = await readFile(join(directory, 'release-notes-preview.md'), 'utf8')
+      expect(preview).toContain('<!-- ai-notes-en:start -->')
+      expect(preview).not.toContain('<!-- ai-notes-zh:start -->')
+      expect(changelogBody(preview)).toBe(original)
+    }
+    finally {
+      await new Promise((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
     }
   })
 })
