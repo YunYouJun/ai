@@ -115,6 +115,27 @@ GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`stat
 
 本地 65 项 ADV.JS 发版回归、相关 ESLint 和文档检查通过；AI 仓库 18 项测试、lint、类型检查与文档构建通过。脚本和模板一致，工作流认证与版本筛选规则不变，本次排版优化没有重新生成摘要或消耗 Copilot 额度。
 
+## 跨仓库复用验证
+
+2026-10-16，经仓库所有者明确选择，`YunYouJun/ai` 已改为公开仓库。GitHub 的访问规则只允许公开调用方引用公开的 reusable workflow；此前 ADV.JS 的调用因此被拒绝，未调用模型或修改 Release。
+
+公共入口为 `.github/workflows/release-notes.lock.yml@release-notes-v1`。版本标签指向已通过验证的提交 `8023830649c9050b3f41a81fd0f88452524cd253`；ADV.JS 固定引用相同的完整 SHA。其他仓库只需安装 14 行的自动调用示例，或使用带手动输入的完整示例，不需要复制脚本、安装 gh-aw、配置 PAT 或 `secrets: inherit`。
+
+预检查和发布 job 按 `job.workflow_sha` 加载同版本 ai 脚本，分析 job 则检出调用方完整历史。最初的云端试运行发现 gh-aw 默认跳过跨仓库的配置检出，导致 runtime-import 找不到提示词；修复后 activation 提前检出同一 ai 提交的提示词，并有回归检查保证其位于模板渲染之前。
+
+[真实 Copilot 跨仓库预览 38887751780](https://github.com/YunYouJun/advjs/actions/runs/38887751780) 的预检查、activation、agent、检测、预览发布和 conclusion 全部成功：
+
+- 调用方为 `YunYouJun/advjs`，目标为 `core-v0.1.2`，SHA 为 `8a62e9be8444496eaa4f0e7e1d9fa3bba95a1dd0`；激活产物中的实际提示词与范围一致，未使用 ai 仓库的历史。
+- 中英文摘要的 8 个提交引用集合完全一致，均可从目标提交追溯。中文展开、英文折叠；此 tag 没有 GitHub Release，因此预览不包含原 changelog。
+- `release-notes-38887751780` artifact 中预览为 3,766 字节，SHA-256 为 `bed72c2b360031ca0ac555fce99ec25ecb85abbccdf1cac6c95cf2a2bdc8cb8d`。
+- 调用链使用 ADV.JS 的 `GITHUB_TOKEN` 和 Copilot 请求权限，无 PAT 或模型密钥；`dry_run=true` 不执行正文 PATCH。
+
+[已有双语版本复验 38887796355](https://github.com/YunYouJun/advjs/actions/runs/38887796355) 使用 `tag=v0.1.4`、`language=both`、`force=false`、`automatic=false`。预检查成功，所有模型和发布 job 均跳过，证明手动补丁版调用可以在摘要齐全时结束。
+
+前后对比确认，现有 v0.1.4 Release 的 ID、tag、标题、目标、正文、附件、草稿和预发布标记、创建时间、发布时间和更新时间全部不变。正文 SHA-256 为 `06a7b18f0e771c10d12b7fdc63c56a72167727556157f908ae32f5137e8d881e`。集中渲染器对该正文返回 `changed=false`，中文优先的折叠布局和原 changelog 原文保持不变。
+
+本地验证包括 gh-aw v0.92.0 编译、actionlint、ai 的 73 项测试、lint、类型检查和文档构建，以及 ADV.JS 的 17 项调用与发版回归。生成器测试集中在 ai；ADV.JS 只维护调用接口和原有发布事务。
+
 ## 运维入口
 
 日常操作、补生成、强制替换及额度说明见[ADV.JS AI 双语 Release Notes](https://github.com/YunYouJun/advjs/blob/dev/docs/contributing/release-notes.md)。复用模板和个人／组织计费差异记录在 [复用指南](./copilot-release-notes)。

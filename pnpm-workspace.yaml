@@ -31,3 +31,4 @@ catalog:
   vitepress-plugin-mermaid: ^2.0.17
   vitest: ^4.1.10
   vue: ^3.5.41
+  yaml: 2.9.0
