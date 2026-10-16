@@ -29,12 +29,12 @@ function requestedLanguages(language) {
 }
 
 export function parseReleaseTag(tag) {
-  const match = typeof tag === 'string' && /^(v|core-v|desktop-v)(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([\dA-Za-z.-]+))?(?:\+([\dA-Za-z.-]+))?$/u.exec(tag)
+  const match = typeof tag === 'string' && /^(v|core-v|desktop-v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([\dA-Za-z.-]+))?(?:\+([\dA-Za-z.-]+))?$/u.exec(tag)
   if (!match || match[0] !== tag || [match[5], match[6]].some(value => value?.split('.').some(part => !part)))
-    throw new Error('Release tag must be v<semver>, core-v<semver>, or desktop-v<semver>')
+    throw new Error('Release tag must be <semver>, v<semver>, core-v<semver>, or desktop-v<semver>')
   if (match[5]?.split('.').some(part => /^0\d+$/u.test(part)))
     throw new Error('Numeric prerelease identifiers cannot have leading zeros')
-  return { tag, prefix: match[1], major: Number(match[2]), minor: Number(match[3]), patch: Number(match[4]), prerelease: match[5] || '' }
+  return { tag, prefix: match[1] || '', major: Number(match[2]), minor: Number(match[3]), patch: Number(match[4]), prerelease: match[5] || '' }
 }
 
 export function shouldGenerateAutomatically(tag, release = {}) {
@@ -328,7 +328,7 @@ async function main() {
     process.stdout.write(`${JSON.stringify({ status: result.status, tag: result.tag })}\n`)
   }
   else {
-    throw new Error('Usage: node scripts/release/release-notes.mjs <prepare | publish | layout>')
+    throw new Error('Usage: node scripts/release-notes.mjs <prepare | publish | layout>')
   }
 }
 
