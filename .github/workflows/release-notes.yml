@@ -1,0 +1,16 @@
+name: AI Release Notes Events
+on:
+  workflow_call:
+permissions: {}
+jobs:
+  notes:
+    uses: ./.github/workflows/release-notes.lock.yml
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: read
+      copilot-requests: write
+    with:
+      tag: ${{ github.event.inputs.tag || github.event.release.tag_name }}
+      options: ${{ github.event.inputs.options || '' }}
+      automatic: ${{ github.event_name == 'release' }}

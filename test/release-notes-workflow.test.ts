@@ -63,27 +63,45 @@ describe('cross-repository release notes', () => {
     expect(compiled).toContain('{{#runtime-import .github/workflows/release-notes.md}}')
   })
 
-  it('keeps the minimal and manual callers within the permission and input contracts', () => {
-    for (const file of ['release-notes-minimal.yml', 'release-notes.yml']) {
-      const text = read(`examples/copilot-release-notes/.github/workflows/${file}`)
-      const caller = parse(text)
+  it('keeps automatic and compact manual callers within the permission contract', () => {
+    for (const file of ['release-notes-minimal.yml', 'release-notes.yml', 'release-notes-options.yml']) {
+      const caller = parse(read(`examples/copilot-release-notes/.github/workflows/${file}`))
       const job: any = Object.values(caller.jobs)[0]
-      expect(job.uses).toBe('YunYouJun/ai/.github/workflows/release-notes.lock.yml@release-notes-v1')
+      const entry = file === 'release-notes-minimal.yml' ? 'release-notes.lock.yml' : 'release-notes.yml'
+      expect(job.uses).toBe(`YunYouJun/ai/.github/workflows/${entry}@release-notes-v1`)
       expect(job).not.toHaveProperty('secrets')
       const levels: Record<string, number> = { none: 0, read: 1, write: 2 }
       for (const called of Object.values(workflow.jobs) as { permissions?: Record<string, string> }[]) {
         for (const [scope, level] of Object.entries(called.permissions || {}))
           expect(levels[job.permissions[scope] || 'none'], scope).toBeGreaterThanOrEqual(levels[level])
       }
-      for (const input of Object.keys(job.with))
-        expect(workflow.on.workflow_call.inputs).toHaveProperty(input)
       expect(caller.on.release.types).toEqual(['published'])
-      if (file === 'release-notes.yml') {
-        expect(caller.on.workflow_dispatch.inputs.automatic.default).toBe(false)
-        expect(caller.on.workflow_dispatch.inputs.language.options).toEqual(['both', 'zh-CN', 'en'])
+      if (file !== 'release-notes-minimal.yml') {
+        expect(job).not.toHaveProperty('with')
+        expect(Object.keys(caller.on.workflow_dispatch.inputs)).toEqual(file === 'release-notes.yml' ? ['tag'] : ['tag', 'options'])
+        expect(caller.on.workflow_dispatch.inputs.tag).toMatchObject({ type: 'string', required: true })
       }
     }
     expect(workflow.on.workflow_call.inputs.automatic.default).toBe(true)
     expect(workflow.on).not.toHaveProperty('release')
+  })
+
+  it('adapts caller events centrally and keeps the typed programmatic API compatible', () => {
+    const adapter = parse(read('.github/workflows/release-notes.yml'))
+    expect(adapter.on.workflow_call).toBeNull()
+    expect(adapter.permissions).toEqual({})
+    expect(adapter.jobs.notes.uses).toBe('./.github/workflows/release-notes.lock.yml')
+    expect(adapter.jobs.notes).not.toHaveProperty('secrets')
+    expect(adapter.jobs.notes.with).toEqual({
+      tag: expression('github.event.inputs.tag || github.event.release.tag_name'),
+      options: expression('github.event.inputs.options || \'\''),
+      automatic: expression('github.event_name == \'release\''),
+    })
+    expect(workflow.on.workflow_call.inputs.options).toEqual({ type: 'string', default: '' })
+    expect(workflow.on.workflow_call.inputs.tag.required).toBe(true)
+    for (const [job, run] of [['pre_activation', 'node ../scripts/release-notes.mjs prepare'], ['publish_release_notes', 'node scripts/release-notes.mjs publish']]) {
+      const step = workflow.jobs[job].steps.find((step: { run?: string }) => step.run === run)
+      expect(step.env.RELEASE_NOTES_OPTIONS).toBe(expression('inputs.options'))
+    }
   })
 })
