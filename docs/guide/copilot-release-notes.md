@@ -147,7 +147,9 @@ ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、单双语选择�
 
 ## 已验证实例
 
-2026-10-16 在个人仓库 `YunYouJun/advjs` 完成验证，集成见 [PR #70](https://github.com/YunYouJun/advjs/pull/70)：
+双语实现见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [本仓库 PR #4](https://github.com/YunYouJun/ai/pull/4)。[最终双语预览](https://github.com/YunYouJun/advjs/actions/runs/38866967520)全部成功，产物的中英文分类对应，六个相同 commit URL 均属于目标历史。62 项发版回归、CLI 与本地 HTTP 模拟、GitHub 渲染和页面折叠验证通过；详细环境和产物校验值见[验证记录](./copilot-release-notes-validation#双语设计与验证)。这些改动在 PR 中，合并后才成为默认工作流。
+
+以下为 2026-10-16 初版中文验证的历史记录，集成见 [PR #70](https://github.com/YunYouJun/advjs/pull/70)：
 
 - [手动补丁版预览运行](https://github.com/YunYouJun/advjs/actions/runs/38850664781)：`core-v0.1.2`、`dry_run=true`；使用 `GITHUB_TOKEN` 的 Copilot agent、检测和预览发布 job 全部成功，生成了中文说明 artifact。
 - [自动补丁版跳过运行](https://github.com/YunYouJun/advjs/actions/runs/38850942124)：同一 tag、`automatic=true`；只执行预检查，agent、检测和发布 job 全部跳过。
