@@ -44,7 +44,7 @@ gh-aw 的 Docker 扫描器未运行，本记录不将编译成功等同于容器
 
 ## 双语设计与验证
 
-2026-10-16 的双语改动见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [AI PR #4](https://github.com/YunYouJun/ai/pull/4)。工作流文件名保留 `release-notes-zh.lock.yml`；显示名改为“AI Release Notes”。此节记录 PR 中的实现，不代表已合并到默认分支。
+2026-10-16 的双语改动见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [AI PR #4](https://github.com/YunYouJun/ai/pull/4)。工作流文件名保留 `release-notes-zh.lock.yml`；显示名改为“AI Release Notes”。本节保留 PR 阶段的验证，默认分支的启用情况见下节。
 
 默认 `language=both`，手动可选 `zh-CN`、`en`。一次分析后生成请求语言，已有另一语言作翻译对照；默认只补缺失语言，`force` 只重写所选语言。新生成摘要必须有可点击的 PR/commit 引用，双语同时生成时引用 URL 集合必须一致；这不替代语义审阅。
 
@@ -66,6 +66,23 @@ gh-aw 的 Docker 扫描器未运行，本记录不将编译成功等同于容器
 - 模板脚本与 ADV.JS 一致；本仓库 18 项测试、lint、类型检查和文档构建通过。
 
 全程没有创建 GitHub Release、PAT、模型 API key 或 Actions secret。真实正文更新的保护通过回归与本地 HTTP 模拟验证；云端运行使用仓库所有者的 Copilot 额度，但只生成预览 artifact。
+
+## 双语工作流默认分支复验
+
+2026-10-16，ADV.JS PR #72 合并到默认分支 `dev`，合并提交为 [2e7cae5c](https://github.com/YunYouJun/advjs/commit/2e7cae5c0c0801be55d7d6801435234db7302be1)。合并前最新提交的 28 项检查通过，另 3 项按配置跳过或中性结束。通用 E2E 首轮在仓鼠 Demo 的运行时初始化等待超时；[相同提交重跑](https://github.com/YunYouJun/advjs/actions/runs/38866973432)通过，没有修改游戏逻辑或测试断言，首轮超时的根因未确认。
+
+GitHub 工作流注册信息为 `id=386363504`、`name=AI Release Notes`、`state=active`。默认分支的源码和编译配置均已核对：`language` 默认 `both`，手动选项为 `both / zh-CN / en`，现有发布流程仍在发布事务和桌面附件成功后以 `automatic=true` 调用该工作流。Copilot 继续使用 `github.token`，没有新增 PAT 或模型密钥。
+
+| 复验                           | 运行与结果                                                                                                                         |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 省略 `language` 的默认双语预览 | [运行 38870751064](https://github.com/YunYouJun/advjs/actions/runs/38870751064)，整体及 Copilot、检测、预览发布、conclusion 均成功 |
+| 自动补丁版筛选                 | [运行 38870746274](https://github.com/YunYouJun/advjs/actions/runs/38870746274)，成功；只执行预检查，模型、检测与发布 job 均跳过   |
+
+两次均从默认分支 `dev` 的合并提交运行，使用 `tag=core-v0.1.2`、`dry_run=true`。默认双语预览未传 `language`，确认默认值实际生效；自动补丁版运行另传 `automatic=true`，确认模型调用前的版本筛选生效。
+
+产物 `release-notes-38870751064` 中的 `release-notes-preview.md` 已检查：包含中英文区块、两个默认展开的语言分区及对应导航，引用集合一致。六个 commit URL 均在目标 tag 历史内，两个 PR 引用均已合并，且其合并提交也在该历史内。产物 SHA-256 为 `68b49c35b9da531bb0ce1d641ada7bdeea658149eabbdeee8078a26c36621e93`。模板脚本与 `dev` 实现一致。
+
+这确认了 ADV.JS 默认分支的双语工作流已启用，后续正式主／次版本可走现有发布流程，补丁版使用手动入口。本次仅做预览，没有创建或修改正式 Release；真实正文更新保护仍由前述回归与本地 HTTP 模拟验证。
 
 ## 运维入口
 

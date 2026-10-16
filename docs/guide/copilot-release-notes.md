@@ -147,7 +147,7 @@ ADV.JS 的本地回归覆盖版本边界、真实 Git 历史、单双语选择�
 
 ## 已验证实例
 
-双语实现见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [本仓库 PR #4](https://github.com/YunYouJun/ai/pull/4)。[最终双语预览](https://github.com/YunYouJun/advjs/actions/runs/38866967520)全部成功，产物的中英文分类对应，六个相同 commit URL 均属于目标历史。62 项发版回归、CLI 与本地 HTTP 模拟、GitHub 渲染和页面折叠验证通过；详细环境和产物校验值见[验证记录](./copilot-release-notes-validation#双语设计与验证)。这些改动在 PR 中，合并后才成为默认工作流。
+双语实现见 [ADV.JS PR #72](https://github.com/YunYouJun/advjs/pull/72) 与 [本仓库 PR #4](https://github.com/YunYouJun/ai/pull/4)。[最终双语预览](https://github.com/YunYouJun/advjs/actions/runs/38866967520)全部成功，产物的中英文分类对应，六个相同 commit URL 均属于目标历史。62 项发版回归、CLI 与本地 HTTP 模拟、GitHub 渲染和页面折叠验证通过；详细环境和产物校验值见[验证记录](./copilot-release-notes-validation#双语设计与验证)。ADV.JS PR #72 已合并到默认分支 `dev`，启用状态和合并后运行证据见[默认分支复验](./copilot-release-notes-validation#双语工作流默认分支复验)。
 
 以下为 2026-10-16 初版中文验证的历史记录，集成见 [PR #70](https://github.com/YunYouJun/advjs/pull/70)：
 
