@@ -57,7 +57,7 @@ gh workflow run release-notes.yml -R OWNER/REPO -f tag=v1.2.3 \
 | `force`    | `false`  | 重写所选语言，保留其他语言和原文     |
 | `dry_run`  | `false`  | 只上传预览，不修改 Release           |
 
-`options` 必须是 JSON 对象，布尔值使用 `true` / `false`，不能用字符串。未知字段、无效类型或语言会在调用模型前报错；`tag` 和自动筛选模式不能通过 JSON 覆盖。JSON 可以覆盖对应参数的默认值，但不能关闭已由显式参数或 staged 模式启用的预览保护。
+`options` 必须是 JSON 对象，布尔值使用 `true` / `false`，不能用字符串。未知字段、无效类型或语言会在调用模型前报错；`tag` 和自动筛选模式不能通过 JSON 覆盖。JSON 字段优先于对应的 typed API 参数；`dry_run` 采用 true 优先，不能关闭已由显式参数或 staged 模式启用的预览保护。
 
 工作流运行在调用方仓库，使用调用方的 `GITHUB_TOKEN`、Copilot 额度和 Actions 资源。`actions: read` 供 gh-aw 确认所引用工作流版本；分析 job 仅有只读仓库权限和 Copilot 请求权限，只有检测通过后的发布 job 获得 `contents: write`。公共 ai 仓库提供代码，不替其他仓库承担模型额度。
 
