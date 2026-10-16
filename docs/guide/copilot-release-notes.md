@@ -57,9 +57,9 @@ gh aw compile release-notes-zh --validate
 
 `force=true` 只重写所选语言。旧版中文标记兼容：补英文会升级为双语布局，已有中文区块保持原样。
 
-GitHub Release 只有单一正文，使用“简体中文 · English”导航和原生 `<details>` 分区，默认展开，读者可折叠。它提供页面内定位，不提供应用式互斥标签页或持久化语言偏好。参见 [GitHub 折叠区块说明](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections)。保留原工作流文件名 `release-notes-zh.lock.yml`，兼容既有调用；Actions 显示名为“AI Release Notes”。
+GitHub Release 使用“简体中文 · English · 完整变更记录”导航和原生 `<details>` 分区。中文默认展开，英文和完整 changelog 默认折叠；只有英文时，英文默认展开。先展示摘要，再按需阅读完整记录，不保存个人语言偏好。参见 [GitHub 折叠区块说明](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections)。保留原工作流文件名 `release-notes-zh.lock.yml`，兼容既有调用；Actions 显示名为“AI Release Notes”。
 
-语言目标使用 `<a name="ai-release-notes-zh"></a>`，导航链接包含 GitHub 渲染后的 `user-content-` 前缀。仅使用 `id` 的空锚点在真实 Release 页可能只改变 URL、不滚动；PR 正文预览不能替代 Release 页检查。应实际点击两种语言并确认目标进入视口，再分别折叠、展开。导航不会自动展开已折叠的分区。
+目标使用 `<a name="ai-release-notes-zh"></a>` 形式的命名锚点，放在折叠分区内容内，导航链接包含 GitHub 渲染后的 `user-content-` 前缀。这样点击 English 或完整变更记录时，会展开目标并定位。PR 正文预览不能替代真实 Release 页检查，应同时确认默认状态、目标可见性和实际滚动位置。
 
 ## 版本筛选与原文保留
 
@@ -82,9 +82,20 @@ checkout:
 
 默认起点是同一 tag 系列下、目标提交的祖先中版本最高的较早正式 tag。可用 `from_tag` 指定起点，但必须为同系列、较早且为目标祖先的版本。没有起点时分析目标提交可达历史。所有范围绑定完整提交 SHA，不使用当前默认分支 HEAD 代替历史版本。
 
-模型只提交本次请求的 `notes_zh`、`notes_en`，不能指定 Release、原正文或 Git 范围。脚本要求请求的语言完整，拒绝额外语言和模型提供的管理标记、折叠布局。发布前重新读取目标 Release，只更新 `ai-release-notes:start/end` 管理区域；每种语言另有 `ai-notes-zh:start/end`、`ai-notes-en:start/end` 标记，未选中语言区块与外部原文保持不变，PATCH 请求只包含 `body`。不会修改仓库内的 `CHANGELOG.md`、不可变发版清单或 Release 附件。
+模型只提交本次请求的 `notes_zh`、`notes_en`，不能指定 Release、原正文或 Git 范围。脚本要求请求的语言完整，拒绝额外语言和模型提供的管理标记、折叠布局。发布前重新读取目标 Release，用 `ai-release-notes:start/end` 管理摘要布局，每种语言另有 `ai-notes-zh:start/end`、`ai-notes-en:start/end` 标记；完整原文放入 `ai-changelog:start/end` 的折叠容器。未选中语言区块和 changelog 原文按字节保留，PATCH 请求只包含 `body`。不会修改仓库内的 `CHANGELOG.md`、不可变发版清单或 Release 附件。
 
 所选语言均有完整区块时默认跳过，`force=true` 只重写所选语言。标记损坏或重复时失败，避免误覆盖。按 tag 串行执行、发布前复读和幂等检查共同防止重复添加。
+
+已有 Release 只升级展示方式时，使用 `layout` 入口，不重新调用模型。在已提供 `GH_TOKEN` 或 `GITHUB_TOKEN` 的环境中运行；Actions 可用 `github.token`，更新正文需要 `contents: write`：
+
+```bash
+GITHUB_REPOSITORY=OWNER/REPO \
+RELEASE_NOTES_TAG=v1.2.3 \
+RELEASE_NOTES_DRY_RUN=true \
+node scripts/release/release-notes.mjs layout
+```
+
+确认 `release-notes-preview.md` 后，将 `RELEASE_NOTES_DRY_RUN` 改为 `false` 写入。命令保留已有摘要和原 changelog，重复执行返回 `unchanged`，不嵌套折叠；没有 AI 摘要的普通 Release 不会被强制改写。
 
 ## 从现有发布流程直接调用
 
