@@ -46,6 +46,23 @@ describe('cross-repository release notes', () => {
     expect(publisher.find((step: { run?: string }) => step.run === 'node scripts/release-notes.mjs publish')).toBeDefined()
   })
 
+  it('checks out the callee runtime prompt before interpolation', () => {
+    const steps = workflow.jobs.activation.steps
+    const guard = steps.findIndex((step: { name?: string }) => step.name === 'Require the exact reusable workflow revision')
+    const checkout = steps.findIndex((step: { name?: string }) => step.name === 'Checkout trusted runtime prompt')
+    const render = steps.findIndex((step: { name?: string }) => step.name === 'Interpolate variables and render templates')
+    expect(guard).toBeGreaterThanOrEqual(0)
+    expect(guard).toBeLessThan(checkout)
+    expect(checkout).toBeLessThan(render)
+    expect(steps[checkout].with).toEqual({
+      'repository': expression('job.workflow_repository'),
+      'ref': expression('job.workflow_sha'),
+      'persist-credentials': false,
+      'sparse-checkout': '.github/workflows',
+    })
+    expect(compiled).toContain('{{#runtime-import .github/workflows/release-notes.md}}')
+  })
+
   it('keeps the minimal and manual callers within the permission and input contracts', () => {
     for (const file of ['release-notes-minimal.yml', 'release-notes.yml']) {
       const text = read(`examples/copilot-release-notes/.github/workflows/${file}`)
