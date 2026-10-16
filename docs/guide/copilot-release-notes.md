@@ -4,7 +4,23 @@
 
 ## 认证与计费
 
-[GitHub 官方文档](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/copilot-cli-in-github-actions) 明确区分两种 `GITHUB_TOKEN` 计费情况：个人仓库使用仓库所有者的 Copilot 席位额度；组织仓库直接向组织计费，需要组织管理员开启相应策略。因此 `YunYouJun/advjs` 使用 YunYouJun 的 Copilot 额度，手动触发者的身份不会改变额度归属。
+### 引用者消耗谁的 Copilot 额度？
+
+**其他人在自己的仓库引用本工作流，消耗该仓库所有者或所属组织的 Copilot 额度，不消耗模板作者 YunYouJun 的额度。** “调用方”指安装接入 YAML、实际运行 Actions 的仓库，并非手动点击 Run workflow 的用户。
+
+根据 [GitHub 的 Copilot CLI 认证与计费规则](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/copilot-cli-in-github-actions#authentication-and-billing-options)，使用内置 `GITHUB_TOKEN` 时，额度归属如下：
+
+| 实际运行的调用方仓库        | Copilot 额度／费用归属             | 手动触发者或模板作者是否影响归属      |
+| --------------------------- | ---------------------------------- | ------------------------------------- |
+| `alice/project`（个人仓库） | 所有者 `alice` 的 Copilot 席位     | 否；即使由其他协作者点击运行          |
+| `acme/project`（组织仓库）  | `acme` 组织                        | 否；不按触发者的个人席位扣减          |
+| `YunYouJun/advjs`           | 所有者 `YunYouJun` 的 Copilot 席位 | 否；其他人触发仍使用 YunYouJun 的额度 |
+
+组织管理员需启用 Copilot CLI 及 “Allow use of Copilot CLI billed to the organization” 策略。组织直接计费不受成员个人 Copilot 预算限制，应在组织账单中管理预算和查看用量。个人仓库所有者则需要可用的 Copilot 席位额度和模型访问权限。上述规则核对于 2026-10-16，最终消费与费用以相应个人／组织的 GitHub 账单为准。
+
+这也适用于跨仓库和多层复用：[GitHub reusable workflow 的 `github` 上下文始终属于调用方](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#github-context)，其中的 `github.token` 和 `secrets.GITHUB_TOKEN` 都来自调用方。`uses: YunYouJun/ai/...` 只引用工作流代码，不共享 ai 仓库的凭据或 Copilot 订阅；[GitHub 托管 runner 的计费也归调用方](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#how-reusable-workflows-use-runners)。
+
+### 无需 PAT 的认证方式
 
 关键配置是：
 
@@ -17,9 +33,9 @@ engine: copilot
 model: auto
 ```
 
-[gh-aw 认证说明](https://github.github.com/gh-aw/reference/auth/) 介绍了 `copilot-requests: write` 的内置认证方式。编译后 Copilot 的 `COPILOT_GITHUB_TOKEN` 环境变量直接引用 `github.token`；这个环境变量名并不代表需要新建同名 secret。
+[gh-aw 认证说明](https://github.github.com/gh-aw/reference/auth/) 介绍了 `copilot-requests: write` 的内置认证方式。本工作流编译后的分析和威胁检测 job 都将 `COPILOT_GITHUB_TOKEN` 环境变量直接设为调用方的 `github.token`；这个环境变量名并不代表需要新建同名 secret。接入 YAML 无需传递 PAT、API key 或 `secrets: inherit`，也不会读取模板作者的个人凭据。调用方缺少额度、模型访问权限或组织策略时，Copilot 请求会失败，不会转用 YunYouJun 的额度。
 
-这不是独立的公共免费 AI API。所有者必须有可用 Copilot 额度及模型访问权限，Actions 计算时间也按仓库现有规则计费。模板使用 `max-ai-credits: 50` 和运行超时控制成本，但这不能替代 Copilot 账单中的预算设置，也不应作为账单硬上限。
+这不是独立的公共免费 AI API。Copilot 推理与 Actions 计算时间分别按调用方的现有规则计费；公开模板不意味着推理免费。`dry_run=true` 只阻止修改 Release，实际生成预览仍会消耗 Copilot 额度和 Actions 资源；版本筛选或已有摘要检查在模型调用前跳过时，不产生本次 Copilot 推理消费。模板使用 `max-ai-credits: 50` 和运行超时控制成本，但这不能替代 Copilot 账单中的预算设置，也不应作为账单硬上限。
 
 ## 跨仓库直接接入
 
@@ -59,7 +75,7 @@ gh workflow run release-notes.yml -R OWNER/REPO -f tag=v1.2.3 \
 
 `options` 必须是 JSON 对象，布尔值使用 `true` / `false`，不能用字符串。未知字段、无效类型或语言会在调用模型前报错；`tag` 和自动筛选模式不能通过 JSON 覆盖。JSON 字段优先于对应的 typed API 参数；`dry_run` 采用 true 优先，不能关闭已由显式参数或 staged 模式启用的预览保护。
 
-工作流运行在调用方仓库，使用调用方的 `GITHUB_TOKEN`、Copilot 额度和 Actions 资源。`actions: read` 供 gh-aw 确认所引用工作流版本；分析 job 仅有只读仓库权限和 Copilot 请求权限，只有检测通过后的发布 job 获得 `contents: write`。公共 ai 仓库提供代码，不替其他仓库承担模型额度。
+工作流运行在调用方仓库，使用调用方的 `GITHUB_TOKEN` 和 Actions 资源；Copilot 额度归属调用方仓库所有者或所属组织，详见[认证与计费](#认证与计费)。`actions: read` 供 gh-aw 确认所引用工作流版本；分析 job 仅有只读仓库权限和 Copilot 请求权限，只有检测通过后的发布 job 获得 `contents: write`。
 
 GitHub Actions 必须允许调用公共仓库的 reusable workflow 和其中使用的 actions。个人仓库仍需所有者有可用 Copilot 额度，组织仓库遵循组织策略；接入不会绕过这些前提。
 
