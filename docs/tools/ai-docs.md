@@ -55,3 +55,19 @@ import { data } from './skills.data' // 你的 data loader
 ```
 
 数据模型与发布方式见[包 README](https://github.com/YunYouJun/ai/tree/main/packages/ai-docs)。
+
+## OIDC 发布验收
+
+2026-10-19，`@yunyoujun/ai-docs@0.1.2` 已完成 GitHub Actions → npm OIDC 实际发布验收：
+
+- 可信发布者绑定为 `YunYouJun/ai` 的 `publish-ai-docs.yml`，发布不依赖长期 npm token。
+- [发布工作流](https://github.com/YunYouJun/ai/actions/runs/39246077503)由 tag `ai-docs-v0.1.2` 触发，源码提交为 `250dda32a023613a960dcc94759857e039b9cb14`；安装、lint、类型检查、78 项测试、文档构建及发布步骤全部通过。
+- 发布步骤确认 GitHub OIDC 环境存在，拒绝传统 npm 凭据，并使用空的 user/global npm 配置。npm 的公开元数据将发布者记录为 `GitHub Actions`，且 `trustedPublisher` 指向本次创建的绑定。
+- [公开版本](https://www.npmjs.com/package/@yunyoujun/ai-docs/v/0.1.2)的 tarball 共 12 个文件、13,693 字节，与发布前审阅的归档逐文件一致；未发现敏感信息。公开 provenance 的仓库、工作流、tag、提交 SHA、Actions run 和产物摘要均已核对。
+- 在独立临时项目中安装该版本并执行 `npm audit signatures`，24 个包的 registry 签名与 18 个包的 attestations 均验证通过。
+
+本次发布包的 SHA512：
+
+```text
+sha512-BFRDLmITcYop+qms4IpN2AVQvz7CRzYt9s9Xa1fvx5dygjtYv7+0r1hGSBOuIrY9LpHrmsvwllRE6S+PUzuokQ==
+```
