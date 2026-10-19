@@ -23,6 +23,8 @@ jobs:
       id-token: write # npm OIDC 必需
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Verify release tag
         if: github.ref_type == 'tag'
@@ -54,6 +56,33 @@ jobs:
       # trusted publishing 需要 npm CLI >= 11.5.1；Node 24 自带版本可能不够，显式升级
       - run: npm install -g npm@11 --registry=https://registry.npmjs.org
 
-      # OIDC 可信发布自动附带 provenance，无需 --provenance 或 token
-      - run: npm publish --registry=https://registry.npmjs.org
+      # OIDC 可信发布自动附带 provenance；禁止传统凭据回退。
+      - name: Publish with OIDC only
         working-directory: packages/ai-docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { existsSync } from 'node:fs'
+          for (const name of ['ACTIONS_ID_TOKEN_REQUEST_URL', 'ACTIONS_ID_TOKEN_REQUEST_TOKEN']) {
+            if (!process.env[name])
+              throw new Error(`GitHub OIDC environment is missing ${name}`)
+          }
+          const credentialNames = Object.entries(process.env)
+            .filter(([name, value]) => value && (
+              ['NPM_TOKEN', 'NODE_AUTH_TOKEN'].includes(name)
+              || (/^npm_config_/i.test(name) && /auth|token|password/i.test(name))
+            ))
+            .map(([name]) => name)
+          if (credentialNames.length)
+            throw new Error(`Traditional npm credentials are not allowed: ${credentialNames.join(', ')}`)
+          for (const file of ['../../.npmrc', '.npmrc']) {
+            if (existsSync(file))
+              throw new Error(`Release checkout must not contain ${file}`)
+          }
+          NODE
+          release_user_config="$(mktemp "$RUNNER_TEMP/ai-docs-user-npmrc.XXXXXX")"
+          release_global_config="$(mktemp "$RUNNER_TEMP/ai-docs-global-npmrc.XXXXXX")"
+          trap 'rm -f "$release_user_config" "$release_global_config"' EXIT
+          npm publish --registry=https://registry.npmjs.org \
+            --userconfig="$release_user_config" --globalconfig="$release_global_config"

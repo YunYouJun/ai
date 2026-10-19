@@ -1,7 +1,7 @@
 {
   "name": "@yunyoujun/ai-docs",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Reusable Vue components for AI documentation sites: prompts and skill directories",
   "author": "YunYouJun",
   "license": "MIT",
