@@ -40,8 +40,8 @@ catalogs:
       specifier: ^2.0.17
       version: 2.0.17
     vitepress-theme-yunlefun:
-      specifier: ^0.4.2
-      version: 0.4.2
+      specifier: ^0.4.3
+      version: 0.4.3
     vitest:
       specifier: ^5.0.5
       version: 5.0.5
@@ -111,7 +111,7 @@ importers:
         version: 2.0.17(mermaid@11.17.2)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))
       vitepress-theme-yunlefun:
         specifier: 'catalog:'
-        version: 0.4.2(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
+        version: 0.4.3(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
       vue:
         specifier: 'catalog:'
         version: 3.5.44(typescript@5.9.3)
@@ -3597,8 +3597,8 @@ packages:
       mermaid: 10 || 11
       vitepress: ^1.0.0 || ^1.0.0-alpha
 
-  vitepress-theme-yunlefun@0.4.2:
-    resolution: {integrity: sha512-LqWxMqQqOQqxocby5CGNGwneMpgZX0Dhkf3xsqfxGoGghMeXMvjRv8ef3uyCJBede8QgOMhdHE3mJ4GphcU4MQ==}
+  vitepress-theme-yunlefun@0.4.3:
+    resolution: {integrity: sha512-gVhOCo2yLwMq8HQhHfMnNPlQPMNDjr56Ai4Bp88AdIhMJBUOEWpSYZQmvo/DbQwQQw6DBubkTDjlMsKzXNCUfw==}
     peerDependencies:
       vitepress: ^1.6.4 || ^2.0.0-alpha.16
       vue: ^3.5.0
@@ -7359,7 +7359,7 @@ snapshots:
     optionalDependencies:
       '@mermaid-js/mermaid-mindmap': 9.3.0
 
-  vitepress-theme-yunlefun@0.4.2(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3)):
+  vitepress-theme-yunlefun@0.4.3(sass@1.102.0)(vitepress@1.6.4(@algolia/client-search@5.56.0)(@types/node@26.6.5)(change-case@5.4.4)(jiti@2.7.0)(postcss@8.5.30)(sass@1.102.0)(search-insights@2.17.3)(typescript@5.9.3)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3)):
     dependencies:
       '@yunlefun/icons': 0.3.1
       '@yunlefun/ui': 0.0.7(sass@1.102.0)
