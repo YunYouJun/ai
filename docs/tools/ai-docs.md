@@ -37,8 +37,7 @@ const prompt = '请阅读当前项目的 README，说明项目用途。'
 <SkillDirectory :skills="data" enable-view-toggle>
   <template #detail="{ skill }">
     <p style="margin: 0; font-size: 13px; color: var(--vp-c-text-2);">
-      安装后通过 <code>{{ skill.command }}</code> 调用；
-      <a :href="skill.repo" target="_blank" rel="noopener">查看源码</a>。
+      安装后通过 <code>{{ skill.command }}</code> 调用。
     </p>
   </template>
 </SkillDirectory>

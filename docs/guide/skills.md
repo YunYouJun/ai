@@ -1,5 +1,6 @@
 ---
-outline: [2, 3]
+aside: false
+pageClass: skills-catalog
 ---
 
 <script setup>
@@ -9,7 +10,7 @@ import { data as skills } from '../.vitepress/data/skills.data'
 
 # Skills 目录
 
-本仓库维护的 Skills 都在这里，可按场景筛选或搜索。卡片上的命令可直接复制安装，「使用说明」进入各 Skill 的详细页面。
+本仓库维护的 Skills 都在这里，可按场景筛选或搜索。点击标题或「使用说明」查看用法，命令框右侧一键复制安装命令。
 
 <SkillDirectory :skills="skills" enable-view-toggle search-placeholder="搜索名称、场景或关键词，如 Copilot、iOS">
   <template #detail="{ skill }">
@@ -17,7 +18,7 @@ import { data as skills } from '../.vitepress/data/skills.data'
       <dt>调用</dt>
       <dd><code>{{ skill.command }}</code></dd>
       <dt>来源</dt>
-      <dd>{{ skill.origin }} · <a :href="skill.repo" target="_blank" rel="noopener">GitHub 源码</a></dd>
+      <dd>{{ skill.origin }}</dd>
     </dl>
   </template>
 </SkillDirectory>
@@ -104,5 +105,12 @@ Skill 的文件结构、Frontmatter 字段和编写要点见[编写 Skill](./ski
   margin: 0;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+</style>
+
+<style>
+/* 目录页不显示大纲，放宽主题的阅读宽度，让卡片排成三列 */
+.skills-catalog {
+  --ylf-layout-reading: 100%;
 }
 </style>

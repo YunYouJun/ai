@@ -120,8 +120,6 @@ export interface CatalogSkill extends SkillItem {
   /** 带参数提示的调用命令；插件 Skill 带命名空间 */
   command: string
   origin: string
-  /** GitHub 源码目录 */
-  repo: string
 }
 
 /** 只取单行标量，避免为构建期脚本引入 YAML 依赖 */
@@ -173,8 +171,8 @@ export function collectSkills(): CatalogSkill[] {
         install: `npx skills add YunYouJun/ai --skill=${name}`,
         command: [`/${namespace ? `${namespace}:` : ''}${name}`, hint].filter(Boolean).join(' '),
         origin,
-        repo: `${repoUrl}/tree/main/${subdir}`,
         source: { text: '使用说明', href: `/guide/skills/${entry.name}` },
+        links: [{ text: 'GitHub 源码', href: `${repoUrl}/tree/main/${subdir}` }],
       })
     }
   }

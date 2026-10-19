@@ -4,8 +4,8 @@
 
 ## 组件
 
-- `SkillDirectory`：搜索、分类筛选、结果计数、橱窗/列表切换、空状态，内嵌 `BorderBeam` 工具栏光效
-- `SkillCard`：图标 + 分类角标、标题、触发名、两行截断描述、标签、安装命令区（复制按钮带反馈）、可展开详情（`detail` 插槽）
+- `SkillDirectory`：搜索、分类筛选、结果计数、橱窗/列表切换（列表为横向紧凑行）、空状态，内嵌 `BorderBeam` 工具栏光效
+- `SkillCard`：图标 + 分类角标、标题（有 `source` 时可点击）、触发名、两行截断描述、标签、安装命令区（只在空格处换行，复制按钮带反馈）、可展开详情（`detail` 插槽与 `links`）；`layout="row"` 为横向布局，卡片较窄时自动回到纵向
 - `PromptCard`：提示词展示、一键复制、长内容折叠与复制反馈
 - `BorderBeam`：独立的边框流光装饰组件
 
@@ -63,7 +63,7 @@ import { data } from './skills.data'
 </SkillDirectory>
 ```
 
-`detail` 插槽存在时卡片会出现「详情/收起」按钮；`SkillCard` 也可单独使用。
+`detail` 插槽或 `links` 存在时卡片会出现「详情/收起」按钮，`links` 列在详情区底部。`source` 是卡片的主链接，标题和操作区都指向它；站内链接显示箭头，外链显示外链图标并在新标签页打开。`SkillCard` 也可单独使用。
 
 ## 样式
 

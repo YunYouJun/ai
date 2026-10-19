@@ -125,7 +125,12 @@ function onSearchEscape() {
     </div>
 
     <div v-if="filteredSkills.length" class="sd-grid" :class="view === 'grid' ? 'is-grid' : 'is-list'">
-      <SkillCard v-for="skill in filteredSkills" :key="skill.id" :skill="skill">
+      <SkillCard
+        v-for="skill in filteredSkills"
+        :key="skill.id"
+        :skill="skill"
+        :layout="view === 'list' ? 'row' : 'card'"
+      >
         <template v-if="$slots.detail" #detail="{ skill: item }">
           <slot name="detail" :skill="item" />
         </template>
@@ -317,6 +322,7 @@ function onSearchEscape() {
 
 .sd-grid.is-list {
   grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .sd-empty {
