@@ -15,7 +15,7 @@ AI 驱动的代码编辑器，基于 VS Code。
 - 🔍 代码库搜索
 - 🎯 智能重构
 
-**官网：** [cursor.sh](https://cursor.sh/)
+**官网：** [cursor.com](https://cursor.com/)
 
 ### VS Code + Copilot
 
@@ -31,7 +31,7 @@ Visual Studio Code 配合 GitHub Copilot。
 
 Vercel 推出的 AI UI 生成工具，用自然语言生成前端组件。
 
-**官网：** [v0.dev](https://v0.dev/)
+**官网：** [v0.app](https://v0.app/)
 
 ## 浏览器自动化
 
@@ -40,17 +40,11 @@ Vercel 推出的 AI UI 生成工具，用自然语言生成前端组件。
 
 ## Prompt 工具
 
-### PromptPerfect
+### Claude Console
 
-优化和测试 Prompt 的工具。
+Claude 官方的 Prompt 编写与测试平台，也用来管理 API Key 和查看用量。
 
-**官网：** [promptperfect.jina.ai](https://promptperfect.jina.ai/)
-
-### Anthropic Console
-
-Claude 官方 Prompt 测试平台。
-
-**官网：** [console.anthropic.com](https://console.anthropic.com/)
+**官网：** [platform.claude.com](https://platform.claude.com/)
 
 ## API 测试
 
@@ -77,7 +71,8 @@ brew install httpie
 # 测试 API
 http POST https://api.anthropic.com/v1/messages \
   x-api-key:$ANTHROPIC_API_KEY \
-  model=claude-3-5-sonnet-20241022 \
+  anthropic-version:2023-06-01 \
+  model=claude-opus-5-5 \
   messages:='[{"role":"user","content":"Hello"}]' \
   max_tokens:=1024
 ```
@@ -117,7 +112,7 @@ LangChain 官方的监控平台。
 
 ### Helicone
 
-AI 应用监控和分析平台。
+AI 应用监控和分析平台。2026 年 3 月被 Mintlify 收购，目前处于维护模式，新项目选型时留意。
 
 **官网：** [helicone.ai](https://www.helicone.ai/)
 
@@ -128,14 +123,14 @@ AI 应用监控和分析平台。
 本地运行大型语言模型。
 
 ```bash
-# 安装
-brew install ollama
+# 安装（macOS 也可以下载安装包，或 brew install ollama）
+curl -fsSL https://ollama.com/install.sh | sh
 
 # 运行模型
-ollama run llama2
+ollama run gemma4
 ```
 
-**官网：** [ollama.ai](https://ollama.ai/)
+**官网：** [ollama.com](https://ollama.com/)
 
 ### LM Studio
 

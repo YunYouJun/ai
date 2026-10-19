@@ -8,6 +8,8 @@
 
 LangChain 是一个用于开发由语言模型驱动的应用程序的框架。
 
+**官方文档：** [docs.langchain.com](https://docs.langchain.com/oss/python/langchain/overview)
+
 ### 特点
 
 - 🔗 **链式调用** - 组合多个 LLM 调用
@@ -22,17 +24,17 @@ LangChain 是一个用于开发由语言模型驱动的应用程序的框架。
 pip install langchain langchain-openai
 
 # JavaScript
-pnpm add langchain @langchain/openai
+pnpm add langchain @langchain/core @langchain/openai
 ```
 
 ### 示例
 
 ```python
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
 # 创建聊天模型
-chat = ChatOpenAI(model="gpt-4")
+chat = ChatOpenAI(model="gpt-6-astra")
 
 # 创建提示模板
 prompt = ChatPromptTemplate.from_messages([
@@ -48,11 +50,38 @@ response = chain.invoke({"input": "你好"})
 print(response.content)
 ```
 
+LangChain 1.x 起，模型类从各自的提供商包导入（如 `langchain_openai`、`langchain_anthropic`），旧的 `from langchain.chat_models import ChatOpenAI` 已不可用；不想绑定提供商时可以用 `init_chat_model("openai:gpt-6-astra")`。
+
+### Agent
+
+1.x 用 `create_agent` 构建带工具调用的 Agent：
+
+```python
+from langchain.agents import create_agent
+
+def get_weather(city: str) -> str:
+    """获取指定城市的天气"""
+    return f"{city}今天晴"
+
+agent = create_agent(
+    model="openai:gpt-6-astra",
+    tools=[get_weather],
+    system_prompt="你是一个有帮助的助手",
+)
+
+result = agent.invoke(
+    {"messages": [{"role": "user", "content": "北京今天天气怎么样？"}]}
+)
+print(result["messages"][-1].content)
+```
+
 ## Vercel AI SDK
 
 ### 简介
 
 Vercel AI SDK 是一个用于构建 AI 应用的 TypeScript 工具包。
+
+**官方文档：** [ai-sdk.dev](https://ai-sdk.dev/)
 
 ### 特点
 
@@ -67,6 +96,8 @@ Vercel AI SDK 是一个用于构建 AI 应用的 TypeScript 工具包。
 pnpm add ai @ai-sdk/anthropic
 ```
 
+当前大版本为 v7，要求 Node.js 22+，且只提供 ESM。
+
 ### 示例
 
 ```typescript
@@ -74,7 +105,7 @@ import { anthropic } from '@ai-sdk/anthropic'
 import { generateText } from 'ai'
 
 const { text } = await generateText({
-  model: anthropic('claude-3-5-sonnet-20241022'),
+  model: anthropic('claude-opus-5-5'), // 默认读取 ANTHROPIC_API_KEY
   prompt: '介绍一下自己',
 })
 
@@ -83,28 +114,66 @@ console.log(text)
 
 ### React 集成
 
+需要额外安装 `@ai-sdk/react`。`useChat` 默认请求 `/api/chat`，先写服务端路由（Next.js App Router）：
+
 ```typescript
+// app/api/chat/route.ts
+import type { UIMessage } from 'ai'
+import { anthropic } from '@ai-sdk/anthropic'
+import {
+  convertToModelMessages,
+  createUIMessageStreamResponse,
+  streamText,
+  toUIMessageStream,
+} from 'ai'
+
+export async function POST(req: Request) {
+  const { messages }: { messages: UIMessage[] } = await req.json()
+
+  const result = streamText({
+    model: anthropic('claude-opus-5-5'),
+    messages: await convertToModelMessages(messages),
+  })
+
+  return createUIMessageStreamResponse({
+    stream: toUIMessageStream({ stream: result.stream }),
+  })
+}
+```
+
+客户端组件里，输入框状态由自己管理，消息内容按 `parts` 渲染：
+
+```tsx
 'use client'
 
-import { useChat } from 'ai/react'
+import { useChat } from '@ai-sdk/react'
+import { useState } from 'react'
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat()
+  const [input, setInput] = useState('')
+  const { messages, sendMessage } = useChat()
 
   return (
     <div>
       {messages.map(m => (
         <div key={m.id}>
-          {m.role}
-          :
-          {m.content}
+          {m.role === 'user' ? 'User: ' : 'AI: '}
+          {m.parts.map((part, i) =>
+            part.type === 'text' ? <span key={i}>{part.text}</span> : null,
+          )}
         </div>
       ))}
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          sendMessage({ text: input })
+          setInput('')
+        }}
+      >
         <input
           value={input}
-          onChange={handleInputChange}
+          onChange={e => setInput(e.currentTarget.value)}
           placeholder="Say something..."
         />
       </form>
@@ -118,6 +187,8 @@ export default function Chat() {
 ### 简介
 
 LlamaIndex 是一个数据框架，用于将自定义数据连接到大型语言模型。
+
+**官方文档：** [developers.llamaindex.ai](https://developers.llamaindex.ai/python/framework/)
 
 ### 特点
 
@@ -135,7 +206,7 @@ pip install llama-index
 ### 示例
 
 ```python
-from llama_index import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 
 # 加载文档
 documents = SimpleDirectoryReader('data').load_data()
@@ -148,6 +219,8 @@ query_engine = index.as_query_engine()
 response = query_engine.query("文档内容是什么？")
 print(response)
 ```
+
+默认使用 OpenAI 的模型生成回答和向量，运行前需要设置 `OPENAI_API_KEY`；换用其他模型需安装对应的 `llama-index-llms-*` 和 `llama-index-embeddings-*` 包。
 
 ## Anthropic SDK
 
