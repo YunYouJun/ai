@@ -30,6 +30,7 @@ npx skills add YunYouJun/ai --skill=simplify-documents
 
 | Skill                | 说明                                                       |
 | -------------------- | ---------------------------------------------------------- |
+| `ios-testflight`     | 使用 ASC CLI 打包、校验并发布原生 iOS TestFlight 内部测试  |
 | `simplify-documents` | 在保留事实、约束、步骤和指定段落的前提下按目标比例精简文档 |
 | `yunyoujun`          | YunYouJun 的编码偏好和工具约定（TypeScript、Vue、pnpm 等） |
 
@@ -54,6 +55,7 @@ AI 辅助编程工作流 — PR 自动化、Issue 修复、代码审查、Copilo
 ├── plugins/              # Plugin 扩展包
 │   └── ai-coding/        # AI 辅助编程工作流插件
 ├── skills/               # 独立 Skills
+│   ├── ios-testflight/     # 共用 iOS 内部测试发布
 │   ├── simplify-documents/ # 高保真文档精简
 │   └── yunyoujun/          # 编码偏好与工具约定
 ├── docs/                 # 文档站（VitePress）

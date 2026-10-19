@@ -125,6 +125,14 @@ $ARGUMENTS should be <describe expected input>.
 
 ### 独立 Skills
 
+#### `/ios-testflight` — TestFlight 内部测试
+
+使用 ASC CLI 执行原生 iOS 打包和分发，统一仅内部限制、精确版本、IPA 与服务器验收；项目参数仍归应用仓库。详见 [TestFlight Skill](./skills/ios-testflight)。
+
+<<< @/../skills/ios-testflight/SKILL.md
+
+---
+
 #### `/simplify-documents` — 高保真文档精简
 
 按照目标读者和长度限制精简文档，并保留事实、约束、步骤、关键示例和不可删除段落。详见[文档精简 Skill](./skills/simplify-documents)。

@@ -1,0 +1,24 @@
+name: TestFlight Skill Checks
+on:
+  pull_request:
+    paths:
+      - skills/ios-testflight/**
+      - test/skills/ios-testflight/**
+      - .github/workflows/testflight-skill.yml
+  push:
+    branches: [main]
+    paths:
+      - skills/ios-testflight/**
+      - test/skills/ios-testflight/**
+      - .github/workflows/testflight-skill.yml
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s test/skills/ios-testflight -p 'test_*.py' -v
