@@ -10,10 +10,18 @@ hero:
       text: 快速开始
       link: /guide/getting-started
     - theme: alt
+      text: 浏览 Skills
+      link: /guide/skills
+    - theme: alt
       text: 工具资源
       link: /tools/
 
 features:
+  - icon: 🧩
+    title: Skills 目录
+    details: Issue → PR、代码审查、文档精简、TestFlight 发布等可直接安装的 Agent Skills
+    link: /guide/skills
+    linkText: 浏览目录
   - icon: 🎯
     title: 实践指南
     details: 提供 AI 项目开发的最佳实践、工作流程和技术选型建议
@@ -36,5 +44,6 @@ features:
 ## 快速导航
 
 - **[开发指南](/guide/)** - 了解 AI 开发的基础知识和最佳实践
+- **[Skills 目录](/guide/skills)** - 按场景浏览、搜索并安装本仓库的 Skills
 - **[工具资源](/tools/)** - 发现实用的 AI 开发工具和框架
 - **[API 文档](/api/)** - 查阅 API 接口文档

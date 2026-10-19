@@ -383,7 +383,8 @@ export GITLAB_TOKEN=glpat-xxxxxxxxxxxx
 
 ## 参考链接
 
-- [Skills](./skills) — Skill 编写与使用
+- [Skills 目录](./skills) — 本仓库全部 Skills
+- [编写 Skill](./skills/authoring) — Skill 结构与编写要点
 - [Plugins](./plugins) — Plugin 创建、结构与迁移
 - [发现和安装插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/discover-plugins)
 - [创建和分发 Marketplace — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugin-marketplaces)

@@ -2,6 +2,10 @@
 
 `ios-testflight` 为原生 iOS 应用提供共用发布流程。ASC CLI 负责归档、导出、上传、版本查询、测试说明和组关联；Skill 统一源码、仅内部分发、IPA 校验及最终验收。Apple IPA 校验沿用 `altool --validate-app`。
 
+| 调用              | 触发               | 来源                                                                          |
+| ----------------- | ------------------ | ----------------------------------------------------------------------------- |
+| `/ios-testflight` | 手动或 AI 自动触发 | [独立 Skill](https://github.com/YunYouJun/ai/tree/main/skills/ios-testflight) |
+
 ## 安装与使用
 
 ```bash
@@ -31,3 +35,11 @@ brew install asc
 当前流程按 ASC CLI 5.14.3 核对。升级后先查看本机帮助：`builds upload --dry-run` 会预留上传操作，不是只读预检；组关联预检使用 `builds add-groups --dry-run`。源码和完整命令见 [SKILL.md](https://github.com/YunYouJun/ai/blob/main/skills/ios-testflight/SKILL.md) 与 [ASC CLI 参考](https://github.com/YunYouJun/ai/blob/main/skills/ios-testflight/references/asc-cli.md)。
 
 底层复用 [ASC CLI](https://github.com/rorkai/App-Store-Connect-CLI)，按需参考 [社区 Skills](https://github.com/rorkai/app-store-connect-cli-skills)，不在本仓库复制上游整套实现。项目已有 Xcode/altool 脚本保留为兼容回退，使用时仍须执行相同的内部限制和验收。
+
+## 完整指令
+
+::: details SKILL.md
+
+<<< @/../skills/ios-testflight/SKILL.md
+
+:::

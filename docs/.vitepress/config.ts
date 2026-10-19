@@ -2,7 +2,8 @@
  * VitePress site configuration for "小云的 AI 开发实践".
  *
  * Sections:
- * - `/guide/`       — Getting started, best practices, MCP, skills, plugins
+ * - `/guide/`       — Getting started, best practices, MCP, plugins
+ * - `/guide/skills` — Skills catalog; per-skill pages are grouped from `data/skill-catalog.ts`
  * - `/claude-code/` — Claude Code specific guides
  * - `/tools/`       — AI frameworks, dev tools, browser automation
  * - `/api/`         — API reference
@@ -12,6 +13,7 @@
 import { defineConfig } from 'vitepress'
 import { withYunlefun, yunlefunMarkdown, zhThemeConfig } from 'vitepress-theme-yunlefun/config'
 import { aiMark } from './ai-mark'
+import { skillSidebarItems } from './data/skill-catalog'
 
 export default defineConfig(withYunlefun({
   title: '小云的 AI 开发实践',
@@ -32,7 +34,8 @@ export default defineConfig(withYunlefun({
 
     // ---- Navigation ----
     nav: [
-      { text: '指南', link: '/guide/' },
+      { text: '指南', link: '/guide/', activeMatch: '^/guide/(?!skills)' },
+      { text: 'Skills', link: '/guide/skills', activeMatch: '^/guide/skills' },
       { text: 'Claude Code', link: '/claude-code/' },
       { text: '工具', link: '/tools/' },
       { text: 'API', link: '/api/' },
@@ -61,9 +64,16 @@ export default defineConfig(withYunlefun({
               { text: '介绍', link: '/guide/mcp/' },
             ],
           },
-          { text: 'Skills', link: '/guide/skills' },
           { text: 'Plugins', link: '/guide/plugins' },
           { text: 'Marketplace', link: '/guide/marketplace' },
+        ],
+      },
+      {
+        text: 'Skills',
+        items: [
+          { text: 'Skills 目录', link: '/guide/skills' },
+          { text: '编写 Skill', link: '/guide/skills/authoring' },
+          ...skillSidebarItems(),
         ],
       },
       {

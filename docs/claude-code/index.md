@@ -15,5 +15,6 @@
 ## 相关资源
 
 - [Claude Code 官方文档](https://code.claude.com/docs/zh-CN/overview)
-- [Skills 文档](/guide/skills) — 自定义命令与 Agent Skills
+- [Skills 目录](/guide/skills) — 本仓库全部 Skills
+- [编写 Skill](/guide/skills/authoring) — 自定义命令与 Agent Skills
 - [Plugins 文档](/guide/plugins) — 完整扩展包

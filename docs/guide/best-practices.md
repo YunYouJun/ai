@@ -124,7 +124,8 @@ claude plugin validate .
 
 ## 相关资源
 
-- [Skills 文档](/guide/skills) — Skill 编写与完整列表
+- [Skills 目录](/guide/skills) — 本仓库全部 Skills
+- [编写 Skill](/guide/skills/authoring) — Skill 结构与编写要点
 - [Plugins 文档](/guide/plugins) — Plugin 结构与推荐插件
 - [Claude Code 最佳实践](/claude-code/best-practices) — 更详细的 Claude Code 使用技巧
 - [PR 自动化实践](/claude-code/pr-automation) — Issue → PR → Review 实战

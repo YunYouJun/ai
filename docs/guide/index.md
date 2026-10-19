@@ -8,9 +8,9 @@
 
 安装 Skills 和 Plugins，开始使用 AI Coding Agent。
 
-### [Skills](./skills)
+### [Skills 目录](./skills)
 
-Skill 编写、安装与完整列表 — 用 Markdown 定义可复用的自动化工作流。
+按场景浏览本仓库的全部 Skills，一键复制安装命令；如何编写见[编写 Skill](./skills/authoring)。
 
 ### [Plugins](./plugins)
 

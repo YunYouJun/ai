@@ -31,7 +31,7 @@ npx skills add YunYouJun/ai --skill=fix-issue
 将 skills 放在 `~/.claude/skills/` 下即可在所有项目中使用。
 :::
 
-更多安装方式和 Skill 列表详见 [Skills](./skills)。
+全部 Skills 及各自用法见 [Skills 目录](./skills)。
 
 ## 安装 Plugins
 
@@ -61,7 +61,8 @@ claude plugin install ai-coding@yunyoujun
 
 ## 下一步
 
-- 📖 [Skills 文档](./skills) — Skill 编写、安装与完整列表
+- 🧩 [Skills 目录](./skills) — 按场景浏览全部 Skills
+- 📖 [编写 Skill](./skills/authoring) — Skill 结构、Frontmatter 与编写要点
 - 🔌 [Plugins 文档](./plugins) — Plugin 结构与推荐插件
 - 🏪 [Marketplace 市场](./marketplace) — 发现和安装社区插件
 - ✨ [最佳实践](./best-practices) — AI 辅助编码工作流技巧

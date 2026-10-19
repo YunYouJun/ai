@@ -32,13 +32,13 @@ const prompt = '请阅读当前项目的 README，说明项目用途。'
 
 ## SkillDirectory
 
-下面的演示直接读取本仓库真实的 Skill（`skills/` 与 `plugins/ai-coding/skills/` 下的 `SKILL.md`，由 [data loader](https://vitepress.dev/guide/data-loading) 在构建期生成）：
+下面的演示直接读取本仓库真实的 Skill（`skills/` 与 `plugins/ai-coding/skills/` 下的 `SKILL.md`，由 [data loader](https://vitepress.dev/guide/data-loading) 在构建期生成，并合并 `skill-catalog.ts` 中的展示信息）。完整目录见 [Skills 目录](/guide/skills)。
 
 <SkillDirectory :skills="data" enable-view-toggle>
   <template #detail="{ skill }">
     <p style="margin: 0; font-size: 13px; color: var(--vp-c-text-2);">
-      安装后通过 <code>${{ skill.name }}</code> 触发；用法见
-      <a :href="skill.source.href" target="_blank" rel="noopener">源码</a>。
+      安装后通过 <code>{{ skill.command }}</code> 调用；
+      <a :href="skill.repo" target="_blank" rel="noopener">查看源码</a>。
     </p>
   </template>
 </SkillDirectory>

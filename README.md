@@ -28,47 +28,46 @@ npx skills add YunYouJun/ai --skill=simplify-documents
 
 ## Skills
 
-| Skill                | 说明                                                       |
-| -------------------- | ---------------------------------------------------------- |
-| `ios-testflight`     | 使用 ASC CLI 打包、校验并发布原生 iOS TestFlight 内部测试  |
-| `simplify-documents` | 在保留事实、约束、步骤和指定段落的前提下按目标比例精简文档 |
-| `yunyoujun`          | YunYouJun 的编码偏好和工具约定（TypeScript、Vue、pnpm 等） |
+按场景浏览、搜索和复制安装命令：[Skills 目录](https://ai.yunyoujun.cn/guide/skills)。
 
-## Plugins
+| 场景       | Skill                                                                                   | 说明                                                       |
+| ---------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Issue → PR | [`triage-issues`](https://ai.yunyoujun.cn/guide/skills/triage-issues)                   | 只读筛选已授权仓库的 Issue，输出低风险候选或跳过原因       |
+| Issue → PR | [`fix-issue`](https://ai.yunyoujun.cn/guide/skills/fix-issue)                           | 复现、回归测试、最小修复并创建 Draft PR                    |
+| Issue → PR | [`pr-cycle`](https://ai.yunyoujun.cn/guide/skills/pr-cycle)                             | 修复 Issue → Draft PR → 处理 Review                        |
+| 代码审查   | [`review-staged`](https://ai.yunyoujun.cn/guide/skills/review-staged)                   | 提交前审查暂存区变更，按严重程度分级                       |
+| 代码审查   | [`review-feedback`](https://ai.yunyoujun.cn/guide/skills/review-feedback)               | 拉取 Copilot 或人工 Review 意见，修复并推送                |
+| 代码审查   | [`address-copilot-review`](https://ai.yunyoujun.cn/guide/skills/address-copilot-review) | 单轮处理 Copilot Review：抓取、分类、修复、回复            |
+| 代码审查   | [`copilot-review-loop`](https://ai.yunyoujun.cn/guide/skills/copilot-review-loop)       | 触发 Copilot Review → 处理 → 再触发，最多 2 轮             |
+| 文档写作   | [`simplify-documents`](https://ai.yunyoujun.cn/guide/skills/simplify-documents)         | 按目标比例精简文档，保留事实、约束、步骤和指定段落         |
+| 发布交付   | [`ios-testflight`](https://ai.yunyoujun.cn/guide/skills/ios-testflight)                 | 用 ASC CLI 打包、校验并发布原生 iOS TestFlight 内部测试    |
+| 编码约定   | [`yunyoujun`](https://ai.yunyoujun.cn/guide/skills/yunyoujun)                           | YunYouJun 的编码偏好和工具约定（TypeScript、Vue、pnpm 等） |
 
-### ai-coding
-
-AI 辅助编程工作流 — PR 自动化、Issue 修复、代码审查、Copilot Review 循环。
-
-| Skill                    | 说明                                                            |
-| ------------------------ | --------------------------------------------------------------- |
-| `review-staged`          | 审查 staged changes，分类标注严重程度                           |
-| `fix-issue`              | 端到端修复 GitHub Issue — 创建分支、实现修复、跑检查、创建 PR   |
-| `pr-cycle`               | 完整 PR 生命周期自动化：修复 → 创建 PR → 等待 Review → 处理反馈 |
-| `address-copilot-review` | 获取 Copilot Review 评论，分类、修复并回复                      |
-| `copilot-review-loop`    | 迭代式 Copilot Review 循环，最多 2 轮直到通过                   |
-| `review-feedback`        | 处理 PR Review 反馈                                             |
+Issue → PR 与代码审查两类打包在 `ai-coding` 插件中，插件加载后命令带 `ai-coding:` 前缀（如 `/ai-coding:fix-issue 42`）；其余为独立 Skill。
 
 ## 仓库结构
 
 ```
-├── plugins/              # Plugin 扩展包
-│   └── ai-coding/        # AI 辅助编程工作流插件
-├── skills/               # 独立 Skills
-│   ├── ios-testflight/     # 共用 iOS 内部测试发布
-│   ├── simplify-documents/ # 高保真文档精简
-│   └── yunyoujun/          # 编码偏好与工具约定
-├── docs/                 # 文档站（VitePress）
-├── packages/             # 工具包
-│   ├── browser-use/      # 浏览器自动化
-│   └── ai-docs/ # 提示词卡片与 Skill 目录等文档组件
-└── test/                 # 测试
+├── plugins/                  # Plugin 扩展包
+│   └── ai-coding/            # Issue → PR 与代码审查 Skills
+├── skills/                   # 独立 Skills
+│   ├── ios-testflight/       # TestFlight 内部测试发布
+│   ├── simplify-documents/   # 高保真文档精简
+│   └── yunyoujun/            # 编码偏好与工具约定
+├── docs/                     # 文档站（VitePress）
+│   ├── guide/skills/         # 每个 Skill 的使用说明
+│   └── .vitepress/data/      # Skills 目录的展示信息（skill-catalog.ts）
+├── packages/                 # 工具包
+│   ├── browser-use/          # 浏览器自动化
+│   └── ai-docs/              # 提示词卡片与 Skill 目录等文档组件
+└── test/                     # 测试
 ```
 
 ## 文档
 
 - [快速开始](https://ai.yunyoujun.cn/guide/getting-started) — 安装与使用
-- [Skills](https://ai.yunyoujun.cn/guide/skills) — Skill 编写、安装与完整列表
+- [Skills 目录](https://ai.yunyoujun.cn/guide/skills) — 按场景浏览全部 Skills
+- [编写 Skill](https://ai.yunyoujun.cn/guide/skills/authoring) — Skill 结构与编写要点
 - [Plugins](https://ai.yunyoujun.cn/guide/plugins) — Plugin 结构与推荐插件
 - [Marketplace](https://ai.yunyoujun.cn/guide/marketplace) — 发现和安装社区插件
 - [Claude Code 最佳实践](https://ai.yunyoujun.cn/claude-code/best-practices) — 工作流技巧

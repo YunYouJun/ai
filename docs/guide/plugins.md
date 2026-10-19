@@ -6,7 +6,7 @@
 
 Plugin 是 Claude Code 的**完整扩展包**。一个 Plugin 可以包含多个 Skills、Agents、Hooks 和 MCP/LSP Servers，并带有命名空间以防止冲突。
 
-与独立 [Skills](./skills) 相比，Plugin 支持：
+与独立 [Skills](./skills/authoring) 相比，Plugin 支持：
 
 - **命名空间隔离** — 命令自动带 `plugin-name:command` 前缀
 - **语义版本控制** — 通过 `plugin.json` 管理版本
@@ -206,14 +206,15 @@ git push -u origin main
 
 ### 包含的 Skills
 
-| Skill                    | 命令                                     | 说明                                                              |
-| ------------------------ | ---------------------------------------- | ----------------------------------------------------------------- |
-| `fix-issue`              | `/ai-coding:fix-issue <issue>`           | 一键修复 GitHub Issue — 创建分支、实现修复、运行检查、创建 PR     |
-| `review-staged`          | `/ai-coding:review-staged [--fix]`       | 提交前审查暂存区变更 — 扫描 bug、安全问题、风格问题，支持自动修复 |
-| `review-feedback`        | `/ai-coding:review-feedback [pr]`        | 拉取 PR Review 意见（Copilot 或人工），分析、修复并推送           |
-| `pr-cycle`               | `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 Issue → 创建 PR → 等待 Review → 处理反馈  |
-| `address-copilot-review` | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复              |
-| `copilot-review-loop`    | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 触发 → 处理 → 再触发，最多 2 轮        |
+| 场景       | Skill                                                       | 命令                                      | 说明                                            |
+| ---------- | ----------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------- |
+| Issue → PR | [`triage-issues`](./skills/triage-issues)                   | `/ai-coding:triage-issues [repo] [issue]` | 只读筛选 Issue，输出低风险候选或跳过原因        |
+| Issue → PR | [`fix-issue`](./skills/fix-issue)                           | `/ai-coding:fix-issue <issue>`            | 复现、回归测试、最小修复，创建 Draft PR         |
+| Issue → PR | [`pr-cycle`](./skills/pr-cycle)                             | `/ai-coding:pr-cycle <issue>`             | 修复 Issue → Draft PR → 处理 Review             |
+| 代码审查   | [`review-staged`](./skills/review-staged)                   | `/ai-coding:review-staged [--fix]`        | 提交前审查暂存区变更，可选自动修复              |
+| 代码审查   | [`review-feedback`](./skills/review-feedback)               | `/ai-coding:review-feedback [pr]`         | 拉取 Copilot 或人工 Review 意见，修复并推送     |
+| 代码审查   | [`address-copilot-review`](./skills/address-copilot-review) | `/ai-coding:address-copilot-review [pr]`  | 单轮处理 Copilot Review：抓取、分类、修复、回复 |
+| 代码审查   | [`copilot-review-loop`](./skills/copilot-review-loop)       | `/ai-coding:copilot-review-loop [pr]`     | 触发 → 处理 → 再触发，最多 2 轮                 |
 
 ### 使用方式
 
@@ -222,7 +223,7 @@ git push -u origin main
 claude --plugin-dir /path/to/ai/plugins/ai-coding
 ```
 
-各 Skill 的完整指令内容和更多安装方式详见 [Skills — 安装与使用](/guide/skills#安装与使用)。
+各 Skill 的用法与完整指令见对应说明页，全部 Skills 见 [Skills 目录](/guide/skills)。
 
 ## 推荐常用插件
 
@@ -312,7 +313,8 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 ## 参考链接
 
-- [Skills](./skills) — Skill 编写、使用与安装
+- [Skills 目录](./skills) — 本仓库全部 Skills
+- [编写 Skill](./skills/authoring) — Skill 结构与编写要点
 - [Marketplace 市场](./marketplace) — 发现、安装、创建与分发市场
 - [创建插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugins)
 - [PR 自动化实践](/claude-code/pr-automation) — ai-coding 插件在 PR 工作流中的实际应用

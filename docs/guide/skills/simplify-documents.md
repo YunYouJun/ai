@@ -2,6 +2,10 @@
 
 `simplify-documents` 用于在缩短文档的同时保留事实、约束、决定、操作步骤和关键示例。它适合需求文档、规范、报告、教程和公告，不把“精简”降级成可能遗漏关键条件的自由摘要。
 
+| 调用                  | 触发               | 来源                                                                              |
+| --------------------- | ------------------ | --------------------------------------------------------------------------------- |
+| `/simplify-documents` | 手动或 AI 自动触发 | [独立 Skill](https://github.com/YunYouJun/ai/tree/main/skills/simplify-documents) |
+
 ## 适用场景
 
 - 将文档压缩到指定比例、字数或页数；
@@ -55,3 +59,11 @@ python3 skills/simplify-documents/scripts/audit_simplification.py \
 ```
 
 审计失败时命令返回非零退出码，便于接入自动化流程。
+
+## 完整指令
+
+::: details SKILL.md
+
+<<< @/../skills/simplify-documents/SKILL.md
+
+:::

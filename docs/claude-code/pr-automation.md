@@ -36,7 +36,7 @@
 | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复       |
 | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 最多 2 轮                       |
 
-安装方式和各 Skill 的完整指令内容详见 [Skills — 安装与使用](/guide/skills#安装与使用)。
+安装方式见 [Skills — 安装与使用](/guide/skills#安装与使用)，各 Skill 的完整指令见对应说明页。
 
 ## 推荐工作流
 
