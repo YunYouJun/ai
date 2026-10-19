@@ -7,7 +7,7 @@ on:
       - scripts/release-notes.mjs
       - test/release-notes*
       - examples/copilot-release-notes/**
-      - docs/guide/copilot-release-notes*
+      - docs/practices/copilot-release-notes*
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml

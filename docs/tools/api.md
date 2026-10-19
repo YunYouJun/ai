@@ -1,10 +1,6 @@
-# API 文档
+# API 调用实践
 
-本节提供项目相关的 API 接口文档和使用说明。
-
-## 概述
-
-这里记录了常用的 AI API 接口、SDK 使用方法和集成示例。
+直接调用模型 API 时的常用写法：基础调用、流式响应、工具调用，以及错误处理、限流、密钥配置和费用控制。框架与 SDK 的选型见 [AI 框架与 SDK](./frameworks)。
 
 ## 主流 AI API
 
@@ -116,66 +112,6 @@ const stream = await openai.chat.completions.create({
 
 for await (const chunk of stream) {
   process.stdout.write(chunk.choices[0]?.delta?.content || '')
-}
-```
-
-## SDK 参考
-
-### Vercel AI SDK
-
-统一的 AI SDK，支持多个提供商。
-
-**官方文档：** [sdk.vercel.ai](https://sdk.vercel.ai/)
-
-#### 安装
-
-```bash
-pnpm add ai @ai-sdk/anthropic @ai-sdk/openai
-```
-
-#### 基础使用
-
-```typescript
-import { anthropic } from '@ai-sdk/anthropic'
-import { generateText } from 'ai'
-
-const { text } = await generateText({
-  model: anthropic('claude-3-5-sonnet-20241022'),
-  prompt: 'What is the meaning of life?',
-})
-
-console.log(text)
-```
-
-#### React 集成
-
-```typescript
-'use client'
-
-import { useChat } from 'ai/react'
-
-export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat()
-
-  return (
-    <div>
-      {messages.map(m => (
-        <div key={m.id}>
-          {m.role}
-          :
-          {m.content}
-        </div>
-      ))}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Say something..."
-        />
-      </form>
-    </div>
-  )
 }
 ```
 
@@ -294,5 +230,6 @@ async function cachedGenerate(prompt: string) {
 
 ## 相关资源
 
-- [开发指南](/guide/)
-- [工具资源](/tools/)
+- [AI 框架与 SDK](./frameworks)
+- [开发工具](./dev-tools) — API 测试、监控与本地模型
+- [学习资源](./resources) — 各模型提供商的官方文档

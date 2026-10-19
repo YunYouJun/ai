@@ -35,6 +35,8 @@ npx skills add YunYouJun/ai --skill=fix-issue
 
 ## 安装 Plugins
 
+`ai-coding` 插件打包了 Issue → PR 与代码审查两类 Skills，适合一起安装；其余为独立 Skill，用上面的 Skills CLI 按需安装。
+
 ### CodeBuddy
 
 通过 CodeBuddy CLI 安装插件（需 CodeBuddy ≥ 2.4）：
@@ -57,12 +59,21 @@ claude plugin install ai-coding@yunyoujun
 /ai-coding:address-copilot-review
 ```
 
-更多插件信息和使用方式详见 [Plugins](./plugins)。
+### 本地开发
+
+修改插件时直接加载仓库目录，无需重新安装：
+
+```bash
+claude --plugin-dir /path/to/ai/plugins/ai-coding
+```
+
+插件结构见 [Plugins](./plugins)，市场的添加、更新与范围见 [Marketplace](./marketplace)。
 
 ## 下一步
 
 - 🧩 [Skills 目录](./skills) — 按场景浏览全部 Skills
 - 📖 [编写 Skill](./skills/authoring) — Skill 结构、Frontmatter 与编写要点
-- 🔌 [Plugins 文档](./plugins) — Plugin 结构与推荐插件
-- 🏪 [Marketplace 市场](./marketplace) — 发现和安装社区插件
-- ✨ [最佳实践](./best-practices) — AI 辅助编码工作流技巧
+- 🔌 [Plugins](./plugins) — Plugin 结构与创建步骤
+- 🏪 [Marketplace](./marketplace) — 发现、安装和分发插件
+- ✨ [Claude Code 最佳实践](/claude-code/best-practices) — 工作流策略与上下文管理
+- 🔁 [Issue → PR → Review 自动化](/practices/pr-automation) — 用 Skills 串起完整 PR 流程

@@ -73,7 +73,7 @@ Claude Code 既可作为 MCP 服务器也可作为客户端。连接方式包括
 
 ### 使用自定义斜杠命令
 
-在 `.claude/commands` 文件夹中存储 Markdown 模板，通过 `/` 调用。支持 `$ARGUMENTS` 关键字传递参数。例如创建一个 `/project:fix-github-issue` 命令来自动修复 GitHub Issue。
+在 `.claude/commands` 文件夹中存储 Markdown 模板，通过 `/` 调用。支持 `$ARGUMENTS` 关键字传递参数。例如创建一个 `/project:fix-github-issue` 命令来自动修复 GitHub Issue。需要多步编排时可升级为 Skill，写法见[编写 Skill](/guide/skills/authoring)。
 
 ## 3. 尝试常见工作流
 
@@ -168,6 +168,8 @@ Skill 适合**需要多步编排**的复杂工作流（如 PR 生命周期、代
 - 修复构建失败或 linter 警告
 - 分类和整理 Issues
 
+串起「修复 Issue → Draft PR → 处理 Review」的完整流程见 [Issue → PR → Review 自动化](/practices/pr-automation)。
+
 ### 使用 Claude 处理 Jupyter Notebooks
 
 Claude 可以解释输出（包括图片）。建议在 VS Code 中并排打开 `.ipynb` 文件。可以让 Claude 整理或美化笔记本（使用 "aesthetically pleasing" 提示）。
@@ -218,6 +220,29 @@ Claude 可以解释输出（包括图片）。建议在 VS Code 中并排打开 
 - 管道传入 (`cat foo.txt | claude`)
 - 让 Claude 通过 bash/MCP 拉取数据
 - 让 Claude 读取文件或 URL
+
+### 用 `!` 直接执行命令
+
+交互模式中以 `!` 开头可直接运行 Bash 命令，不经 Claude 解释或批准，命令和输出会进入对话上下文：
+
+```bash
+! npm test
+! git status
+```
+
+长时间运行的命令可按 `Ctrl+B` 移至后台（Tmux 中按两次）；输入部分命令后按 `Tab`，可从本项目历史 `!` 命令中补全。
+
+### 常用快捷命令
+
+| 命令           | 作用                                       |
+| -------------- | ------------------------------------------ |
+| `!<command>`   | 直接执行 Bash 命令，输出纳入对话上下文     |
+| `#`            | 将内容写入 `CLAUDE.md` 记忆文件            |
+| `/clear`       | 清除当前对话上下文                         |
+| `/permissions` | 管理工具权限白名单                         |
+| `/plugin`      | 打开插件管理器（发现、已安装、市场、错误） |
+
+插件与市场的完整命令见 [Marketplace — 管理市场与插件](/guide/marketplace#管理市场与插件)。
 
 ## 5. 使用无头模式自动化基础设施
 

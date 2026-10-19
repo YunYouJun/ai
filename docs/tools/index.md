@@ -1,66 +1,25 @@
 # 工具与资源
 
-本节整理了 AI 开发过程中常用的工具、框架、库和学习资源。
+本节整理 AI 开发常用的框架、SDK、开发工具和学习资源。
 
 ## 内容导航
 
-- **[AI 框架](./frameworks.md)** - 主流 AI 开发框架和 SDK
-- **[开发工具](./dev-tools.md)** - 提升开发效率的工具
-- **[学习资源](./resources.md)** - 优质学习资源推荐
-
-## 工具分类
-
-### 🤖 AI SDK 和框架
-
-| 工具                                                       | 描述                    | 语言        |
-| ---------------------------------------------------------- | ----------------------- | ----------- |
-| [LangChain](https://langchain.com/)                        | 构建 LLM 应用的框架     | Python / JS |
-| [LlamaIndex](https://www.llamaindex.ai/)                   | 数据框架，用于 LLM 应用 | Python / JS |
-| [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | 自主 AI Agent           | Python      |
-| [Browser Use](https://github.com/browser-use/browser-use)  | 浏览器自动化 AI Agent   | Python      |
-
-详见：[Agent Browser](./agent-browser.md) | [Browser Use](./browser-use.md)
-
-### 🛠️ 开发工具
-
-| 工具                                                  | 描述            | 用途     |
-| ----------------------------------------------------- | --------------- | -------- |
-| [Cursor](https://cursor.sh/)                          | AI 代码编辑器   | 编码辅助 |
-| [GitHub Copilot](https://github.com/features/copilot) | AI 代码补全     | 编码辅助 |
-| [v0.dev](https://v0.dev/)                             | AI 生成 UI 组件 | 前端开发 |
-| [Vercel AI SDK](https://sdk.vercel.ai/)               | AI 应用开发套件 | 全栈开发 |
-
-### 📚 模型提供商
-
-| 提供商    | 特点               | 官网                                        |
-| --------- | ------------------ | ------------------------------------------- |
-| OpenAI    | GPT 系列模型       | [openai.com](https://openai.com/)           |
-| Anthropic | Claude 系列模型    | [anthropic.com](https://www.anthropic.com/) |
-| Google    | Gemini 系列模型    | [ai.google.dev](https://ai.google.dev/)     |
-| 本地模型  | Ollama / LM Studio | 开源方案                                    |
-
-## 快速链接
-
-- 查看 [AI 框架详情](./frameworks.md)
-- 探索 [开发工具](./dev-tools.md)
-- 发现 [学习资源](./resources.md)
+- [AI 框架与 SDK](./frameworks) — LangChain、Vercel AI SDK、LlamaIndex、Anthropic SDK 的特点与选型
+- [API 调用实践](./api) — Claude / OpenAI API 的流式响应、工具调用、错误处理与费用优化
+- [开发工具](./dev-tools) — AI 编码、Prompt、API 测试、向量数据库、监控与本地模型
+- 浏览器自动化 — [Agent Browser](./agent-browser) 与 [Browser Use](./browser-use)
+- [AI Docs 组件](./ai-docs) — 本仓库的提示词卡片与 Skills 目录组件
+- [学习资源](./resources) — 模型提供商文档、课程、社区与论文
 
 ## 推荐组合
 
-### Web 应用开发
+| 场景           | 组合                                |
+| -------------- | ----------------------------------- |
+| Web 应用开发   | Vercel AI SDK + Next.js + Claude    |
+| Web 开发工具链 | Cursor + Bruno + Vercel AI SDK      |
+| Python 开发    | VS Code + Copilot + HTTPie + Ollama |
+| 数据分析       | LangChain + Python + OpenAI GPT     |
+| 浏览器自动化   | Browser Use + Playwright + Claude   |
+| 生产环境       | LangSmith + Qdrant + Helicone       |
 
-```
-Vercel AI SDK + Next.js + Anthropic Claude
-```
-
-### 数据分析
-
-```
-LangChain + Python + OpenAI GPT
-```
-
-### 浏览器自动化
-
-```
-Browser Use + Playwright + Claude
-```
+框架层面的取舍见 [AI 框架与 SDK — 选择建议](./frameworks#选择建议)。

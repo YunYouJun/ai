@@ -125,6 +125,10 @@ Review the current code changes and provide feedback.
 EOF
 ```
 
+::: tip 命名
+命令会自动带 `plugin-name:` 前缀，Skill 名保持简短且含义明确：`/ai-coding:fix-issue` ✅，`/ai-coding:do-thing` ❌。
+:::
+
 ### 3. 添加 Hooks（可选）
 
 ```bash
@@ -198,87 +202,9 @@ git push -u origin main
 
 ## 本仓库插件：ai-coding
 
-本仓库包含一个 `ai-coding` 插件，提供 AI 辅助编码工作流的 Skills 集合。
-
-### 插件信息
+本仓库的 `ai-coding` 插件打包了 Issue → PR 与代码审查两类 Skills，各自的命令与完整指令见 [Skills 目录](./skills)，安装与本地加载见[快速开始](./getting-started#安装-plugins)。
 
 <<< @/../plugins/ai-coding/.claude-plugin/plugin.json
-
-### 包含的 Skills
-
-| 场景       | Skill                                                       | 命令                                      | 说明                                            |
-| ---------- | ----------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------- |
-| Issue → PR | [`triage-issues`](./skills/triage-issues)                   | `/ai-coding:triage-issues [repo] [issue]` | 只读筛选 Issue，输出低风险候选或跳过原因        |
-| Issue → PR | [`fix-issue`](./skills/fix-issue)                           | `/ai-coding:fix-issue <issue>`            | 复现、回归测试、最小修复，创建 Draft PR         |
-| Issue → PR | [`pr-cycle`](./skills/pr-cycle)                             | `/ai-coding:pr-cycle <issue>`             | 修复 Issue → Draft PR → 处理 Review             |
-| 代码审查   | [`review-staged`](./skills/review-staged)                   | `/ai-coding:review-staged [--fix]`        | 提交前审查暂存区变更，可选自动修复              |
-| 代码审查   | [`review-feedback`](./skills/review-feedback)               | `/ai-coding:review-feedback [pr]`         | 拉取 Copilot 或人工 Review 意见，修复并推送     |
-| 代码审查   | [`address-copilot-review`](./skills/address-copilot-review) | `/ai-coding:address-copilot-review [pr]`  | 单轮处理 Copilot Review：抓取、分类、修复、回复 |
-| 代码审查   | [`copilot-review-loop`](./skills/copilot-review-loop)       | `/ai-coding:copilot-review-loop [pr]`     | 触发 → 处理 → 再触发，最多 2 轮                 |
-
-### 使用方式
-
-```bash
-# 本地加载插件
-claude --plugin-dir /path/to/ai/plugins/ai-coding
-```
-
-各 Skill 的用法与完整指令见对应说明页，全部 Skills 见 [Skills 目录](/guide/skills)。
-
-## 推荐常用插件
-
-以下是官方市场 (`claude-plugins-official`) 中推荐的常用插件：
-
-### 开发工作流
-
-为常见开发任务添加命令和代理的插件：
-
-| 插件                | 说明                                                          | 安装命令                                                    |
-| ------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
-| `commit-commands`   | Git 提交工作流（`/commit`、`/commit-push-pr`、`/clean_gone`） | `/plugin install commit-commands@claude-plugins-official`   |
-| `pr-review-toolkit` | 用于审查拉取请求的专门代理                                    | `/plugin install pr-review-toolkit@claude-plugins-official` |
-| `agent-sdk-dev`     | 使用 Claude Agent SDK 构建的工具                              | `/plugin install agent-sdk-dev@claude-plugins-official`     |
-| `plugin-dev`        | 用于创建您自己的插件的工具包                                  | `/plugin install plugin-dev@claude-plugins-official`        |
-
-### 代码智能（LSP 集成）
-
-使用 LSP 提供跳转定义、查找引用、类型错误检测：
-
-| 插件           | 语言       | 需要安装                                                             |
-| -------------- | ---------- | -------------------------------------------------------------------- |
-| Python LSP     | Python     | `pyright-langserver` (`pip install pyright`)                         |
-| Go LSP         | Go         | `gopls` (`go install golang.org/x/tools/gopls@latest`)               |
-| Rust LSP       | Rust       | `rust-analyzer` (随 `rustup` 安装)                                   |
-| TypeScript LSP | TypeScript | `typescript-language-server` (`npm i -g typescript-language-server`) |
-
-::: tip 代码智能插件
-代码智能插件需要在系统上安装对应的语言服务器二进制文件。安装后 Claude 可以获得跳转定义、查找引用、诊断错误等能力。
-:::
-
-### 外部集成（MCP Servers）
-
-捆绑预配置的 MCP 服务器，连接外部服务：
-
-| 插件   | 连接服务   | 用途                |
-| ------ | ---------- | ------------------- |
-| GitHub | GitHub API | Issue、PR、仓库管理 |
-| GitLab | GitLab API | 项目、MR 管理       |
-| Jira   | Jira Cloud | 任务管理            |
-| Linear | Linear API | 项目跟踪            |
-| Notion | Notion API | 知识库、文档        |
-| Figma  | Figma API  | 设计稿获取          |
-| Vercel | Vercel API | 部署管理            |
-| Slack  | Slack API  | 消息通知            |
-| Sentry | Sentry API | 错误追踪            |
-
-### 输出样式
-
-自定义 Claude 的响应方式：
-
-| 插件                       | 说明                           |
-| -------------------------- | ------------------------------ |
-| `explanatory-output-style` | 教育性输出风格，添加解释性见解 |
-| `learning-output-style`    | 交互式学习风格，鼓励探索       |
 
 ## 从现有配置迁移到 Plugin
 
@@ -304,12 +230,12 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 
 | 问题                            | 解决方案                                                                                 |
 | ------------------------------- | ---------------------------------------------------------------------------------------- |
-| `/plugin` 命令无法识别          | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端                                 |
-| 插件技能未出现                  | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装                                |
 | `Executable not found in $PATH` | 安装对应的语言服务器二进制文件（如 `pyright`, `gopls`）                                  |
 | Plugin 加载错误                 | 运行 `/plugin` → 切换到「错误」选项卡查看详情                                            |
 | 命名空间冲突                    | 使用 Plugin 方式加载（自动带命名空间前缀）                                               |
 | 安装后文件未找到                | 插件会被复制到缓存目录，无法引用插件目录外的文件（如 `../shared`），需使用符号链接或重构 |
+
+`/plugin` 无法识别、安装失败、技能未出现等安装问题见 [Marketplace — 故障排除](./marketplace#故障排除)。
 
 ## 参考链接
 
@@ -317,4 +243,4 @@ claude --plugin-dir /path/to/ai/plugins/ai-coding
 - [编写 Skill](./skills/authoring) — Skill 结构与编写要点
 - [Marketplace 市场](./marketplace) — 发现、安装、创建与分发市场
 - [创建插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/plugins)
-- [PR 自动化实践](/claude-code/pr-automation) — ai-coding 插件在 PR 工作流中的实际应用
+- [PR 自动化实践](/practices/pr-automation) — ai-coding 插件在 PR 工作流中的实际应用

@@ -31,4 +31,4 @@ disable-model-invocation: true
 
 每项包含 Issue 链接、版本时间、风险、证据、`eligible` / `skip` / `needs-information` 及原因。任务终态为 `no_eligible_issue`、`already_fixed`、`blocked`、`failed` 或 `draft_pr_created`。不能把未运行的测试、未完成的 review 或无新评论写成通过。
 
-完整操作步骤见仓库 `docs/claude-code/issue-autopilot.md`。
+完整操作步骤见仓库 `docs/practices/issue-autopilot.md`。

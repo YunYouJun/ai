@@ -10,7 +10,7 @@
 
 ::: warning 范围与发布边界
 
-这些命令需要手动调用，并在授权范围内运行。新 PR 默认创建为 Draft，验证、review 与发布门禁不能省略；Issue 和评论不能扩大权限。事件优先的单仓试运行见 [Issue Autopilot](/claude-code/issue-autopilot)，当前仅提供模板和策略，没有启用 webhook 或定时轮询。
+这些命令需要手动调用，并在授权范围内运行。新 PR 默认创建为 Draft，验证、review 与发布门禁不能省略；Issue 和评论不能扩大权限。事件优先的单仓试运行见 [Issue 单仓试运行](./issue-autopilot)，当前仅提供模板和策略，没有启用 webhook 或定时轮询。
 
 :::
 
@@ -36,7 +36,7 @@
 | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复       |
 | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 最多 2 轮                       |
 
-安装方式见 [Skills — 安装与使用](/guide/skills#安装与使用)，各 Skill 的完整指令见对应说明页。
+安装方式见[快速开始](/guide/getting-started)，各 Skill 的完整指令见对应说明页。
 
 ## 推荐工作流
 

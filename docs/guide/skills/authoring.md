@@ -12,20 +12,8 @@ Skills 分为两类：
 - **Agent Skills（代理技能）**：位于 `skills/` 目录，包含 `SKILL.md` 文件，可由 Claude 根据任务上下文自动调用
 
 ::: tip 与 Plugins 和 Marketplace 的关系
-Skills 是最小功能单元，可独立使用也可打包进 [Plugins](../plugins) 进行分发，通过 [Marketplace](../marketplace) 供社区发现和安装。三者是互补的层级关系。
+Skills 是最小功能单元，可独立使用，也可打包进 [Plugins](../plugins) 并通过 [Marketplace](../marketplace) 分发。三者的定位、命名空间与版本管理对比见[指南简介](../)。
 :::
-
-## Skills vs Plugins vs Marketplace 对比
-
-| 特性         | Skills                 | Plugins                            | Marketplace                |
-| ------------ | ---------------------- | ---------------------------------- | -------------------------- |
-| **定位**     | 最小功能单元           | 完整扩展包                         | 分发与发现平台             |
-| **粒度**     | 单个命令/技能          | 多个 Skills + Agents + Hooks + MCP | 多个 Plugins 的目录        |
-| **命名空间** | 无（独立配置时）       | 有（`plugin-name:command`）        | 有（`plugin@marketplace`） |
-| **安装方式** | 复制 `SKILL.md` 到项目 | `--plugin-dir` 或市场安装          | `/plugin install`          |
-| **版本管理** | 手动                   | 语义版本 (`plugin.json`)           | 自动更新                   |
-| **适用场景** | 个人工作流、快速实验   | 团队共享、跨项目复用               | 社区分发、企业内部         |
-| **冲突处理** | 可能冲突               | 命名空间隔离                       | 完全隔离                   |
 
 ## Skill 文件结构
 
@@ -109,17 +97,25 @@ $ARGUMENTS should be <describe expected input>.
 
 ### 编写要点
 
-- 指令要**具体明确**，包含实际的 CLI 命令，减少 AI 的自由发挥空间
-- 建议设置 `disable-model-invocation: true`，避免 AI 在不恰当的时机自动触发
-- 使用 `allowed-tools` 限制可用工具范围，提升安全性
-- 用编号步骤组织指令，便于 AI 按顺序执行
-- 在最后一步要求 AI 汇报结果
+- **指令要具体**：写出实际的 CLI 命令和判定标准，减少 AI 的自由发挥：
 
-::: warning 注意事项
+  ```markdown
+  <!-- ❌ 模糊 -->
+  Review the code changes.
 
-- `$ARGUMENTS` 是用户在斜杠命令后输入的参数，会被原样传入
-- 将 skills 放在 `~/.claude/skills/` 下即可在所有项目中全局使用
-  :::
+  <!-- ✅ 具体 -->
+  1. Run `git diff --cached --stat` to get changed files
+  2. For each file, read the full file for context
+  3. Review staged hunks for: bugs, security issues, types, dead code
+  4. Categorize as MUST_FIX / SHOULD_FIX / NIT / GOOD
+  5. Print summary table with file:line, severity, and suggestion
+  ```
+
+- **用编号步骤组织**，最后一步要求 AI 汇报结果
+- **默认手动触发**：设置 `disable-model-invocation: true`，避免 AI 在不恰当的时机自动调用；只有希望按需自动触发的通用 Skill（如代码审查）才放开
+- **限制工具范围**：用 `allowed-tools` 收窄可用工具，降低安全风险和意外操作
+- **只封装多步编排**：`git commit` 这类原子操作直接用自然语言即可，见 [Commit / Push 工作流](/claude-code/best-practices#commit-push-工作流最佳实践)
+- **全局共享**：放在 `~/.claude/skills/` 下即可在所有项目中使用
 
 ## 在本仓库新增 Skill
 
@@ -138,6 +134,6 @@ $ARGUMENTS should be <describe expected input>.
 - [发现和安装插件 — Claude Code 官方文档](https://code.claude.com/docs/zh-CN/discover-plugins)
 - [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [vercel-labs/skills](https://github.com/vercel-labs/skills) — Skills CLI 安装工具
-- [PR 自动化实践](/claude-code/pr-automation) — Skills 在 PR 工作流中的实际应用
+- [PR 自动化实践](/practices/pr-automation) — Skills 在 PR 工作流中的实际应用
 - [Claude Code 最佳实践](/claude-code/best-practices) — 斜杠命令与工具配合技巧
-- [MCP（Model Context Protocol）](/guide/mcp/) — MCP Server 集成说明
+- [MCP（Model Context Protocol）](/guide/mcp) — MCP Server 集成说明

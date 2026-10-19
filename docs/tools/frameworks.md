@@ -1,6 +1,6 @@
-# AI 框架
+# AI 框架与 SDK
 
-介绍主流的 AI 开发框架和 SDK，帮助你选择合适的工具构建 AI 应用。
+介绍主流的 AI 开发框架和 SDK，帮助你选择合适的工具构建 AI 应用。直接调用模型 API 的写法见 [API 调用实践](./api)。
 
 ## LangChain
 
@@ -81,6 +81,38 @@ const { text } = await generateText({
 console.log(text)
 ```
 
+### React 集成
+
+```typescript
+'use client'
+
+import { useChat } from 'ai/react'
+
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat()
+
+  return (
+    <div>
+      {messages.map(m => (
+        <div key={m.id}>
+          {m.role}
+          :
+          {m.content}
+        </div>
+      ))}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Say something..."
+        />
+      </form>
+    </div>
+  )
+}
+```
+
 ## LlamaIndex
 
 ### 简介
@@ -142,23 +174,7 @@ pnpm add @anthropic-ai/sdk
 
 ### 示例
 
-```typescript
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
-
-const message = await client.messages.create({
-  model: 'claude-3-5-sonnet-20241022',
-  max_tokens: 1024,
-  messages: [
-    { role: 'user', content: '你好' },
-  ],
-})
-
-console.log(message.content)
-```
+基础调用、流式响应和工具调用示例见 [API 调用实践](./api#anthropic-claude-api)。
 
 ## 框架对比
 
@@ -178,5 +194,6 @@ console.log(message.content)
 
 ## 相关资源
 
-- [开发工具](./dev-tools.md)
-- [学习资源](./resources.md)
+- [API 调用实践](./api)
+- [开发工具](./dev-tools)
+- [学习资源](./resources)

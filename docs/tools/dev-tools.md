@@ -2,7 +2,7 @@
 
 推荐一些能够提升 AI 开发效率的实用工具。
 
-## 代码编辑器
+## AI 编码工具
 
 ### Cursor
 
@@ -27,32 +27,16 @@ Visual Studio Code 配合 GitHub Copilot。
 - GitHub Copilot Chat
 - Continue (开源 AI 助手)
 
+### v0
+
+Vercel 推出的 AI UI 生成工具，用自然语言生成前端组件。
+
+**官网：** [v0.dev](https://v0.dev/)
+
 ## 浏览器自动化
 
-### Browser Use
-
-Python 库，使用 AI 控制浏览器。
-
-```bash
-pip install browser-use
-```
-
-**特点：**
-
-- 🤖 AI 驱动的浏览器控制
-- 🎯 自然语言指令
-- 📸 自动截图
-- 🔧 Playwright 集成
-
-### Agent Browser
-
-基于 Vercel AI SDK 的浏览器 Agent。
-
-```bash
-pnpm add agent-browser
-```
-
-**官网：** [github.com/vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser)
+- [Agent Browser](./agent-browser) — 面向 AI 编程助手的浏览器自动化，与 Playwright MCP 的取舍
+- [Browser Use](./browser-use) — Python 实现，用自然语言驱动浏览器完成复杂任务
 
 ## Prompt 工具
 
@@ -159,27 +143,8 @@ ollama run llama2
 
 **官网：** [lmstudio.ai](https://lmstudio.ai/)
 
-## 工具组合推荐
-
-### Web 开发
-
-```
-Cursor + Bruno + Vercel AI SDK
-```
-
-### Python 开发
-
-```
-VS Code + Copilot + HTTPie + Ollama
-```
-
-### 生产环境
-
-```
-LangSmith + Qdrant + Helicone
-```
-
 ## 相关资源
 
-- [AI 框架](./frameworks.md)
-- [学习资源](./resources.md)
+- [推荐组合](/tools/#推荐组合)
+- [AI 框架与 SDK](./frameworks)
+- [学习资源](./resources)

@@ -43,7 +43,7 @@ npx skills add YunYouJun/ai --skill=triage-issues
 6. **验证与 Review**：回归用例先失败后通过，最多 2 轮 Review、总耗时 45 分钟；
 7. **Draft PR**：门禁通过且获得发布授权后才创建，不自动 merge、release 或 deploy。
 
-任务终态为 `no_eligible_issue`、`already_fixed`、`blocked`、`failed` 或 `draft_pr_created`。完整操作步骤见 [Issue 单仓试运行](/claude-code/issue-autopilot)。
+任务终态为 `no_eligible_issue`、`already_fixed`、`blocked`、`failed` 或 `draft_pr_created`。完整操作步骤见 [Issue 单仓试运行](/practices/issue-autopilot)。
 
 ## 完整指令
 

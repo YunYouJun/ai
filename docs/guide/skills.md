@@ -36,56 +36,9 @@ import { data as skills } from '../.vitepress/data/skills.data'
 
 Issue → PR 与代码审查两类打包在 [`ai-coding` 插件](./plugins#本仓库插件-ai-coding)中，适合一起安装；其余为独立 Skill，按需单独安装。
 
-## 安装与使用
+## 安装与编写
 
-### Skills CLI
-
-通过 [vercel-labs/skills](https://github.com/vercel-labs/skills) 安装，命令不带命名空间：
-
-```bash
-# 安装全部 skills
-npx skills add YunYouJun/ai --skill='*'
-
-# 安装单个 skill
-npx skills add YunYouJun/ai --skill=simplify-documents
-```
-
-```bash
-/simplify-documents
-/fix-issue 42
-/review-feedback
-```
-
-::: tip 全局共享
-将 skills 放在 `~/.claude/skills/` 下即可在所有项目中使用。
-:::
-
-### Plugin
-
-`ai-coding` 插件打包了 Issue → PR 与代码审查两类 Skills，加载后命令带 `ai-coding:` 前缀：
-
-```bash
-# Claude Code
-claude plugin install ai-coding@yunyoujun
-
-# CodeBuddy
-codebuddy plugin install ai-coding@yunyoujun
-
-# 本地开发
-claude --plugin-dir /path/to/ai/plugins/ai-coding
-```
-
-```bash
-/ai-coding:fix-issue 42
-/ai-coding:pr-cycle 42
-/ai-coding:copilot-review-loop
-```
-
-详见 [Plugins — ai-coding 插件](./plugins#本仓库插件-ai-coding)与 [Marketplace](./marketplace)。
-
-## 编写自己的 Skill
-
-Skill 的文件结构、Frontmatter 字段和编写要点见[编写 Skill](./skills/authoring)。
+卡片上的命令安装单个 Skill。一次安装全部 Skills、通过插件安装（命令带 `ai-coding:` 前缀）以及本地开发加载见[快速开始](./getting-started)；编写自己的 Skill 见[编写 Skill](./skills/authoring)。
 
 <style scoped>
 .skill-meta {

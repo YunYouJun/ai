@@ -7,10 +7,10 @@
 ## 内容导航
 
 - [使用前准备](./registration) — 确认可用地区、认证计费方式并安装 Claude Code
-- [最佳实践](./best-practices) — Anthropic 工程团队验证的实践模式：环境配置、工作流策略、多 Agent 协作
-- [PR 自动化实践](./pr-automation) — 本地 Issue → PR → Review 全流程自动化
+- [最佳实践](./best-practices) — 环境配置、工作流策略、常用快捷命令与多 Agent 协作
 - [Git Worktree 并行处理](./git-worktree) — 多 Claude 实例并行开发的最佳搭档
-- [FAQ](./faq) — 常用快捷命令和使用技巧
+
+基于本仓库 Skills 的端到端流程（Issue → PR → Review、Issue 单仓试运行等）见[自动化实践](/practices/pr-automation)。
 
 ## 相关资源
 

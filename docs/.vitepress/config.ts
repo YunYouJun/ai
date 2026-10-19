@@ -2,11 +2,11 @@
  * VitePress site configuration for "小云的 AI 开发实践".
  *
  * Sections:
- * - `/guide/`       — Getting started, best practices, MCP, plugins
+ * - `/guide/`       — Getting started, Plugins, Marketplace, MCP
  * - `/guide/skills` — Skills catalog; per-skill pages are grouped from `data/skill-catalog.ts`
- * - `/claude-code/` — Claude Code specific guides
- * - `/tools/`       — AI frameworks, dev tools, browser automation
- * - `/api/`         — API reference
+ * - `/claude-code/` — Claude Code setup, best practices, worktrees
+ * - `/practices/`   — End-to-end automation write-ups and their validation records
+ * - `/tools/`       — Frameworks, API usage, dev tools, browser automation, resources
  *
  * @see https://vitepress.dev/reference/site-config
  */
@@ -37,8 +37,8 @@ export default defineConfig(withYunlefun({
       { text: '指南', link: '/guide/', activeMatch: '^/guide/(?!skills)' },
       { text: 'Skills', link: '/guide/skills', activeMatch: '^/guide/skills' },
       { text: 'Claude Code', link: '/claude-code/' },
+      { text: '实践', link: '/practices/pr-automation', activeMatch: '^/practices/' },
       { text: '工具', link: '/tools/' },
-      { text: 'API', link: '/api/' },
       {
         text: '云游君',
         items: [
@@ -55,17 +55,9 @@ export default defineConfig(withYunlefun({
         items: [
           { text: '简介', link: '/guide/' },
           { text: '快速开始', link: '/guide/getting-started' },
-          { text: '最佳实践', link: '/guide/best-practices' },
-          { text: 'Copilot 双语 Release Notes', link: '/guide/copilot-release-notes' },
-          {
-            text: 'MCP',
-            collapsed: false,
-            items: [
-              { text: '介绍', link: '/guide/mcp/' },
-            ],
-          },
           { text: 'Plugins', link: '/guide/plugins' },
           { text: 'Marketplace', link: '/guide/marketplace' },
+          { text: 'MCP', link: '/guide/mcp' },
         ],
       },
       {
@@ -82,18 +74,38 @@ export default defineConfig(withYunlefun({
           { text: '介绍', link: '/claude-code/' },
           { text: '使用前准备', link: '/claude-code/registration' },
           { text: '最佳实践', link: '/claude-code/best-practices' },
-          { text: 'PR 自动化实践', link: '/claude-code/pr-automation' },
-          { text: 'Issue 单仓试运行', link: '/claude-code/issue-autopilot' },
           { text: 'Git Worktree 并行处理', link: '/claude-code/git-worktree' },
+        ],
+      },
+      {
+        text: '自动化实践',
+        items: [
+          { text: 'Issue → PR → Review', link: '/practices/pr-automation' },
+          {
+            text: 'Issue 单仓试运行',
+            link: '/practices/issue-autopilot',
+            collapsed: true,
+            items: [
+              { text: 'Valaxy 首次盘点', link: '/practices/issue-autopilot-pilot' },
+            ],
+          },
+          {
+            text: 'Copilot 双语 Release Notes',
+            link: '/practices/copilot-release-notes',
+            collapsed: true,
+            items: [
+              { text: '验证记录', link: '/practices/copilot-release-notes-validation' },
+            ],
+          },
         ],
       },
       {
         text: '工具与资源',
         items: [
           { text: '概览', link: '/tools/' },
-          { text: 'AI 框架', link: '/tools/frameworks' },
+          { text: 'AI 框架与 SDK', link: '/tools/frameworks' },
+          { text: 'API 调用实践', link: '/tools/api' },
           { text: '开发工具', link: '/tools/dev-tools' },
-          { text: 'AI Docs 组件', link: '/tools/ai-docs' },
           {
             text: '浏览器自动化',
             collapsed: false,
@@ -102,13 +114,8 @@ export default defineConfig(withYunlefun({
               { text: 'Browser Use', link: '/tools/browser-use' },
             ],
           },
+          { text: 'AI Docs 组件', link: '/tools/ai-docs' },
           { text: '学习资源', link: '/tools/resources' },
-        ],
-      },
-      {
-        text: 'API 文档',
-        items: [
-          { text: '概览', link: '/api/' },
         ],
       },
     ],

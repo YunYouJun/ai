@@ -23,18 +23,60 @@ graph LR
 | **Anthropic 官方** | `claude-plugins-official` | 启动 Claude Code 时自动可用，由 Anthropic 维护      |
 | **演示市场**       | `claude-code-plugins`     | 包含展示插件系统可能性的示例插件，由 Anthropic 维护 |
 
-### 官方市场插件分类
+### 推荐插件
 
-| 类别           | 说明                                          | 示例                                                               |
-| -------------- | --------------------------------------------- | ------------------------------------------------------------------ |
-| **代码智能**   | 使用 LSP 提供跳转定义、查找引用、类型错误检测 | Python (`pyright`), Go (`gopls`), Rust (`rust-analyzer`)           |
-| **外部集成**   | 捆绑预配置的 MCP 服务器，连接外部服务         | GitHub, GitLab, Jira, Linear, Notion, Figma, Vercel, Slack, Sentry |
-| **开发工作流** | 常见开发任务的命令和代理                      | `commit-commands`, `pr-review-toolkit`, `agent-sdk-dev`            |
-| **输出样式**   | 自定义 Claude 的响应方式                      | `explanatory-output-style`, `learning-output-style`                |
+官方市场 (`claude-plugins-official`) 按用途分为以下几类，常用插件如下：
+
+#### 开发工作流
+
+为常见开发任务添加命令和代理的插件：
+
+| 插件                | 说明                                                          | 安装命令                                                    |
+| ------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- |
+| `commit-commands`   | Git 提交工作流（`/commit`、`/commit-push-pr`、`/clean_gone`） | `/plugin install commit-commands@claude-plugins-official`   |
+| `pr-review-toolkit` | 用于审查拉取请求的专门代理                                    | `/plugin install pr-review-toolkit@claude-plugins-official` |
+| `agent-sdk-dev`     | 使用 Claude Agent SDK 构建的工具                              | `/plugin install agent-sdk-dev@claude-plugins-official`     |
+| `plugin-dev`        | 用于创建您自己的插件的工具包                                  | `/plugin install plugin-dev@claude-plugins-official`        |
+
+#### 代码智能（LSP 集成）
+
+使用 LSP 提供跳转定义、查找引用、类型错误检测：
+
+| 插件           | 语言       | 需要安装                                                             |
+| -------------- | ---------- | -------------------------------------------------------------------- |
+| Python LSP     | Python     | `pyright-langserver` (`pip install pyright`)                         |
+| Go LSP         | Go         | `gopls` (`go install golang.org/x/tools/gopls@latest`)               |
+| Rust LSP       | Rust       | `rust-analyzer` (随 `rustup` 安装)                                   |
+| TypeScript LSP | TypeScript | `typescript-language-server` (`npm i -g typescript-language-server`) |
 
 ::: tip 代码智能插件
-代码智能插件需要在系统上安装对应的语言服务器二进制文件（如 Python 的 `pyright-langserver`、Go 的 `gopls`、Rust 的 `rust-analyzer`）。
+代码智能插件需要在系统上安装对应的语言服务器二进制文件。安装后 Claude 可以获得跳转定义、查找引用、诊断错误等能力。
 :::
+
+#### 外部集成（MCP Servers）
+
+捆绑预配置的 MCP 服务器，连接外部服务：
+
+| 插件   | 连接服务   | 用途                |
+| ------ | ---------- | ------------------- |
+| GitHub | GitHub API | Issue、PR、仓库管理 |
+| GitLab | GitLab API | 项目、MR 管理       |
+| Jira   | Jira Cloud | 任务管理            |
+| Linear | Linear API | 项目跟踪            |
+| Notion | Notion API | 知识库、文档        |
+| Figma  | Figma API  | 设计稿获取          |
+| Vercel | Vercel API | 部署管理            |
+| Slack  | Slack API  | 消息通知            |
+| Sentry | Sentry API | 错误追踪            |
+
+#### 输出样式
+
+自定义 Claude 的响应方式：
+
+| 插件                       | 说明                           |
+| -------------------------- | ------------------------------ |
+| `explanatory-output-style` | 教育性输出风格，添加解释性见解 |
+| `learning-output-style`    | 交互式学习风格，鼓励探索       |
 
 ## 添加市场
 
@@ -377,9 +419,10 @@ export GITLAB_TOKEN=glpat-xxxxxxxxxxxx
 | Plugin 安装失败                   | 检查源 URL 访问权限、目录结构及必需文件（`plugin.json`）                    |
 | 私有仓库认证失败                  | 检查 git 凭证助手配置及环境变量中的 Token                                   |
 | 相对路径在 URL Marketplace 中失败 | URL 方式仅下载 JSON 文件，需改用 GitHub/Git URL 源或基于 Git 的 Marketplace |
-| 安装后文件未找到                  | 插件会被复制到缓存目录，无法引用插件目录外的文件，需使用符号链接或重构      |
 | `/plugin` 命令无法识别            | 检查版本 >= 1.0.33（`claude --version`），更新并重启终端                    |
 | 插件技能未出现                    | 清除缓存 `rm -rf ~/.claude/plugins/cache`，重启并重新安装                   |
+
+插件自身的加载错误、LSP 二进制缺失和跨目录引用见 [Plugins — 故障排除](./plugins#故障排除)。
 
 ## 参考链接
 

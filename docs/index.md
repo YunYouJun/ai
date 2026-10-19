@@ -23,14 +23,20 @@ features:
     link: /guide/skills
     linkText: 浏览目录
   - icon: 🎯
-    title: 实践指南
-    details: 提供 AI 项目开发的最佳实践、工作流程和技术选型建议
+    title: 指南
+    details: Skills、Plugins、Marketplace 与 MCP 的安装、编写和分发
+    link: /guide/
+    linkText: 阅读指南
+  - icon: 🔁
+    title: 自动化实践
+    details: Issue → PR → Review、Issue 单仓试运行、Copilot 双语 Release Notes 的完整流程与验证记录
+    link: /practices/pr-automation
+    linkText: 查看实践
   - icon: 🛠️
     title: 工具资源
-    details: 整理常用的 AI 开发工具、框架、库和学习资源
-  - icon: 📚
-    title: API 文档
-    details: 提供项目相关的 API 接口文档和使用说明
+    details: AI 框架与 SDK、API 调用、开发工具、浏览器自动化和学习资源
+    link: /tools/
+    linkText: 发现工具
 ---
 
 ## 关于本站
@@ -40,10 +46,3 @@ features:
 - AI 项目开发的实战经验
 - 常用工具和框架的使用方法
 - 优质学习资源和社区推荐
-
-## 快速导航
-
-- **[开发指南](/guide/)** - 了解 AI 开发的基础知识和最佳实践
-- **[Skills 目录](/guide/skills)** - 按场景浏览、搜索并安装本仓库的 Skills
-- **[工具资源](/tools/)** - 发现实用的 AI 开发工具和框架
-- **[API 文档](/api/)** - 查阅 API 接口文档

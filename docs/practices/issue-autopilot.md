@@ -84,4 +84,4 @@ Issue 链接 / updatedAt：
 Draft PR / head SHA，或停止原因：
 ```
 
-首次 Valaxy 盘点结果见 [2026-10-11 只读试运行记录](/claude-code/issue-autopilot-pilot)。
+首次 Valaxy 盘点结果见 [2026-10-11 只读试运行记录](./issue-autopilot-pilot)。

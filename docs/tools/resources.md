@@ -84,6 +84,7 @@
 - **[vercel/ai](https://github.com/vercel/ai)** - Vercel AI SDK 示例
 - **[anthropics/anthropic-cookbook](https://github.com/anthropics/anthropic-cookbook)** - Claude 使用示例
 - **[langchain-ai/langchain](https://github.com/langchain-ai/langchain)** - LangChain 示例
+- **[Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)** - 自主 AI Agent 平台
 
 ## 论文和研究
 
@@ -121,5 +122,5 @@
 
 ## 相关资源
 
-- [AI 框架](./frameworks.md)
-- [开发工具](./dev-tools.md)
+- [AI 框架与 SDK](./frameworks)
+- [开发工具](./dev-tools)

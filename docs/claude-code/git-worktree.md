@@ -158,5 +158,5 @@ git rev-parse worktrees/my-feat/HEAD
 ## 相关资源
 
 - [多 Claude 工作流](/claude-code/best-practices#_6-多-claude-工作流升级) — 更多并行协作模式
-- [PR 自动化实践](/claude-code/pr-automation) — 配合 Skills 自动化 PR 流程
+- [PR 自动化实践](/practices/pr-automation) — 配合 Skills 自动化 PR 流程
 - [git-worktree 官方文档](https://git-scm.com/docs/git-worktree)
