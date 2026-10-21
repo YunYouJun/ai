@@ -32,6 +32,7 @@ import { data as skills } from '../.vitepress/data/skills.data'
 | Copilot    | [`copilot-review-loop`](./skills/copilot-review-loop) → [`address-copilot-review`](./skills/address-copilot-review)     | 循环触发 Copilot Review，每轮交给单轮处理，最多 2 轮 |
 | 文档写作   | [`simplify-documents`](./skills/simplify-documents)                                                                     | 按比例精简并审计保护段落                             |
 | 发布交付   | [`ios-testflight`](./skills/ios-testflight)                                                                             | 原生 iOS 应用发布到 TestFlight 内部测试              |
+| 会话管理   | [`wrap-up`](./skills/wrap-up)                                                                                           | 任务结束时提交本任务改动并归档会话                   |
 | 编码约定   | [`yunyoujun`](./skills/yunyoujun)                                                                                       | 在 YunYouJun 的项目或新项目中沿用同一编码风格        |
 
 Issue → PR 与代码审查两类打包在 [`ai-coding` 插件](./plugins#本仓库插件-ai-coding)中，适合一起安装；其余为独立 Skill，按需单独安装。

@@ -27,7 +27,7 @@ export const SKILL_SOURCES: SkillSource[] = [
 ]
 
 /** 展示分类，顺序即目录筛选和侧边栏的顺序 */
-export const SKILL_CATEGORIES = ['Issue → PR', '代码审查', '文档写作', '发布交付', '编码约定'] as const
+export const SKILL_CATEGORIES = ['Issue → PR', '代码审查', '文档写作', '发布交付', '会话管理', '编码约定'] as const
 
 export type SkillCategory = typeof SKILL_CATEGORIES[number]
 
@@ -104,6 +104,13 @@ export const SKILL_SHOWCASE: Record<string, SkillShowcase> = {
     category: '发布交付',
     summary: '用 ASC CLI 打包、校验 IPA 并发布到 TestFlight 内部测试，最后按服务器状态验收。',
     tags: ['iOS', 'ASC CLI', '仅内部测试'],
+  },
+  'wrap-up': {
+    title: '任务收尾',
+    icon: '📦',
+    category: '会话管理',
+    summary: '校验、沉淀结论、只提交本任务的改动，再归档会话，让下个任务从干净的上下文开始。',
+    tags: ['Git', '归档会话', '仅手动触发'],
   },
   'yunyoujun': {
     title: '编码偏好与工具约定',

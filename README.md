@@ -41,6 +41,7 @@ npx skills add YunYouJun/ai --skill=simplify-documents
 | 代码审查   | [`copilot-review-loop`](https://ai.yunyoujun.cn/guide/skills/copilot-review-loop)       | 触发 Copilot Review → 处理 → 再触发，最多 2 轮             |
 | 文档写作   | [`simplify-documents`](https://ai.yunyoujun.cn/guide/skills/simplify-documents)         | 按目标比例精简文档，保留事实、约束、步骤和指定段落         |
 | 发布交付   | [`ios-testflight`](https://ai.yunyoujun.cn/guide/skills/ios-testflight)                 | 用 ASC CLI 打包、校验并发布原生 iOS TestFlight 内部测试    |
+| 会话管理   | [`wrap-up`](https://ai.yunyoujun.cn/guide/skills/wrap-up)                               | 校验、沉淀结论、只提交本任务改动，再归档会话               |
 | 编码约定   | [`yunyoujun`](https://ai.yunyoujun.cn/guide/skills/yunyoujun)                           | YunYouJun 的编码偏好和工具约定（TypeScript、Vue、pnpm 等） |
 
 Issue → PR 与代码审查两类打包在 `ai-coding` 插件中，插件加载后命令带 `ai-coding:` 前缀（如 `/ai-coding:fix-issue 42`）；其余为独立 Skill。
@@ -53,6 +54,7 @@ Issue → PR 与代码审查两类打包在 `ai-coding` 插件中，插件加载
 ├── skills/                   # 独立 Skills
 │   ├── ios-testflight/       # TestFlight 内部测试发布
 │   ├── simplify-documents/   # 高保真文档精简
+│   ├── wrap-up/              # 任务收尾：提交并归档会话
 │   └── yunyoujun/            # 编码偏好与工具约定
 ├── docs/                     # 文档站（VitePress）
 │   ├── guide/                # 快速开始、Plugins、Marketplace、MCP
