@@ -7,12 +7,14 @@ disable-model-invocation: true
 
 Close out the task this session worked on so the next session can start fresh from the repository alone. Anything not written to the repository, memory, or an issue is lost once the session is archived.
 
-`$ARGUMENTS` may contain:
+The arguments may contain:
 
 - `push` — push the commits after committing
 - `keep` — do everything except archive the session
 
 Any other text is a note about what to persist or how to word the commit.
+
+Arguments: $ARGUMENTS
 
 ## Instructions
 
@@ -35,7 +37,7 @@ Any other text is a note about what to persist or how to word the commit.
 
 5. **Commit.** Follow the repository's commit conventions (Conventional Commits by default, plus any required attribution lines). Split unrelated logical changes into separate commits. Respect the repository's branch rules. If it forbids committing to the default branch, create a branch first.
 
-6. **Push** only if `$ARGUMENTS` contains `push` or the repository's instructions require it. Never force-push.
+6. **Push** only if the arguments contain `push` or the repository's instructions require it. Never force-push.
 
 7. **Check whether it is safe to archive.** Do not archive, and say why, if any of these holds:
    - the session runs in a worktree that still has uncommitted changes, because archiving cleans up the worktree;
@@ -53,4 +55,4 @@ Any other text is a note about what to persist or how to word the commit.
    Follow-ups: <issue / TODO / proposed session, or "none">
    ```
 
-9. **Archive.** Skip this step if `$ARGUMENTS` contains `keep` or step 7 blocked it. Otherwise archive this session as the very last action. In the Claude Code desktop app, call the session archive tool with `session_id: "self"`. The conversation ends there. If the host has no such tool (CLI or other agents), say the task is closed and suggest `/clear` or starting a new session. Do not claim the session was archived.
+9. **Archive.** Skip this step if the arguments contain `keep` or step 7 blocked it. Otherwise archive this session as the very last action. In the Claude Code desktop app, call the session archive tool with `session_id: "self"`. The conversation ends there. If the host has no such tool (CLI or other agents), say the task is closed and suggest `/clear` or starting a new session. Do not claim the session was archived.
