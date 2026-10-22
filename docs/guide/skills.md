@@ -28,7 +28,7 @@ import { data as skills } from '../.vitepress/data/skills.data'
 | 场景       | Skills                                                                                                                  | 说明                                                 |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | Issue → PR | [`triage-issues`](./skills/triage-issues) → [`fix-issue`](./skills/fix-issue)，或直接用 [`pr-cycle`](./skills/pr-cycle) | 先只读分诊，再复现、修复并创建 Draft PR              |
-| 代码审查   | [`review-staged`](./skills/review-staged)、[`review-feedback`](./skills/review-feedback)                                | 提交前自查；PR 收到 Review 后统一处理意见            |
+| 代码审查   | [`review-staged`](./skills/review-staged)                                                                               | 提交前自查暂存区变更                                 |
 | Copilot    | [`copilot-review-loop`](./skills/copilot-review-loop) → [`address-copilot-review`](./skills/address-copilot-review)     | 循环触发 Copilot Review，每轮交给单轮处理，最多 2 轮 |
 | 文档写作   | [`simplify-documents`](./skills/simplify-documents)                                                                     | 按比例精简并审计保护段落                             |
 | 发布交付   | [`ios-testflight`](./skills/ios-testflight)                                                                             | 原生 iOS 应用发布到 TestFlight 内部测试              |

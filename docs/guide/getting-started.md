@@ -23,7 +23,6 @@ npx skills add YunYouJun/ai --skill=fix-issue
 
 ```bash
 /fix-issue 42
-/review-feedback
 /pr-cycle 42
 ```
 

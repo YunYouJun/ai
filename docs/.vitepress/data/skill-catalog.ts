@@ -70,13 +70,6 @@ export const SKILL_SHOWCASE: Record<string, SkillShowcase> = {
     summary: '审查暂存区变更，按 MUST_FIX / SHOULD_FIX / NIT 分级，可选自动修复。',
     tags: ['Git', '提交前', '可自动触发'],
   },
-  'review-feedback': {
-    title: '处理 Review 意见',
-    icon: '📝',
-    category: '代码审查',
-    summary: '拉取 Copilot 或人工 Review 意见，分类修复、推送并汇报跳过原因。',
-    tags: ['PR Review', 'Copilot', '人工 Review'],
-  },
   'address-copilot-review': {
     title: '处理 Copilot Review',
     icon: '💬',

@@ -31,7 +31,6 @@
 | 命令                                     | 说明                                                       |
 | ---------------------------------------- | ---------------------------------------------------------- |
 | `/ai-coding:fix-issue <issue>`           | 一键修复 Issue — 创建分支、实现修复、运行检查、创建 PR     |
-| `/ai-coding:review-feedback [pr]`        | 拉取 Review 意见（Copilot 或人工），分析、修复并推送       |
 | `/ai-coding:pr-cycle <issue>`            | 完整 PR 生命周期 — 修复 → 创建 PR → 等待 Review → 处理反馈 |
 | `/ai-coding:address-copilot-review [pr]` | 单次处理 Copilot Review — 抓取评论、分类、修复、回复       |
 | `/ai-coding:copilot-review-loop [pr]`    | 迭代 Copilot Review 循环 — 最多 2 轮                       |
@@ -45,7 +44,7 @@
          ↓
 在 GitHub PR 页面请求 Copilot Review（或等待自动触发）
          ↓
-/ai-coding:review-feedback     ← Claude 拉取 review 意见，自动修改并推送
+/ai-coding:address-copilot-review  ← Claude 拉取 Copilot 意见，修复并逐条回复
          ↓
 重复直到 review 通过，最后人工 Approve & Merge
 ```
@@ -55,7 +54,8 @@
 - 使用 `/ai-coding:pr-cycle` 可以一步到位完成整个流程
 - 使用 `/ai-coding:copilot-review-loop` 可以自动迭代 Copilot Review，最多 2 轮
 - 可以在 GitHub 仓库设置中开启 Copilot 自动 review（Settings → Code review → Copilot），省去手动请求的步骤
-- 每次 `/ai-coding:review-feedback` 后 Claude 会汇报哪些改了、哪些跳过了，你可以决定是否需要再跑一次
+- 每次 `/ai-coding:address-copilot-review` 后 Claude 会汇报哪些改了、哪些跳过了，你可以决定是否需要再跑一次
+- 人工 Reviewer 的意见交给 `/ai-coding:pr-cycle`：已有 Draft PR 时它直接从处理 Review 这一步继续
 - 所有 skills 都设置了 `disable-model-invocation: true`，防止 Claude 自动触发，仅限手动调用
   :::
 
@@ -65,6 +65,6 @@
 
 - **Claude A**（本地）：修复 Issue 并创建 PR
 - **Copilot**（GitHub）：自动 Review
-- **Claude B**（本地新会话）：`/ai-coding:review-feedback` 处理反馈，上下文更干净
+- **Claude B**（本地新会话）：`/ai-coding:address-copilot-review` 处理反馈，上下文更干净
 
 分离上下文比在同一个会话中完成所有事情效果更好——修复代码的上下文和处理 Review 的上下文是不同的。

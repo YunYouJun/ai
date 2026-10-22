@@ -36,7 +36,6 @@ npx skills add YunYouJun/ai --skill=simplify-documents
 | Issue → PR | [`fix-issue`](https://ai.yunyoujun.cn/guide/skills/fix-issue)                           | 复现、回归测试、最小修复并创建 Draft PR                    |
 | Issue → PR | [`pr-cycle`](https://ai.yunyoujun.cn/guide/skills/pr-cycle)                             | 修复 Issue → Draft PR → 处理 Review                        |
 | 代码审查   | [`review-staged`](https://ai.yunyoujun.cn/guide/skills/review-staged)                   | 提交前审查暂存区变更，按严重程度分级                       |
-| 代码审查   | [`review-feedback`](https://ai.yunyoujun.cn/guide/skills/review-feedback)               | 拉取 Copilot 或人工 Review 意见，修复并推送                |
 | 代码审查   | [`address-copilot-review`](https://ai.yunyoujun.cn/guide/skills/address-copilot-review) | 单轮处理 Copilot Review：抓取、分类、修复、回复            |
 | 代码审查   | [`copilot-review-loop`](https://ai.yunyoujun.cn/guide/skills/copilot-review-loop)       | 触发 Copilot Review → 处理 → 再触发，最多 2 轮             |
 | 文档写作   | [`simplify-documents`](https://ai.yunyoujun.cn/guide/skills/simplify-documents)         | 按目标比例精简文档，保留事实、约束、步骤和指定段落         |
