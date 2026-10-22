@@ -3,7 +3,7 @@ name: yunyoujun
 description: "YunYouJun's opinionated coding preferences and tooling conventions for JavaScript/TypeScript projects. Use when working on YunYouJun's projects, setting up new projects, or following YunYouJun's coding style."
 metadata:
   author: YunYouJun
-  version: 0.2.0
+  version: 0.2.1
 ---
 
 YunYouJun's coding preferences and tooling conventions.
@@ -215,8 +215,12 @@ Prefer the following base `tsconfig.json`:
 
 | Topic                | Command                             |
 | -------------------- | ----------------------------------- |
+| Triage issues        | `/ai-coding:triage-issues`          |
 | Fix issues           | `/ai-coding:fix-issue`              |
 | PR automation        | `/ai-coding:pr-cycle`               |
-| Review feedback      | `/ai-coding:review-feedback`        |
+| Review staged        | `/ai-coding:review-staged`          |
 | Copilot review reply | `/ai-coding:address-copilot-review` |
 | Copilot review loop  | `/ai-coding:copilot-review-loop`    |
+| Simplify documents   | `/simplify-documents`               |
+| TestFlight release   | `/ios-testflight`                   |
+| Wrap up a task       | `/wrap-up`                          |
