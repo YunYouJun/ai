@@ -16,6 +16,10 @@ Any other text is a note about what to persist or how to word the commit.
 
 Arguments: $ARGUMENTS
 
+## Fast path
+
+First run `git status --short` and `git log --oneline @{u}..HEAD`. If both succeed and print nothing, everything is already committed and pushed: skip steps 1–3, 5 and 6, judge step 4 from this conversation alone, then do steps 7–9 and report `Commits: none new`. Otherwise (changes, unpushed commits, or no upstream) follow every step.
+
 ## Instructions
 
 1. **Scope the changes.** Run `git status --short` and `git diff --stat` (plus `git diff --cached --stat` if anything is staged). Using this conversation, sort every changed path into:
