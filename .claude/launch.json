@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "docs-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@yyj/docs", "run", "docs:dev", "--port", "5181", "--strictPort"],
+      "port": 5181
+    }
+  ]
+}
