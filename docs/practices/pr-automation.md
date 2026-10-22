@@ -56,7 +56,7 @@
 - 可以在 GitHub 仓库设置中开启 Copilot 自动 review（Settings → Code review → Copilot），省去手动请求的步骤
 - 每次 `/ai-coding:address-copilot-review` 后 Claude 会汇报哪些改了、哪些跳过了，你可以决定是否需要再跑一次
 - 人工 Reviewer 的意见交给 `/ai-coding:pr-cycle`：已有 Draft PR 时它直接从处理 Review 这一步继续
-- 所有 skills 都设置了 `disable-model-invocation: true`，防止 Claude 自动触发，仅限手动调用
+- 上表的 skills 都设置了 `disable-model-invocation: true`，防止 Claude 自动触发，仅限手动调用（同插件中的提交前审查 `review-staged` 例外，允许 Claude 自动触发）
   :::
 
 ## 进阶：多 Agent 协作
