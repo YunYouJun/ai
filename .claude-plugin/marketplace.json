@@ -56,6 +56,22 @@
       "category": "productivity"
     },
     {
+      "name": "wrap-up",
+      "description": "Wrap up a finished task: verify, persist durable knowledge, commit only this session's changes, then archive the session.",
+      "source": "./skills/wrap-up",
+      "version": "0.1.0",
+      "author": {
+        "name": "YunYouJun"
+      },
+      "keywords": [
+        "git",
+        "commit",
+        "session",
+        "workflow"
+      ],
+      "category": "productivity"
+    },
+    {
       "name": "yunyoujun",
       "description": "YunYouJun's opinionated coding preferences and tooling conventions for JavaScript/TypeScript projects.",
       "source": "./skills/yunyoujun",
