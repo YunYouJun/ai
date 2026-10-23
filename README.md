@@ -59,7 +59,7 @@ Issue → PR 与代码审查两类打包在 `ai-coding` 插件中，插件加载
 │   ├── guide/                # 快速开始、Plugins、Marketplace、MCP
 │   ├── guide/skills/         # 每个 Skill 的使用说明
 │   ├── claude-code/          # Claude Code 使用技巧
-│   ├── practices/            # 自动化实践与验证记录
+│   ├── practices/            # 自动化、App 开发实践与验证记录
 │   ├── tools/                # 框架、API、开发工具与学习资源
 │   └── .vitepress/data/      # Skills 目录的展示信息（skill-catalog.ts）
 ├── packages/                 # 工具包
@@ -77,6 +77,7 @@ Issue → PR 与代码审查两类打包在 `ai-coding` 插件中，插件加载
 - [Marketplace](https://ai.yunyoujun.cn/guide/marketplace) — 发现和安装社区插件
 - [Claude Code 最佳实践](https://ai.yunyoujun.cn/claude-code/best-practices) — 工作流技巧
 - [PR 自动化实践](https://ai.yunyoujun.cn/practices/pr-automation) — Issue → PR → Review 自动化
+- [App 开发实践](./docs/practices/app-development/index.md) — 账号隔离、升级恢复、测试证据与外部参考
 - [Copilot 双语 Release Notes](https://ai.yunyoujun.cn/practices/copilot-release-notes) — 用 `GITHUB_TOKEN` 自动生成双语版本说明
 
 ## License

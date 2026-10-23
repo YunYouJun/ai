@@ -5,7 +5,7 @@
  * - `/guide/`       — Getting started, Plugins, Marketplace, MCP
  * - `/guide/skills` — Skills catalog; per-skill pages are grouped from `data/skill-catalog.ts`
  * - `/claude-code/` — Claude Code setup, best practices, worktrees
- * - `/practices/`   — End-to-end automation write-ups and their validation records
+ * - `/practices/`   — Automation write-ups, App development lessons, and validation records
  * - `/tools/`       — Frameworks, API usage, dev tools, browser automation, resources
  *
  * @see https://vitepress.dev/reference/site-config
@@ -97,6 +97,15 @@ export default defineConfig(withYunlefun({
               { text: '验证记录', link: '/practices/copilot-release-notes-validation' },
             ],
           },
+        ],
+      },
+      {
+        text: 'App 开发实践',
+        items: [
+          { text: '索引与参考', link: '/practices/app-development/' },
+          { text: '账号切换与异步结果', link: '/practices/app-development/account-isolation' },
+          { text: '升级与数据恢复', link: '/practices/app-development/data-migration' },
+          { text: '测试证据与模拟器管理', link: '/practices/app-development/testing-evidence' },
         ],
       },
       {
