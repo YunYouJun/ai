@@ -219,6 +219,7 @@ Prefer the following base `tsconfig.json`:
 | Fix issues           | `/ai-coding:fix-issue`              |
 | PR automation        | `/ai-coding:pr-cycle`               |
 | Review staged        | `/ai-coding:review-staged`          |
+| Codex plan & review  | `/ai-coding:codex-review`           |
 | Copilot review reply | `/ai-coding:address-copilot-review` |
 | Copilot review loop  | `/ai-coding:copilot-review-loop`    |
 | Simplify documents   | `/simplify-documents`               |

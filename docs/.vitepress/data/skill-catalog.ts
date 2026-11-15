@@ -70,6 +70,13 @@ export const SKILL_SHOWCASE: Record<string, SkillShowcase> = {
     summary: '审查暂存区变更，按 MUST_FIX / SHOULD_FIX / NIT 分级，可选自动修复。',
     tags: ['Git', '提交前', '可自动触发'],
   },
+  'codex-review': {
+    title: 'Codex 跨模型审查',
+    icon: '🧠',
+    category: '代码审查',
+    summary: '调用 Codex CLI（默认 gpt-6.1-sol）对实施方案或 Git 变更做只读交叉审查，支持最多 2 轮自动修复闭环。',
+    tags: ['Codex', 'Plan & Code Review', '跨模型'],
+  },
   'address-copilot-review': {
     title: '处理 Copilot Review',
     icon: '💬',
