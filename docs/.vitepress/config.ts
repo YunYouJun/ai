@@ -106,6 +106,7 @@ export default defineConfig(withYunlefun({
           { text: '账号切换与异步结果', link: '/practices/app-development/account-isolation' },
           { text: '升级与数据恢复', link: '/practices/app-development/data-migration' },
           { text: '测试证据与模拟器管理', link: '/practices/app-development/testing-evidence' },
+          { text: '截屏后的轻量反馈入口', link: '/practices/app-development/screenshot-feedback' },
         ],
       },
       {
