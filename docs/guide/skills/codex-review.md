@@ -1,6 +1,6 @@
 # Codex 跨模型审查
 
-`codex-review` 调用本机 OpenAI `codex` CLI（默认使用 `gpt-6.1-sol` 与 `xhigh` 推理强度），在只读沙箱中对当前 Agent 制定的**实施方案（Plan Review）**或**代码变更（Code Review）**进行跨模型交叉审查，并支持带 `--fix` 的有限轮次（最多 2 轮）自动修复闭环。
+`codex-review` 调用本机 OpenAI `codex` CLI（默认跟随 `~/.codex/config.toml` 配置的默认模型，并搭配 `xhigh` 推理强度），在只读沙箱中对当前 Agent 制定的**实施方案（Plan Review）**或**代码变更（Code Review）**进行跨模型交叉审查，并支持带 `--fix` 的有限轮次（最多 2 轮）自动修复闭环。
 
 | 调用                                                                                                                           | 触发               | 来源                                                                                              |
 | ------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------- |
@@ -9,7 +9,7 @@
 ## 前置条件
 
 - 已安装并登录 `codex` CLI（`which codex`）；
-- 默认读取或覆盖 `model="gpt-6.1-sol"` 与 `model_reasoning_effort="xhigh"`，可通过 `--model <model>` 或环境变量 `CODEX_REVIEW_MODEL` 指定其他模型。
+- 默认继承 `~/.codex/config.toml` 中的默认模型并设置 `model_reasoning_effort="xhigh"`，仅在显式传入 `--model <model>` 或环境变量 `CODEX_REVIEW_MODEL` 时覆盖模型。
 
 ## 适用场景
 

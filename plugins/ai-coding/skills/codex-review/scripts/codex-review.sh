@@ -2,11 +2,16 @@
 set -euo pipefail
 
 # Wrapper for OpenAI Codex CLI Plan Review & Code Review
-# Defaults to gpt-6.1-sol with xhigh reasoning effort.
+# Follows Codex CLI's configured default model (~/.codex/config.toml) with xhigh reasoning effort by default.
 
-MODEL="${CODEX_REVIEW_MODEL:-gpt-6.1-sol}"
+MODEL="${CODEX_REVIEW_MODEL:-}"
 EFFORT="${CODEX_REVIEW_EFFORT:-xhigh}"
 OUT_FILE="${CODEX_REVIEW_OUT:-/tmp/codex-review-last.md}"
+
+COMMON_ARGS=(-c "model_reasoning_effort=\"${EFFORT}\"")
+if [[ -n "$MODEL" ]]; then
+  COMMON_ARGS+=(-c "model=\"${MODEL}\"")
+fi
 
 usage() {
   cat <<'EOF'
@@ -16,7 +21,7 @@ Usage:
   codex-review.sh custom "<prompt>"
 
 Environment overrides:
-  CODEX_REVIEW_MODEL   Model name (default: gpt-6.1-sol)
+  CODEX_REVIEW_MODEL   Model name (optional; defaults to ~/.codex/config.toml)
   CODEX_REVIEW_EFFORT  Reasoning effort (default: xhigh)
   CODEX_REVIEW_OUT     Output markdown path (default: /tmp/codex-review-last.md)
 EOF
@@ -51,8 +56,7 @@ ${EXTRA_PROMPT}
 End with 'VERDICT: APPROVED' or 'VERDICT: REVISE'."
 
     codex exec -s read-only --ephemeral \
-      -c "model=\"${MODEL}\"" \
-      -c "model_reasoning_effort=\"${EFFORT}\"" \
+      "${COMMON_ARGS[@]}" \
       -o "$OUT_FILE" \
       "$PROMPT"
     ;;
@@ -63,8 +67,7 @@ End with 'VERDICT: APPROVED' or 'VERDICT: REVISE'."
       set -- --uncommitted
     fi
     codex exec review "$@" --ephemeral \
-      -c "model=\"${MODEL}\"" \
-      -c "model_reasoning_effort=\"${EFFORT}\"" \
+      "${COMMON_ARGS[@]}" \
       -o "$OUT_FILE"
     ;;
 
@@ -74,8 +77,7 @@ End with 'VERDICT: APPROVED' or 'VERDICT: REVISE'."
       exit 1
     fi
     codex exec -s read-only --ephemeral \
-      -c "model=\"${MODEL}\"" \
-      -c "model_reasoning_effort=\"${EFFORT}\"" \
+      "${COMMON_ARGS[@]}" \
       -o "$OUT_FILE" \
       "$*"
     ;;

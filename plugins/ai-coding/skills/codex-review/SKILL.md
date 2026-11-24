@@ -1,11 +1,11 @@
 ---
 name: codex-review
-description: "Cross-model plan and code review via OpenAI Codex CLI (default gpt-6.1-sol with xhigh reasoning). Use when reviewing an implementation plan before coding, reviewing uncommitted/branch git changes with Codex, or running a Plan → Implement → Codex Review loop."
+description: "Cross-model plan and code review via OpenAI Codex CLI (follows the configured default model in ~/.codex/config.toml with xhigh reasoning by default). Use when reviewing an implementation plan before coding, reviewing uncommitted/branch git changes with Codex, or running a Plan → Implement → Codex Review loop."
 argument-hint: "[plan [file] | code [--uncommitted | --base <branch> | --commit <sha>]] [--fix] [--model <model>]"
 allowed-tools: Bash(codex*), Bash(git*), Bash(pnpm*), Read, Grep, Glob, Edit, Write
 ---
 
-Cross-model adversarial review using the OpenAI `codex` CLI (`gpt-6.1-sol` with `xhigh` reasoning by default). Supports **Plan Review** (before writing code) and **Code Review** (after implementation), with an optional bounded `--fix` loop (max 2 cycles).
+Cross-model adversarial review using the OpenAI `codex` CLI (using the user's configured default model in `~/.codex/config.toml` and `xhigh` reasoning by default). Supports **Plan Review** (before writing code) and **Code Review** (after implementation), with an optional bounded `--fix` loop (max 2 cycles).
 
 ## Prerequisites & Safety Boundaries
 
@@ -16,27 +16,27 @@ Cross-model adversarial review using the OpenAI `codex` CLI (`gpt-6.1-sol` with 
 
 ## CLI Quick Reference
 
-You can invoke `codex` directly or via the bundled helper script [`scripts/codex-review.sh`](./scripts/codex-review.sh):
+You can invoke `codex` directly or via the bundled helper script [`scripts/codex-review.sh`](./scripts/codex-review.sh) (omit `-c model=...` so it inherits `~/.codex/config.toml`; pass `-c model="<model>"` only when overriding):
 
 ```bash
 # 1. Plan Review (read-only codebase cross-check against a plan file or stdin)
 codex exec -s read-only --ephemeral \
-  -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+  -c model_reasoning_effort="xhigh" \
   -o /tmp/codex-plan-review.md \
   "Review the implementation plan in <plan-file> against this repository. Flag architectural flaws, broken assumptions, race conditions, missing edge cases, and over-engineering. Categorize each finding as MUST_FIX, SHOULD_FIX, or NIT."
 
 # 2a. Code Review — Native preset diff review (NOTE: --uncommitted/--base/--commit cannot be combined with a positional [PROMPT])
 codex exec review --uncommitted --ephemeral \
-  -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+  -c model_reasoning_effort="xhigh" \
   -o /tmp/codex-code-review.md
 
 codex exec review --base main --ephemeral \
-  -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+  -c model_reasoning_effort="xhigh" \
   -o /tmp/codex-code-review.md
 
 # 2b. Code Review — Custom context/instructions with read-only sandbox
 codex exec -s read-only --ephemeral \
-  -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+  -c model_reasoning_effort="xhigh" \
   -o /tmp/codex-code-review.md \
   "Review the current git changes (staged, unstaged, and untracked) against project conventions. Focus on correctness, security, edge cases, type safety, and missing tests. Categorize findings as MUST_FIX, SHOULD_FIX, or NIT."
 ```
@@ -51,7 +51,7 @@ Inspect `$ARGUMENTS` and conversation context:
    - **`plan` mode**: Triggered when `$ARGUMENTS` starts with `plan` (e.g., `/codex-review plan docs/plan.md`) or when the user asks Codex to review a proposed plan/design before coding.
    - **`code` mode** (default): Triggered when `$ARGUMENTS` starts with `code` or is omitted, reviewing working tree changes (`--uncommitted`, default), a branch comparison (`--base <branch>`), or a commit (`--commit <sha>`).
 2. **Model & reasoning**:
-   - Default to `-c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh"` unless `--model <model>` is explicitly passed in `$ARGUMENTS`.
+   - Omit `-c model=...` by default so Codex CLI uses the configured default model in `~/.codex/config.toml`; always pass `-c model_reasoning_effort="xhigh"` by default. Add `-c model="<model>"` only when `--model <model>` is explicitly passed in `$ARGUMENTS`.
 3. **Auto-fix flag**:
    - Enable the fix loop if `--fix` is present in `$ARGUMENTS` or if the user explicitly asks to "review and fix" / "走 codex review 闭环".
 
@@ -63,10 +63,11 @@ Inspect `$ARGUMENTS` and conversation context:
 2. Run Codex in read-only mode so it can verify file paths, types, and architecture in the repository:
    ```bash
    codex exec -s read-only --ephemeral \
-     -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+     -c model_reasoning_effort="xhigh" \
      -o /tmp/codex-plan-review.md \
      "You are a Staff Reviewer. Read the implementation plan at <plan-file> and cross-check it against the repository. Identify: (1) MUST_FIX: architectural errors, invalid assumptions, security/concurrency bugs, missing edge cases; (2) SHOULD_FIX: simpler alternatives, missing test coverage, better adherence to repo patterns; (3) NIT: minor improvements. End with VERDICT: APPROVED or VERDICT: REVISE."
    ```
+   (Add `-c model="<model>"` only if `--model <model>` was passed.)
 3. Read `/tmp/codex-plan-review.md` and triage each finding (`🔴 MUST_FIX`, `🟡 SHOULD_FIX`, `🔵 NIT`, `⏭️ SKIP`).
 4. If `--fix` is enabled (or in an active Plan → Implement workflow), update the plan to resolve valid `MUST_FIX` and `SHOULD_FIX` items and briefly explain any `SKIP` items (e.g., YAGNI).
 5. Present the Plan Review Summary table before proceeding to implementation.
@@ -87,16 +88,17 @@ Set `cycle = 1`. Repeat until stop conditions are met or `cycle > 2`:
 - For standard diff review (`--uncommitted`, `--base <branch>`, `--commit <sha>`):
   ```bash
   codex exec review --uncommitted --ephemeral \
-    -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+    -c model_reasoning_effort="xhigh" \
     -o /tmp/codex-code-review.md
   ```
 - Or when passing plan context / custom focus areas:
   ```bash
   codex exec -s read-only --ephemeral \
-    -c model="gpt-6.1-sol" -c model_reasoning_effort="xhigh" \
+    -c model_reasoning_effort="xhigh" \
     -o /tmp/codex-code-review.md \
     "Review the current uncommitted git changes. Check correctness, edge cases, security, type safety, and tests. Categorize each finding as MUST_FIX, SHOULD_FIX, or NIT with exact file:line references."
   ```
+  (Add `-c model="<model>"` only if `--model <model>` was passed.)
 
 #### 3. Triage findings
 
@@ -122,10 +124,10 @@ Read `/tmp/codex-code-review.md` and classify every finding:
 
 ### Step 3: Output Summary
 
-Print a structured summary in Markdown:
+Print a structured summary in Markdown (fill `<model>` with the actual model reported by Codex CLI):
 
 ```markdown
-## Codex Review Summary (`gpt-6.1-sol`)
+## Codex Review Summary (`<model>`)
 
 Mode: Plan Review / Code Review (`--uncommitted`) | Cycles: <N>
 

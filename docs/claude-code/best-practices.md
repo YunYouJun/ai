@@ -280,7 +280,7 @@ Claude 可以解释输出（包括图片）。建议在 VS Code 中并排打开 
 ### 一个写代码，另一个验证
 
 - Claude A / Gemini 制定方案并写代码
-- Claude B 或 [`codex-review`](/guide/skills/codex-review)（调用 OpenAI `codex` CLI `gpt-6.1-sol`）在只读沙箱中审查方案或 Diff
+- Claude B 或 [`codex-review`](/guide/skills/codex-review)（调用本机 OpenAI `codex` CLI 默认模型）在只读沙箱中审查方案或 Diff
 - 主 Agent 根据分级反馈（`MUST_FIX` / `SHOULD_FIX`）修复代码并跑通校验
 
 分离上下文（尤其是跨模型对抗审查）通常比单个模型自写自审效果更好。
