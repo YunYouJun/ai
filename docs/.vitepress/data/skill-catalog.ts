@@ -112,6 +112,13 @@ export const SKILL_SHOWCASE: Record<string, SkillShowcase> = {
     summary: '校验、沉淀结论、只提交本任务的改动，再归档会话，让下个任务从干净的上下文开始。',
     tags: ['Git', '归档会话', '仅手动触发'],
   },
+  'git-branch-cleanup': {
+    title: '清理已合并分支',
+    icon: '🧹',
+    category: '会话管理',
+    summary: '核对合入证据和工作树占用，按授权范围清理本地或远端分支。',
+    tags: ['Git', 'squash', '工作树'],
+  },
   'yunyoujun': {
     title: '编码偏好与工具约定',
     icon: '🛠️',
